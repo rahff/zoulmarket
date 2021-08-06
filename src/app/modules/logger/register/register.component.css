@@ -1,0 +1,17 @@
+.flex-center{
+    margin-bottom: 50px;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 700px;
+}
+.mat-form-field{
+    margin: 0 50px;
+}
+@media screen and (max-width: 600px) {
+    .flex-center{
+        margin-bottom: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}

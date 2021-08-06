@@ -1,0 +1,17 @@
+<form *ngIf="loaded" class="form-group" [formGroup]="form">
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
+    <div>
+        <p *ngIf="messageError" class="error"></p>
+    </div>
+</form>
+<div *ngIf="loading" class="flex-center w-100 vh-100">
+    <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>
+</div>
