@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { myValidators } from '../validators';
 @Component({
@@ -11,19 +12,20 @@ export class RegisterComponent implements OnInit {
 
   public form!:FormGroup
   public message: string = ""
-  private objValidPassword: any = {
-    symbol: 0,
-    lettre: 0,
-    chiffre: 0
-  };
-  private testAll = 0;
+
   public password!: AbstractControl | null;
   public confirm!: AbstractControl | null;
   public tel!: AbstractControl | null;
+  public name!: AbstractControl | null;
+  public firstname!: AbstractControl | null;
+  public poste!: AbstractControl | null;
+  public city!: AbstractControl | null;
+  public email!: AbstractControl | null;
+  public adress!: AbstractControl | null;
   public loaded = true;
   public loading = false;
   public diameter!: number
-  constructor(private authService: AuthService, private fb: FormBuilder) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     if(window.innerWidth < 600){
@@ -45,7 +47,14 @@ export class RegisterComponent implements OnInit {
     this.password = this.form.get('password');
     this.confirm = this.form.get('confirm');
     this.tel = this.form.get('tel');
+    this.name = this.form.get('name');
+    this.firstname = this.form.get('firstname');
+    this.poste = this.form.get('poste');
+    this.city= this.form.get('city');
+    this.email= this.form.get('email');
+    this.adress= this.form.get('adress');
   }
+  
   validatorConfirm(): ValidatorFn{
   
     return (control: AbstractControl): ValidationErrors | null=>{
@@ -53,9 +62,37 @@ export class RegisterComponent implements OnInit {
     }
   }
     onSubmit(): void {
-      console.log(this.password?.value);
-      console.log(this.confirm);
+      this.loaded = false;
+      this.loading = true;
+     if(this.form.valid){
+       const body = {
+         name: this.name?.value,
+         firstname: this.firstname?.value,
+         email: this.email?.value,
+         tel: this.tel?.value,
+         adress: this.adress?.value,
+         poste: this.poste?.value,
+         city: this.city?.value,
+         password: this.password?.value,
+       };
+       this.authService.postCredentialsNewUser(body).then((response: boolean | string)=>{
+          this.message = "Votre compte à été crée avec succès";
+          this.loading = false;
+          this.loaded = true;
+          setTimeout(() => {
+            this.router.navigate(['/'])
+          }, 2000);
+       }).catch((message: string)=>{
+         this.message = message;
+         this.loading = false;
+       });
+     }else{
+      myValidators.forEachControlOfForm(this.form)
+     }
       
+    }
+    signupGoogle(): void {
+      this.authService.registerWithGoogle()
     }
 
   }

@@ -1,4 +1,4 @@
-import { ValidatorFn, AbstractControl, ValidationErrors } from "@angular/forms";
+import { ValidatorFn, AbstractControl, ValidationErrors, FormGroup } from "@angular/forms";
 
 
    export const myValidators = { 
@@ -22,6 +22,14 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from "@angular/forms";
           const reg = "(0|\\+33|0033)[1-9][0-9]{8}";
           const regexp = new RegExp(reg);
           return regexp.test(control.value) ? null : {notValid: true}
+        }
+      },
+      forEachControlOfForm(form: FormGroup): void {
+        const allControls = form.controls;
+        for(const control in allControls){
+          if(allControls[control].invalid){
+            allControls[control].markAsTouched()
+          }
         }
       }
     }

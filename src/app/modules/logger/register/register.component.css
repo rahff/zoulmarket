@@ -7,6 +7,7 @@
 .mat-form-field{
     margin: 0 50px;
 }
+
 @media screen and (max-width: 600px) {
     .flex-center{
         margin-bottom: 20px;

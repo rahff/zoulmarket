@@ -8,8 +8,10 @@
         <input matInput type="password" formControlName="password">
     </mat-form-field>
     <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
+    <button class="btn" mat-button type="button"><img class="mini-logo" src="../../../../assets/google.png" alt="logo_signup"> Se connecter avec Google</button>
     <div>
-        <p *ngIf="messageError" class="error"></p>
+        <p *ngIf="messageError" class="error"> {{messageError}}</p>
+        <p *ngIf="message"> {{message}}</p>
     </div>
 </form>
 <div *ngIf="loading" class="flex-center w-100 vh-100">
