@@ -1,0 +1,6 @@
+.container{
+    padding: 45px 30px;
+}
+.flex{
+    justify-content: space-around;
+}

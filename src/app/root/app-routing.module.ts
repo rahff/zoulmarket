@@ -11,6 +11,12 @@ const routes: Routes = [
   },
   {
     path: "connection", loadChildren: ()=> import('../modules/logger/logger.module').then(m => m.LoggerModule)
+  },
+  {
+    path: "boutiques/:id", loadChildren: ()=> import('../modules/private-store/private-store.module').then(m => m.PrivateStoreModule)
+  },
+  {
+    path: "panier", loadChildren: ()=> import('../modules/checkout/checkout.module').then(m => m.CheckoutModule)
   }
 ];
 

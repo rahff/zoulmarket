@@ -1,0 +1,16 @@
+<main class="flex" *ngIf="product">
+    <div class="w-50">
+  <app-gallery [alt]="nameOfProduct" [imgs]="product.img"></app-gallery>
+</div>
+<div class="w-40">
+  <app-description [product]="product"></app-description>
+  <app-change-quantity ></app-change-quantity>
+  <app-variation (variationEmitter)="changeVariationData($event)" [variations]="variations" ></app-variation>
+</div>
+<div class="w-10">
+  <div class="variation col">
+  </div>
+</div>
+</main>
+
+<pre>{{ product | json }}</pre>

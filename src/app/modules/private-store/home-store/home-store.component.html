@@ -1,0 +1,9 @@
+<header #banner >
+</header>
+<nav class="navbar" *ngIf="store">
+    <li class="item" *ngFor="let item of store.subCategory">{{item.name}} </li>
+</nav>
+<main class="flex" *ngIf="store">
+    <app-card-product *ngFor="let product of productList" [product]="product"></app-card-product>
+</main>
+

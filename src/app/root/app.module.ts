@@ -7,9 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-
-
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -28,6 +26,7 @@ import { BrowserModule } from '@angular/platform-browser';
       registrationStrategy: 'registerWhenStable:30000'
     }),
     BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,29 @@
+<div class="description col" *ngIf="product">
+  <header> <h1>{{ product.name }}  </h1></header>
+  <div class="content">
+    {{ product.description }}
+  </div>
+  <div class="seller">
+      <div role="link" [routerLink]="['/boutiques', product.store]"><span class="link"> Vendeur : {{ product.vendeur }}</span>
+        <div>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star_outline</mat-icon>
+        </div>
+      </div>
+    </div>
+  <div class="price">
+    <p> Quantité: {{quantity}} </p><br>
+    <div class="actions">
+      <button class="add-panier" type="button">Ajouter au panier</button>
+    </div>
+    <p> Prix: {{product.price}} €</p><br>
+    
+    <p>Tous les prix incluent la TVA. Livraison GRATUITE</p>
+  </div>
+  <ul class="bullet-point">
+    <li class="list-item" *ngFor="let item of characteristics"> {{item}} </li>
+  </ul>
+</div>

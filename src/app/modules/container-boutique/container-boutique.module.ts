@@ -2,19 +2,20 @@ import { NgModule } from '@angular/core';
 import { MenuCategoryComponent } from './menu-category/menu-category.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { CATEGORY_ROUTES } from '../menu-category.routes';
-import { ProductListComponent } from './product-list/product-list.component';
+import { BOUTIQUE_ROUTES } from './boutique.routes';
+
+
+
 
 
 
 @NgModule({
   declarations: [
     MenuCategoryComponent,
-    ProductListComponent
   ],
   imports: [
     SharedModule,
-    RouterModule.forChild(CATEGORY_ROUTES)
+    RouterModule.forChild(BOUTIQUE_ROUTES)
   ]
 })
 export class ContainerBoutiqueModule { }

@@ -63,7 +63,7 @@
     </div>
 
   <button (click)="onSubmit()" mat-raised-button color="primary" type="button">Envoyer</button>
-  <button (click)="signupGoogle()" class="btn" mat-button type="button"><img class="mini-logo" src="../../../../assets/google.png" alt="logo_signup"> S'inscrire avec Google</button>
+  <a href="http://localhost:1337/connect/google" class="btn" mat-button type="button"><img class="mini-logo" src="../../../../assets/logger-module/google.png" alt="logo_signup"> S'inscrire avec Google</a>
 </form>
 <div *ngIf="loading" class="flex-center w-100 vh-100">
     <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>

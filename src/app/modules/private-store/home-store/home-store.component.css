@@ -1,0 +1,8 @@
+header{
+    height: 150px;
+    width: 100%;
+}
+.navbar{
+    display: flex;
+    justify-content: space-around;
+}

@@ -1,0 +1,13 @@
+.img-card{
+    width: 100%;
+    cursor: pointer;
+    height: 200px;
+}
+.mat-card{
+    background-color: var(--background);
+    text-align: center;
+    width: 250px;
+}
+.mat-card-title{
+    height: 40px;
+}

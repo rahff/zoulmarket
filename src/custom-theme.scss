@@ -12,8 +12,75 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$zoulMarket-primary: mat.define-palette(mat.$indigo-palette);
-$zoulMarket-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$md-mcgpalette0: (
+    50 : #e3e3e4,
+    100 : #b8babc,
+    200 : #898c90,
+    300 : #5a5e64,
+    400 : #363c42,
+    500 : #131921,
+    600 : #11161d,
+    700 : #0e1218,
+    800 : #0b0e14,
+    900 : #06080b,
+    A100 : #5184ff,
+    A200 : #1e60ff,
+    A400 : #0044ea,
+    A700 : #003dd0,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+$md-mcgpalette1: (
+    50 : #fef5e9,
+    100 : #fbe5c8,
+    200 : #f9d4a3,
+    300 : #f7c27e,
+    400 : #f5b563,
+    500 : #f3a847,
+    600 : #f1a040,
+    700 : #ef9737,
+    800 : #ed8d2f,
+    900 : #ea7d20,
+    A100 : #ffffff,
+    A200 : #fff5ee,
+    A400 : #ffd8bb,
+    A700 : #ffcaa1,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$zoulMarket-primary: mat.define-palette($md-mcgpalette0);
+$zoulMarket-accent: mat.define-palette($md-mcgpalette1);
 
 // The warn palette is optional (defaults to red).
 $zoulMarket-warn: mat.define-palette(mat.$red-palette);
