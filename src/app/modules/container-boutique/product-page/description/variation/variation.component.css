@@ -30,3 +30,6 @@
     width: 100%;
     height: 100%;
 }
+.mat-form-field{
+    width: 150px;
+}

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ItemCart } from 'src/app/shared/models/item-cart.model';
 import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
 import { CartService } from 'src/app/shared/services/cart.service';
@@ -21,6 +22,10 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public itemForCart: any;
   public variations: Variation[] | null | undefined  = null
   public nameOfProduct: string = "";
+  public sizeMode!: "Taille" | "Pointure" | null;
+  public currentSize: any[] | null = null;
+  public choicedSize: any;
+  public enableAddToCart: boolean = false;
   constructor(private productService: ProductService,
               private activatedRoute: ActivatedRoute,
               private cartService: CartService) { }
@@ -33,6 +38,16 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.product = product;
           this.nameOfProduct = this.product.name;
           this.variations = this.product.variations
+          if(this.product.pointures){
+            this.sizeMode = "Pointure";
+            this.currentSize = this.product.pointures;
+          }else if(this.product.sizes){
+            this.sizeMode = "Taille";
+            this.currentSize = this.product.sizes
+          }else if(this.product.sizes_XXS_TO_XXXL){
+            this.sizeMode = "Taille";    
+            this.currentSize = this.product.sizes_XXS_TO_XXXL
+          }
           if(!this.product.variations){
             this.product.variations = []
           }
@@ -43,7 +58,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
   }
   changeVariationData(obj: { variation: Variation, index: number}): void{
-    console.log(obj);
     if(this.variations){
       this.variations[obj.index] = {
         description: this.product.description,
@@ -61,6 +75,20 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
       price: obj.variation.price,
       id: obj.variation.id,
     }
+    
+  }
+  setChoisedSize(size: any){
+    this.choicedSize = size
+    this.enableAddToCart = true
+  }
+  sendProductToCart(obj: any): void {
+    const itemForCart: ItemCart = {
+      product: obj.product,
+      quantity: obj.quantity,
+      cost: obj.product.price * obj.quantity
+    }
+    this.cartService.addItemToCart(itemForCart)
+    console.log(itemForCart);
     
   }
   ngOnDestroy(): void {

@@ -1,7 +1,7 @@
-<p>panier works!</p>
+
 <ul *ngFor="let item of cart">
-    <li> nom:  </li>
-    <li> Prix unitaire : </li>
-    <li> Quantité : </li>
-    <li> total: </li>
+    <li> nom: {{item.product.name}}  </li>
+    <li> Prix unitaire : {{item.product.price}} </li>
+    <li> Quantité : {{item.quantity}} </li>
+    <li> total: {{item.cost}} </li>
 </ul>

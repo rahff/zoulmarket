@@ -15,11 +15,13 @@
       </div>
     </div>
   <div class="price">
-    <p> Quantité: {{quantity}} </p><br>
+    <p> Quantité: {{quantity}} </p>
     <div class="actions">
-      <button class="add-panier" type="button">Ajouter au panier</button>
+      <app-change-quantity (emitNewQuantity)="updateQuantity($event)" [quantity]="quantity"></app-change-quantity>
+      <button (click)="addProductToCart()" class="add-panier" type="button">Ajouter au panier</button>
+      <p class="error" *ngIf="isMissedChooseSize">Vous devez choisir une taille</p>
     </div>
-    <p> Prix: {{product.price}} €</p><br>
+    <p> Prix: {{product.price * quantity}} €</p>
     
     <p>Tous les prix incluent la TVA. Livraison GRATUITE</p>
   </div>

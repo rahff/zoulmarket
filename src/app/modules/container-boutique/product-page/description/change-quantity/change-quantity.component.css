@@ -1,15 +1,19 @@
 .variation-item{
-    width: 60px;
-    height: 60px;
+    width:50%;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 1px solid var(--primary);
     cursor: pointer;
+}
+.variation-item:nth-child(1){
+    border-right: 1px solid var(--primary);
+    height: 29px;
 }
 .variation-list {
     border: 1px  solid var(--primary);
     border-radius: 3px;
-    width: fit-content;
-    margin-bottom: 5px;
+    margin: 0 5px 5px;
+    height: 30px;
+    width: 70px;
 }

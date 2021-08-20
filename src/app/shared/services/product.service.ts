@@ -43,7 +43,7 @@ export class ProductService {
         const imgs: any[] = this.extractUrlOfData(data, null);
         const variations = this.extractVariations(data.dataProduct.variations);      
         this.clearDataProduct(data.dataProduct.characteristics);
-        this.clearDataProduct(data.pointures);
+        this.clearDataProduct(data.dataProduct.pointures);
         this.clearDataProduct(data.dataProduct.sizes);
         this.clearDataProduct(data.dataProduct.sizes_XXS_TO_XXXL);
         const product: Product = {

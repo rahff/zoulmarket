@@ -11,15 +11,28 @@ import { Product } from 'src/app/shared/models/product';
 
 export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
   @Input('product') public product!: Product;
+  @Input('enableAddToCart') public enableAddToCart!: boolean;
   public characteristics: string[] = [];
   public quantity: number = 1;
+  public isMissedChooseSize: boolean = false
   @Output() private EmmitItemForCart: EventEmitter<any> = new EventEmitter<any>();
   constructor() { 
 
   }
   ngOnChanges(changes: SimpleChanges): void{
-    if(changes.product.currentValue){
-      this.characteristics = this.extractCharacteristicsOfProduct(changes.product.currentValue.characteristics)
+    if(changes.product){
+      if(changes.product?.currentValue){
+        this.characteristics = this.extractCharacteristicsOfProduct(changes.product.currentValue.characteristics)
+      }
+    }
+    if(changes.enableAddToCart){
+      if(changes.enableAddToCart.currentValue){
+        if(changes.enableAddToCart.currentValue === true){
+          console.log(changes.enableAddToCart.currentValue);
+          
+          this.isMissedChooseSize = false
+        }
+      }
     }
   }
   ngOnInit(): void {
@@ -27,6 +40,18 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
     
   }
   ngAfterViewInit(): void{
+  }
+  updateQuantity(quantity: number): void {
+    this.quantity = quantity;
+  }
+  addProductToCart(): void {  
+    if(this.enableAddToCart){
+      this.isMissedChooseSize = false;
+
+      this.EmmitItemForCart.emit({product: {...this.product}, quantity: this.quantity })
+    }else{
+      this.isMissedChooseSize = true;
+    }
   }
   extractCharacteristicsOfProduct(data: any):string[]{
     const arrayCharacteristics = []

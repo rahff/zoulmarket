@@ -3,9 +3,8 @@
   <app-gallery [alt]="nameOfProduct" [imgs]="product.img"></app-gallery>
 </div>
 <div class="w-40">
-  <app-description [product]="product"></app-description>
-  <app-change-quantity ></app-change-quantity>
-  <app-variation (variationEmitter)="changeVariationData($event)" [variations]="variations" ></app-variation>
+  <app-description [enableAddToCart]="enableAddToCart" [product]="product" (EmmitItemForCart)="sendProductToCart($event)" ></app-description>
+  <app-variation (variationEmitter)="changeVariationData($event)" (sizeEmitter)="setChoisedSize($event)" [currentSize]="currentSize" [sizeMode]="sizeMode" [variations]="variations" ></app-variation>
 </div>
 <div class="w-10">
   <div class="variation col">

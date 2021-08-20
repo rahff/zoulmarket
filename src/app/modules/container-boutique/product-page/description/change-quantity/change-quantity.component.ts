@@ -8,7 +8,7 @@ import { Component, OnInit, Output } from '@angular/core';
 })
 export class ChangeQuantityComponent implements OnInit {
 
-  @Output() private EmmitQuantity: EventEmitter<number> = new EventEmitter<number>()
+  @Output() private emitNewQuantity: EventEmitter<number> = new EventEmitter<number>()
   @Input('quantity') public quantity!: number
   constructor() { }
 
@@ -19,7 +19,7 @@ export class ChangeQuantityComponent implements OnInit {
   decrement(): void {
     if(this.quantity > 1){
       this.quantity --;
-      this.EmmitQuantity.emit(this.quantity);
+      this.emitNewQuantity.emit(this.quantity);
     }else{
       return;
     }
@@ -27,7 +27,7 @@ export class ChangeQuantityComponent implements OnInit {
   increment(): void {
     if(this.quantity < 25){
        this.quantity ++;
-       this.EmmitQuantity.emit(this.quantity);
+       this.emitNewQuantity.emit(this.quantity);
     }else{
       return;
     }
