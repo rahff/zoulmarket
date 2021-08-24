@@ -48,6 +48,9 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.sizeMode = "Taille";    
             this.currentSize = this.product.sizes_XXS_TO_XXXL
           }
+          if(!this.product.pointures && !this.product.sizes && !this.product.sizes_XXS_TO_XXXL){
+            this.enableAddToCart = true
+          }
           if(!this.product.variations){
             this.product.variations = []
           }
@@ -85,11 +88,9 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const itemForCart: ItemCart = {
       product: obj.product,
       quantity: obj.quantity,
-      cost: obj.product.price * obj.quantity
-    }
-    this.cartService.addItemToCart(itemForCart)
-    console.log(itemForCart);
-    
+      cost: obj.product.price 
+    } 
+    this.cartService.addItemToCart(itemForCart)    
   }
   ngOnDestroy(): void {
     this.subciption.unsubscribe()

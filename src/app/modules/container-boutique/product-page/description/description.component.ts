@@ -27,9 +27,7 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
     }
     if(changes.enableAddToCart){
       if(changes.enableAddToCart.currentValue){
-        if(changes.enableAddToCart.currentValue === true){
-          console.log(changes.enableAddToCart.currentValue);
-          
+        if(changes.enableAddToCart.currentValue === true){    
           this.isMissedChooseSize = false
         }
       }

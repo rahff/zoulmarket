@@ -106,6 +106,12 @@ form{
     width: 80%;
     border: 1px solid transparent;
 }
+.bulle{
+    background-color: var(--accent);
+    color: var(--primary);
+    padding: 1px 4px;
+    border-radius: 50%;
+}
 @media screen and (max-width: 1240px) {
     nav{
         padding: 3px 10px;

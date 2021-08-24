@@ -1,7 +1,41 @@
-
-<ul *ngFor="let item of cart">
-    <li> nom: {{item.product.name}}  </li>
-    <li> Prix unitaire : {{item.product.price}} </li>
-    <li> Quantité : {{item.quantity}} </li>
-    <li> total: {{item.cost}} </li>
+<div class="wrapper">
+<div class="container-cart">
+    <h1>Votre panier</h1>
+    <hr>
+<ul class="item-cart" *ngFor="let item of cart; let i=index">
+    <div class="row">
+    <div class="img">
+        <img [src]="URL_IMG + item.product.img[0].img_mini" [alt]="item.product.name">
+    </div>
+    <div class="info-item">
+    <li class="item"> {{item.product.name}} | {{item.product.description}} </li>
+    <li class="item"> Prix unitaire : {{item.product.price}} €</li>
+    <div class="flex center">
+        <li class="item"> Quantité : {{item.quantity}} </li>
+        <app-change-quantity (emitNewQuantity)="updateQuantity($event, i)" [quantity]="item.quantity"></app-change-quantity>
+    </div>
+    <li class="item"> total: {{item.cost}} €</li>
+</div>
+<div (click)="deleteItem(i)" class="abs-right-bottom">
+  <span class="suppr">supprimer</span>
+</div>
+</div>
+<div class="hr">
+    <hr>
+</div>
 </ul>
+</div>
+<div class="sidebar">
+    <div class="actions">
+        <div class="infos">
+            Total de la commande: <br>
+            {{total}} €
+        </div>
+        <button>Passer la commande</button>
+    </div>
+    <div class="suggestions">
+        <h3>Plus d'articles</h3>
+    </div>
+</div>
+</div>
+<pre>{{cart | json}}  </pre>
