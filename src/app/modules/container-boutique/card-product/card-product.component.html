@@ -1,6 +1,6 @@
 <mat-card class="w-30" *ngIf="product">
     <mat-card-title> {{product.name}} </mat-card-title>
-    <img class="img-card" [src]="URL_IMG+product.img[0]['img_mini']" mat-card-image>
+    <img class="img-card" [src]="URL_IMG+product.img[0]['img_md']" mat-card-image>
     <mat-card-content>{{product.vendeur}}</mat-card-content>
 </mat-card>
 <mat-card class="w-30" *ngIf="suggestion">

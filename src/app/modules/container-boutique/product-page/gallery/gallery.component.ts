@@ -19,7 +19,6 @@ export class GalleryComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
   changeImg(imgs: any, index: number): void {
-    console.log(imgs);
     [this.imgs[index] ,this.imgs[0]]  = [this.imgs[0], this.imgs[index]]
   }
 

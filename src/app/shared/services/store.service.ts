@@ -16,7 +16,7 @@ export class StoreService {
 
   getStoresPromo(): Observable<Store[]> {
     return this.http.get(this.URL_API + 'home-stores').pipe(
-      map((data: any) => {
+      map((data: any) => {  
         return data.stores;
       }),
       map((data: any) => {
@@ -75,11 +75,26 @@ export class StoreService {
       })
     );
   }
-  extractUrlOfData(data: any[], index: number): string[] {
-    const result: string[] = [];
-    data[index].img.forEach((el: any) => {
-      result.push(el.url);
-    });
-    return result;
+  extractUrlOfData(data: any[] | any, index: number | null): string[] {
+    const result: any[] = [];
+    if (index !== null) {
+      data[index].img.forEach((el: any) => {
+        result.push({
+          img_big: el.url,
+          img_md: el.formats.small?.url || el.formats.thumbnail?.url,
+          img_mini: el.formats.thumbnail.url,
+        });
+      });
+      return result;
+    } else {
+      data.img.forEach((el: any) => {
+        result.push({
+          img_big: el.url,
+          img_md: el.formats.small?.url || el.formats.thumbnail?.url,
+          img_mini: el.formats.thumbnail.url,
+        });
+      });
+      return result;
+    }
   }
 }

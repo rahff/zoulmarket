@@ -88,7 +88,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const itemForCart: ItemCart = {
       product: obj.product,
       quantity: obj.quantity,
-      cost: obj.product.price 
+      cost: obj.product.price *obj.quantity
     } 
     this.cartService.addItemToCart(itemForCart)    
   }

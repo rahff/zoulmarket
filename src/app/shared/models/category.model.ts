@@ -6,5 +6,6 @@ export interface Category {
     id: string;
     icon: string;
     products?: Product[];
-    subCategory?: SubCategory[]
+    subCategory?: SubCategory[];
+    promo: string
 }

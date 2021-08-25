@@ -42,7 +42,8 @@ span.butt{
     width: 25px;
 }
 .menu{
-    width: 0px;
+    width: 364px;
+    transform: translateX(-364px);
     position: fixed;
     top: 0;
     background-color: #fff;

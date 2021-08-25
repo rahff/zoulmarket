@@ -1,127 +1,156 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Category } from '../models/category.model';
 import { Product } from '../models/product';
 import { SubCategory } from '../models/sub-category.model';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
+  private URL_API = environment.URL_API;
+  constructor(private http: HttpClient) {}
 
-  private URL_API = environment.URL_API
-  constructor(private http: HttpClient) { }
-
-  getCategories(): Observable<Category[]>{
-    return this.http.get(this.URL_API + "categories").pipe(
-      map((data:any)=>{
+  getCategories(): Observable<Category[]> {
+    return this.http.get(this.URL_API + 'categories').pipe(
+      map((data: any) => {
         let arrayCategory = [];
         for (let i = 0; i < data.length; i++) {
           const category: Category = {
             name: data[i].name,
             id: data[i]._id,
-            icon: data[i].icon[0]
-          }
-          arrayCategory.push(category)
+            icon: data[i].icon[0],
+            promo: data[i].promo
+          };
+          arrayCategory.push(category);
         }
-        return arrayCategory
+        return arrayCategory;
       })
-    )
+    );
   }
-  getSuggestionCategory(): Observable<Category[]>{
-    return this.http.get<Category[]>(this.URL_API + "suggestions").pipe(
-      map((data:any)=>{
-        return data.suggestion
+  getSuggestionCategory(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.URL_API + 'suggestions').pipe(
+      map((data: any) => {
+        return data.suggestion;
       }),
-      map((data: any)=>{
-        const arraySuggestion: Category[] = []
+      map((data: any) => {
+        const arraySuggestion: Category[] = [];
         for (let i = 0; i < data.length; i++) {
           const suggestion: Category = {
-            icon: data[i].icon[0].formats.thumbnail.url,
+            icon: data[i].icon.formats.thumbnail.url,
             id: data[i]._id,
-            name: data[i].name
-          }
-          arraySuggestion.push(suggestion)
+            name: data[i].name,
+            promo: data[i].promo
+          };
+          arraySuggestion.push(suggestion);
         }
-        return arraySuggestion
+        return arraySuggestion;
       })
-    )
+    );
   }
-  getDataOfCategory(id: string | null): Observable<{products: Product[], subCategory: SubCategory[]}>{
-    return this.http.get<Product[]>(this.URL_API + "categories/"+ id).pipe(
-      map((data: any)=>{  
-        console.log(data);
-        return {products : data.products, subCategory: data.sous_categories}
-      }),
-      map((data: any)=>{
-        const length = data.products.length > 10 ? 10 : data.products.length
-        const arrayProduct: Product[] = [];
-        for (let i = 0; i < length; i++) {
-          const imgs: string[] = this.extractUrlOfData(data.products, i);
-          const product: Product = {
-            name: data.products[i].name,
-            price: data.products[i].price,
-            description: data.products[i].description,
-            id: data.products[i]._id,
-            img: imgs,
-            vendeur: data.products[i].vendeur,
-            store: data.products[i].store,
-            characteristics: data.products[i].characteristics
-          }
-          arrayProduct.push(product)
+  getSubCategoryOfCategory(id: string | null): Observable<SubCategory[]> {
+    return this.http.get(this.URL_API + 'categories/' + id).pipe(
+      map((data: any) => {
+        let arrayIds = [];
+        for (let i = 0; i < data.sous_categories.length; i++) {
+          const id = data.sous_categories[i]._id;
+          arrayIds.push(id);
         }
+        return arrayIds;
+      }),
+      map((data: any) => {
         const arraySubCategory: SubCategory[] = [];
-        for (let i = 0; i < data.subCategory.length; i++) {
-          const subCategory: SubCategory = {
-            name: data.subCategory[i].name,
-            category: data.subCategory[i].category,
-            img: data.subCategory[i].img.formats.thumbnail.url ,
-            id: data.subCategory[i]._id
-          }
-          arraySubCategory.push(subCategory)
-        }
-        return {products: arrayProduct, subCategory: arraySubCategory}
+        data.forEach(async (id: string) => {
+          const oneSubCategory = await this.http
+            .get(this.URL_API + 'sous-categories/' + id)
+            .subscribe((data: any) => {
+                const subCategory: SubCategory = {
+                  id: data._id,
+                  img: data.img.url,
+                  name: data.name,
+                  products: data.products,
+                }
+                arraySubCategory.push(subCategory);
+            });
+        });    
+        return arraySubCategory;
       })
-    )
+    );
   }
-  getProductOfSubCategory(id: string | null): Observable<Product[]>{
-    return this.http.get(this.URL_API + "sous-categories/" + id).pipe(
-      map((data: any)=>{
-        return data.products
+
+  getProductOfSubCategory(id: string | null): Observable<Product[]> {
+    return this.http.get(this.URL_API + 'sous-categories/' + id).pipe(
+      map((data: any) => {
+        return data.products;
       }),
-      map((data: any)=>{
-  
+      map((data: any) => {
+        console.log(data);
         const arrayProduct: Product[] = [];
         for (let i = 0; i < data.length; i++) {
-          const imgs: string[] = this.extractUrlOfData(data, i);
+          const imgs = this.extractUrlOfData(data, i)
           const product: Product = {
-            name: data[i].name,
-            price: data[i].price,
             description: data[i].description,
             id: data[i]._id,
             img: imgs,
-            vendeur: data[i].vendeur,
-            store: data[i].store,
-            characteristics: data[i].characteristics
+            name: data[i].name,
+            price: data[i].price,
+            vendeur: data[i].vendeur
           }
           arrayProduct.push(product)
         }
-        console.log(arrayProduct);
-        
+        return arrayProduct;
+      })
+    );
+  }
+  getPromoOfCategory(id: string | null | undefined): Observable<Product[]>{
+    return this.http.get(this.URL_API + 'categories/'+ id).pipe(
+      map((data: any)=>{
+        return data.promo
+      }),
+      map((path: any)=>{
+        const arrayProduct: Product[] = [];
+        const awaitedData = this.http.get(this.URL_API + path).subscribe((data: any)=>{
+          console.log(data);
+         data.products.forEach((dataProduct: any, i: number) => {
+          const imgs = this.extractUrlOfData(data.products, i)
+          const product: Product = {
+            id: dataProduct._id,
+            img: imgs,
+            price: dataProduct.price,
+            name: dataProduct.name,
+            vendeur: dataProduct.vendeur,
+            description: ''
+          }
+          arrayProduct.push(product)
+         });
+        })
         return arrayProduct
       })
     )
   }
-  
-  extractUrlOfData(data: any[], index: number): string[]{
-    const result: string[] = []
-    data[index].img.forEach((el: any) => {
-      result.push(el.url)
-    });
-    return result;
+  extractUrlOfData(data: any[] | any, index: number | null): string[] {
+    const result: any[] = [];
+    if (index !== null) {
+      data[index].img.forEach((el: any) => {
+        result.push({
+          img_big: el.url,
+          img_md: el.formats.small?.url || el.formats.thumbnail?.url,
+          img_mini: el.formats.thumbnail.url,
+        });
+      });
+      return result;
+    } else {
+      data.img.forEach((el: any) => {
+        result.push({
+          img_big: el.url,
+          img_md: el.formats.small?.url || el.formats.thumbnail?.url,
+          img_mini: el.formats.thumbnail.url,
+        });
+      });
+      return result;
+    }
   }
 }

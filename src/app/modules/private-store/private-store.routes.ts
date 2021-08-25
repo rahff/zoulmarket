@@ -4,11 +4,7 @@ import { HomeStoreComponent } from "./home-store/home-store.component";
 
 export const PRIVATE_STORE_ROUTES: Routes = [
     {
-        path: "", pathMatch: "full", component: HomeStoreComponent, children: [
-            {
-                path: ""
-            }
-        ]
+        path: "",  component: HomeStoreComponent
     },
     {
         path: "product/:id", component: ProductPageComponent

@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment';
     trigger('menu', [
       state('close', style('*')),
       state('open', style({
-        width:"364px"
+        transform: "translateX(0px)"
       })),
       transition('close <=> open', animate(250))
     ])

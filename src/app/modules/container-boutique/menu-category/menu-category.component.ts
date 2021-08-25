@@ -22,10 +22,12 @@ export class MenuCategoryComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap)=>{
       if(paramMap.get('category')){
         this.idCategory = paramMap.get('category');
-        this.subscription.add(this.categoryService.getDataOfCategory(this.idCategory).subscribe((data: {products: Product[], subCategory: SubCategory[]})=>{
+        this.subscription.add(this.categoryService.getSubCategoryOfCategory(this.idCategory).subscribe((data: SubCategory[])=>{
           if(data){
-            this.products = data.products;
-            this.subCategories = data.subCategory      
+            this.subCategories = data
+            this.subscription.add(this.categoryService.getPromoOfCategory(this.idCategory).subscribe((data)=>{
+              this.products = data
+            }))
           }else{
             throw new Error("no data");
           }
