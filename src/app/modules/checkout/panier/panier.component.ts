@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CartService } from 'src/app/services/cart.service';
 import { ItemCart } from 'src/app/shared/models/item-cart.model';
-import { CartService } from 'src/app/shared/services/cart.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -8,18 +8,19 @@ import { environment } from 'src/environments/environment';
   templateUrl: './panier.component.html',
   styleUrls: ['./panier.component.css']
 })
-export class PanierComponent implements OnInit {
+export class PanierComponent implements OnInit, OnDestroy {
 
+  public onScreen: boolean = false;
   public cart!: ItemCart[]
   public URL_IMG = environment.URL_IMG;
   public total!: number
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
+    this.onScreen = true;
     this.cartService.cart$.subscribe((cart: ItemCart[])=>{
       this.cart = cart
       this.total = this.initTotalOfCart()
-      console.log(this.total);
       localStorage.removeItem('cart');
       localStorage.setItem('cart', JSON.stringify(this.cart))
     })
@@ -36,5 +37,8 @@ export class PanierComponent implements OnInit {
   }
   deleteItem(index: number): void {
    this.cartService.deleteItem(index);
+  }
+  ngOnDestroy(): void{
+    this.onScreen = false
   }
 }

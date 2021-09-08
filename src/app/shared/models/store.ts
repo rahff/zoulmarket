@@ -10,3 +10,7 @@ export interface Store {
     banner_desktop: string,
     banner_mobile: string
 }
+export interface CarouselData{
+    title: string,
+    banner: string
+}

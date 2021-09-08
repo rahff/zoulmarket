@@ -1,0 +1,16 @@
+<div class="wrapper home-carousel">
+    <div (click)="changeItemCarousel($event,{t: false})" class="arrow-left">
+        <img src="../../../../assets/carousel/navigate_before_black_24dp.svg" alt="précédent">
+    </div>
+    <div class="img-content" *ngIf="(carousel$ | async) as carousel">
+        <div class="title">
+            <h1> {{carousel.title}} </h1>
+        </div>
+        <div class="img">
+            <img [src]="URL_IMG + carousel.banner" alt="offre spécial">
+        </div>
+    </div>
+    <div (click)="changeItemCarousel($event,{t: true})" class="arrow-right">
+        <img src="../../../../assets/carousel/keyboard_arrow_right_black_24dp.svg" alt="suivant">
+    </div>
+</div>

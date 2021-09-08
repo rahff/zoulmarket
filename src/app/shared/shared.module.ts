@@ -5,13 +5,16 @@ import { MaterialModule } from './material/material.module';
 import { CircleContainerComponent } from './components/circle-container/circle-container.component';
 import { RouterModule } from '@angular/router';
 import { ActiveDirective } from './directive/active.directive';
-import { CardProductComponent } from '../modules/container-boutique/card-product/card-product.component';
 import { ProductListComponent } from '../modules/container-boutique/product-list/product-list.component';
 import { ChangeQuantityComponent } from '../modules/container-boutique/product-page/description/change-quantity/change-quantity.component';
 import { DescriptionComponent } from '../modules/container-boutique/product-page/description/description.component';
 import { GalleryComponent } from '../modules/container-boutique/product-page/gallery/gallery.component';
 import { VariationComponent } from '../modules/container-boutique/product-page/description/variation/variation.component';
 import { ProductPageComponent } from '../modules/container-boutique/product-page/product-page.component';
+import { CardProductComponent } from './components/card-product/card-product.component';
+import { LoadingModule } from './loading/loading.module';
+
+
 
 
 
@@ -33,7 +36,8 @@ import { ProductPageComponent } from '../modules/container-boutique/product-page
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    LoadingModule
   ],
   exports: [
     CommonModule,
@@ -47,7 +51,8 @@ import { ProductPageComponent } from '../modules/container-boutique/product-page
     CircleContainerComponent,
     ProductListComponent,
     ActiveDirective,
-    ChangeQuantityComponent
+    ChangeQuantityComponent,
+    LoadingModule
   ],
   
   

@@ -7,3 +7,4 @@
     <app-card-product [routerLink]="['product',product.id]" *ngFor="let product of productList" [product]="product"></app-card-product>
 </main>
 
+<app-loading [detectRoutingOnGoing]="onScreen"></app-loading>

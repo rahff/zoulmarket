@@ -22,7 +22,8 @@ body{
     --accent: #F3A847;
     --danger: #d50000;
     --whiteBtn: #FCFCFD;
-    --box: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
+    --green: #2F9A48;
+    --box: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #eaeded;
     --shadow: 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 2px 1px -1px rgb(0 0 0 / 12%), 0px 1px 3px 0px rgb(0 0 0 / 20%);
 }
 .abs-right-bottom{
@@ -42,7 +43,7 @@ body{
 }
 
 .home-carousel {
-    background: linear-gradient( -180deg, #007DAD, #eaeded);
+    background: linear-gradient( -180deg, #007DAD, #fff);
 }
 
 .error {
@@ -107,7 +108,10 @@ button{
     background-color: var(--whiteBtn);
     transition: 200ms;
 }
-
+.fr{
+    width: 15%;
+    height: 400px;
+}
 .mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary {
     transition: 300ms;
 }
@@ -127,4 +131,7 @@ button{
 }
 .p-2{
     padding: 20px!important;
+}
+.p-1{
+    padding: 5px;
 }

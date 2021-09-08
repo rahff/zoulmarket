@@ -5,6 +5,9 @@
         <app-circle-container [routerLink]="['/boutique', 'products', 'list',subCategory.id]" *ngFor="let subCategory of subCategories" [data]="subCategory"></app-circle-container>
     </div>
     <div class="flex" *ngIf="products">
-        <app-card-product [routerLink]="['/boutique', 'product', product.id]" *ngFor="let product of products" [product]="product"></app-card-product>
+        <div class="fr" *ngFor="let product of products">
+            <app-card-product [routerLink]="['/boutique', 'product', product.id]" [product]="product"></app-card-product>
+        </div>
     </div>
 </main>
+<app-loading [detectRoutingOnGoing]="onScreen"></app-loading>

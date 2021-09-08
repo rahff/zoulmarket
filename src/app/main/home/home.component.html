@@ -1,0 +1,58 @@
+
+<header class="nav">
+    <nav class="flex">
+        <button (click)="toggleMenu($event)" class="btn-sub-nav">
+            <div class="col flex">
+            <span class="butt"></span>
+            <span class="butt"></span>
+            <span class="butt"></span>
+        </div>
+        <span>MENU</span>
+        </button>
+        <ul class="flex w-90">
+            <li class="sub-nav-item">list item</li>
+            <li class="sub-nav-item">list item</li>
+            <li class="sub-nav-item">list item</li>
+            <li class="sub-nav-item">list item</li>
+            <li class="sub-nav-item">list item</li>
+        </ul>
+    </nav>
+</header>
+<aside [@menu]="stateMenu" role="menu" class="menu">
+<header class="flex p-2 head-aside">Header aside <button (click)="toggleMenu($event)" class="mat-btn" mat-buton><img src="../../../assets/home/close_black_24dp.svg" alt="close" class="icon"></button></header>
+<ul class="inside">
+    <li class="aside-item">item aside</li>
+    <li class="aside-item">item aside</li>
+    <li class="aside-item">item aside</li>
+</ul>
+<ul class="inside">
+    <li class="aside-item">item aside</li>
+    <li class="aside-item">item aside</li>
+    <li class="aside-item">item aside</li>
+</ul>
+<ul class="inside">
+    <li class="aside-item">item aside</li>
+    <li class="aside-item">item aside</li>
+    <li class="aside-item">item aside</li>
+</ul>
+</aside>
+<div #overlay class="overlay"></div>
+<section>
+    <app-carousel></app-carousel>
+</section>
+<div class="container-fixed first-child" *ngIf="promo" >
+    <div class="fr" *ngFor="let product of promo; let i=index">
+        <app-card-product [routerLink]="['boutique','product', product.id]" [product]="product"></app-card-product>
+    </div>
+</div>
+<div class="container-fixed" *ngIf="Promocategories">
+    <div class="fr" *ngFor="let suggestion of Promocategories">
+        <app-card-product [routerLink]="['boutique','products', suggestion.id]" [suggestion]="suggestion"></app-card-product>
+    </div>
+</div>
+<div class="container-fixed last-child" *ngIf="stores">
+    <div class="fr" *ngFor="let store of stores">
+        <app-card-product [routerLink]="['boutiques',store.id]" [store]="store"></app-card-product>
+    </div>
+</div>
+<app-loading [detectRoutingOnGoing]="onScreen"></app-loading>

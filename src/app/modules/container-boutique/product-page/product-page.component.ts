@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { CartService } from 'src/app/services/cart.service';
+import { ProductService } from 'src/app/services/product.service';
 import { ItemCart } from 'src/app/shared/models/item-cart.model';
 import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
-import { CartService } from 'src/app/shared/services/cart.service';
-import { ProductService } from 'src/app/shared/services/product.service';
+
 
 
 
@@ -16,8 +17,8 @@ import { ProductService } from 'src/app/shared/services/product.service';
 })
 export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public onScreen: boolean = false;
   public product!: Product;
-  private idProduct: string | null | undefined;
   private subciption: Subscription = new Subscription()
   public itemForCart: any;
   public variations: Variation[] | null | undefined  = null
@@ -31,12 +32,9 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
               private cartService: CartService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((paramMap: ParamMap)=>{
-      this.idProduct = paramMap.get('id');
-      if(this.idProduct){
-        this.subciption.add(this.productService.getProductById(this.idProduct).subscribe((product: Product)=>{
-          this.product = product;
-          this.nameOfProduct = this.product.name;
+    this.onScreen = true;
+    this.product = this.activatedRoute.snapshot.data["product"]
+    this.nameOfProduct = this.product.name;
           this.variations = this.product.variations
           if(this.product.pointures){
             this.sizeMode = "Pointure";
@@ -54,9 +52,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
           if(!this.product.variations){
             this.product.variations = []
           }
-        }))
-      }
-    })
   }
   ngAfterViewInit(): void {
   }
@@ -94,6 +89,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subciption.unsubscribe()
+    this.onScreen = false;
   }
 
 }
