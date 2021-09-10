@@ -1,40 +1,45 @@
+<h1>Bienvenue sur ZoulMarket.fr</h1>
 <form *ngIf="loaded" class="form-group" [formGroup]="form">
     <div class="flex-center">
         <mat-form-field appearance="fill">
             <mat-label>Nom</mat-label>
             <input matInput type="text" formControlName="name" />
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Prénom</mat-label>
             <input matInput type="text" formControlName="firstname" />
           </mat-form-field>
         </div>
         <div class="flex-center">
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput type="email" formControlName="email" />
           </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="fill">
         <mat-label>Téléphone</mat-label>
         <input matInput type="tel" formControlName="tel" />
       </mat-form-field>
     </div>
     <div class="flex-center">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Adresse</mat-label>
         <input matInput type="text" formControlName="adress" />
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Code postal</mat-label>
         <input matInput type="number" formControlName="poste" />
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Ville</mat-label>
-        <input matInput type="text" formControlName="city" />
+      <mat-form-field appearance="fill">
+        <mat-label>Commune</mat-label>
+        <mat-select formControlName="city">
+          <mat-option *ngFor="let city of cities" [value]="city">
+            {{city}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <div class="flex-center">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Mot de passe</mat-label>
         <input
           matInput
@@ -48,7 +53,7 @@
             </p>
           </div>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Confirmer le mot de passe</mat-label>
         <input matInput type="password" formControlName="confirm" />
         <div>
@@ -63,7 +68,6 @@
     </div>
 
   <button (click)="onSubmit()" mat-raised-button color="primary" type="button">Envoyer</button>
-  <a href="http://localhost:1337/connect/google" class="btn" mat-button type="button"><img class="mini-logo" src="../../../../assets/logger-module/google.png" alt="logo_signup"> S'inscrire avec Google</a>
 </form>
 <div *ngIf="loading" class="flex-center w-100 vh-100">
     <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>

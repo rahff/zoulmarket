@@ -17,8 +17,9 @@ export interface User{
     firstname: string;
     email: string;
     tel: string;
-    adress: string,
-    poste: number;
+    numero: string;
+    street: string,
+    postal: number;
     city: string;
     id: string;
     confirmed: boolean,

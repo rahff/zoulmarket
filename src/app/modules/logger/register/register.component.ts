@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit {
 
   public form!:FormGroup
   public message: string = ""
-
+  public cities = ['Vesoul', 'Navenne', "Quincey","Noidans-lès-Vesoul", "Vaivre", "Coulevon"]
   public password!: AbstractControl | null;
   public confirm!: AbstractControl | null;
   public tel!: AbstractControl | null;

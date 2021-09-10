@@ -29,7 +29,7 @@ export const fakeBody:NewUser = {
     identifier : "emailUser@free.fr",
     password: "1254125"
   }
-  export  const URL_API_USER = "http://localhost:1337/users/undefined";
+  export  const URL_API_USER = "http://localhost:1337/users/r45545r5r454";
   export const userInfos: User = {
       name: "jean",
       adress: "14 rue du pont",

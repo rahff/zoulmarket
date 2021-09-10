@@ -1,14 +1,14 @@
 <form *ngIf="loaded" class="form-group" [formGroup]="form">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="fill">
         <mat-label>Mot de passe</mat-label>
         <input matInput type="password" formControlName="password">
     </mat-form-field>
     <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
-    <a href="http://localhost:1337/connect/google" class="btn" mat-button type="button"><img class="mini-logo" src="../../../../assets/logger-module/google.png" alt="logo_signup"> Se connecter avec Google</a>
+    <a [routerLink]="['/connection', 'inscription']" class="btn" mat-button type="button">Créer un compte</a>
     <div>
         <p *ngIf="messageError" class="error"> {{messageError}}</p>
         <p *ngIf="message"> {{message}}</p>

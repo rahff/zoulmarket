@@ -41,7 +41,8 @@
         <span class="bulle-vert"></span>
         <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="connection">
       </li>
-      <li routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
+      <li *ngIf="cartLength" routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
+      <li *ngIf="!cartLength" class="nav-item"> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
     </ul>
   </div>
   <div class="navbar-mobile">

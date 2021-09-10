@@ -1,7 +1,7 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, first, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User, NewUser, UserLog } from '../shared/models/user.model';
 
@@ -15,27 +15,29 @@ export class AuthService {
   private URL_API = environment.URL_API;
   private expirationCookieAuth = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
   public jwtToken: string | null | undefined = null;
-  public user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
+  private subjectUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
   );
+  public user$ = this.subjectUser$.asObservable()
   private subScription: Subscription = new Subscription();
   private http!: HttpClient;
   private idOfCurrentUser: string | null = null;
+
   constructor(private httpBackend: HttpBackend) {
     this.http = new HttpClient(httpBackend);
     this.getTokenAndIdUserFromCookies();
     if (this.jwtToken && this.idOfCurrentUser) {
-      this.getUserInfo(this.idOfCurrentUser).subscribe();
+      this.getUserInfo(this.idOfCurrentUser).pipe(take(1)).subscribe(()=>{});
     }
   }
 
   postCredentialsNewUser(body: NewUser): Promise<boolean | string> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.URL_API_REGISTER, body).subscribe((response: any) => {
+      this.http.post(this.URL_API_REGISTER, body).pipe(first()).subscribe((response: any) => {
         if (response.jwt) {
           this.jwtToken = response.jwt;
           document.cookie = `authzm=${this.jwtToken}`;
-          this.user$.next(response.user);
+          this.subjectUser$.next(response.user);
           document.cookie = `iduserzm=${response.user.id}`;
           resolve(true);
         } else {
@@ -46,11 +48,25 @@ export class AuthService {
   }
   postLoginUser(body: UserLog): Promise<boolean | Error> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.URL_API_LOGIN, body).subscribe(
+      this.http.post(this.URL_API_LOGIN, body).pipe(first()).subscribe(
         (response: any) => {
+          console.log(response);
+          
           if (response.jwt) {
             this.jwtToken = response.jwt;
-            this.user$.next(response.user);
+            this.subjectUser$.next({
+              street: response.user.adresse.rue,
+              city: response.user.adresse.city,
+              confirmed: response.user.confirmed,
+              email: response.user.email,
+              firstname: response.user.firstname,
+              id: response.user.id,
+              name: response.user.name,
+              postal: response.user.adresse.postal,
+              role: response.user.role,
+              tel: response.user.tel,
+              numero: response.user.adresse.numero
+            });
             document.cookie = `iduserzm=${response.user.id}`;
             document.cookie = `authzm=${this.jwtToken}`;
             resolve(true);
@@ -99,26 +115,32 @@ export class AuthService {
           },
         })
         .pipe(
+          first(),
           tap((data: any) => {
-            this.user$.next({
-              adress: data.adress,
-              city: data.city,
+            this.subjectUser$.next({
+              street: data.adresse.rue,
+              city: data.adresse.city,
               confirmed: data.confirmed,
               email: data.email,
               firstname: data.firstname,
               id: data.id,
               name: data.name,
-              poste: data.poste,
+              postal: data.adresse.postal,
               role: data.role,
               tel: data.tel,
+              numero: data.adresse.numero
             });
           }),
           catchError(() => {
+            console.log('prob');
             return of(null);
           })
         );
-    }else{
+    }else{ 
       return of(null)
     }
+  }
+  logOut(): void {
+    this.subjectUser$.next(null)
   }
 }

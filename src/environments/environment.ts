@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   URL_API : "http://localhost:1337/",
-  URL_IMG: "http://localhost:1337"
+  URL_IMG: "http://localhost:1337",
+  PAYPAL_CLIENT_ID: "AchK38a2SS8iT7mheghBTLjGEJuUgbEjCY6Ux2MmCRbIzdMTezR87mmps8rxXTpUelaeMNM2buJ_C5bj",
+  PAYPAL_SECRET: "EI2SthbioXkUdnmUBnGeIr_LT9MQj7vgllusMD5Jz1D8T48FuEE99ctzyI3d5pPxchoIOV26oEjT_1D3"
 };
 
 /*

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { myValidators } from '../validators';
@@ -19,9 +19,21 @@ export class LoginComponent implements OnInit {
   public diameter!: number;
   public email!: AbstractControl | null;
   public password!: AbstractControl | null;
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) { }
+  private redirectOnCart: boolean = false;
+  constructor(private authService: AuthService,
+              private fb: FormBuilder,
+              private router: Router,
+              private activatedRoute: ActivatedRoute
+              ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe((param: ParamMap)=>{
+      if(param){
+        this.redirectOnCart = true;
+      }else{
+        this.redirectOnCart = false;
+      }
+    })
     if(window.innerWidth < 600){
       this.diameter = 220
     }else{
@@ -50,7 +62,11 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         this.loaded = true; 
         setTimeout(() => {
-          this.router.navigate(['/'])
+          if(!this.redirectOnCart){
+            this.router.navigate(['/'])
+          }else{
+            this.router.navigate(['/panier'])
+          }
         }, 2000);
       }).catch((message)=>{
         this.messageError = "Mot de passe incorrect"

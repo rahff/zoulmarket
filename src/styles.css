@@ -23,7 +23,7 @@ body{
     --danger: #d50000;
     --whiteBtn: #FCFCFD;
     --green: #2F9A48;
-    --box: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #eaeded;
+    --box: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #f5ae52;
     --shadow: 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 2px 1px -1px rgb(0 0 0 / 12%), 0px 1px 3px 0px rgb(0 0 0 / 20%);
 }
 .abs-right-bottom{
@@ -68,7 +68,10 @@ button{
 .col {
     flex-direction: column;
 }
-
+h1,h2,h3{
+    text-align: center;
+    font-family: 'Source Code Pro', monospace;
+}
 .w-100 {
     width: 100%!important;
 }
@@ -105,7 +108,7 @@ button{
 .btn {
     margin: 15px 0!important;
     box-shadow: var(--box)!important;
-    background-color: var(--whiteBtn);
+    background-color: var(--accent);
     transition: 200ms;
 }
 .fr{
@@ -122,7 +125,7 @@ button{
 
 .btn:hover {
     transform: translateY(-2px);
-    background: var(--whiteBtn);
+    background: var(--accent);
     box-shadow: 0px 6px 9px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
 }
 
@@ -134,4 +137,7 @@ button{
 }
 .p-1{
     padding: 5px;
+}
+.hidden{
+    visibility: hidden;
 }

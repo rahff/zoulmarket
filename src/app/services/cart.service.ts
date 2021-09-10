@@ -21,10 +21,11 @@ export class CartService {
     }
    }
    updateQuantity(qty: number, index: number): void {
-    this.cart$.value[index].quantity = qty
-    this.cart$.value[index].cost = this.cart$.value[index].product.price * this.cart$.value[index].quantity
-    console.log(this.cart$.value[index]);  
-    this.cart$.next(this.cart$.value)
+       if(this.cart$.value[index]){
+         this.cart$.value[index].quantity = qty
+         this.cart$.value[index].cost = this.cart$.value[index].product.price * this.cart$.value[index].quantity
+         this.cart$.next(this.cart$.value)
+       }
   }
 
   addItemToCart(item: ItemCart): void {

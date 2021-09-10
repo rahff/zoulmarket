@@ -1,10 +1,10 @@
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
 import {  HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing"
 import { AuthService } from './auth.service';
-import { fakeBody, fakeAuth, fakeResponseError, URL_API_LOGIN, URL_API_REGISTER, bodyFake, URL_API_USER, userInfos  } from '../../../test-utils/fake-data'
+import { fakeBody, fakeAuth, fakeResponseError, URL_API_LOGIN, URL_API_REGISTER, bodyFake, URL_API_USER, userInfos  } from '../../../test-utils/authService.fake-data'
 
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   
   let service: AuthService;
   let httpTestingController: HttpTestingController
@@ -27,18 +27,22 @@ fdescribe('AuthService', () => {
   it('should post crendentials', fakeAsync(()=>{
     service.postCredentialsNewUser(fakeBody).then((res)=>{
       expect(res).toBeTrue()
+      expect(service.jwtToken).toBe(fakeAuth.jwt)
     })
     const req = httpTestingController.expectOne(URL_API_REGISTER);
     expect(req.request.method).toBe("POST");
     req.flush(fakeAuth)
+    flushMicrotasks()
   }));
   it("should post login user", fakeAsync(()=>{
     service.postLoginUser(bodyFake).then((res)=>{
       expect(res).toBeTrue()
+      expect(service.jwtToken).toBe(fakeAuth.jwt)
     });
     const req = httpTestingController.expectOne(URL_API_LOGIN);
     expect(req.request.method).toBe('POST');
     req.flush(fakeAuth)
+    flushMicrotasks()
   }));
   it("should reject promise on create new user", fakeAsync(()=>{
     service.postCredentialsNewUser(fakeBody).then((res)=>{
@@ -49,6 +53,7 @@ fdescribe('AuthService', () => {
     const req = httpTestingController.expectOne(URL_API_REGISTER);
     expect(req.request.method).toBe('POST');
     req.flush(fakeResponseError)
+    flushMicrotasks()
   }));
   it('should reject promise on login', fakeAsync(()=>{
     service.postLoginUser(bodyFake).then((res)=>{
@@ -59,6 +64,7 @@ fdescribe('AuthService', () => {
     const req = httpTestingController.expectOne(URL_API_LOGIN);
     expect(req.request.method).toBe('POST');
     req.flush(fakeResponseError)
+    flushMicrotasks()
   }));
   it('should get token from cookie', ()=>{
     service.getTokenAndIdUserFromCookies();
@@ -66,15 +72,19 @@ fdescribe('AuthService', () => {
   });
   it('should get user infos', fakeAsync(()=>{
     const id = userInfos.id
-    service.getUserInfo(id).subscribe();
+    service.getUserInfo(id).subscribe((res)=>{
+      console.log(('erer'));
+      expect(res).toEqual(userInfos)
+    });
     const req = httpTestingController.expectOne(URL_API_USER);
     req.flush(userInfos)
     expect(service.user$.value).toEqual(userInfos)
   }));
-  it("should reassign token in cookie", ()=>{
-    const newToken = "11111111111111111111111"
+  it("should reassign token in cookie", fakeAsync(()=>{
+    const newToken = "1111111111111111111111"
     service.getTokenFromParam(newToken);
+    tick(200)
     expect(service.jwtToken).toBe(newToken)
-  })
-  
+  }))
+
 });

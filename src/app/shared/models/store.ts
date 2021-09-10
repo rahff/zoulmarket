@@ -8,7 +8,8 @@ export interface Store {
     products?: Product[];
     subCategory?: SubCategory[],
     banner_desktop: string,
-    banner_mobile: string
+    banner_mobile: string,
+    email: string
 }
 export interface CarouselData{
     title: string,

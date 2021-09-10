@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Product } from '../shared/models/product';
@@ -13,6 +13,7 @@ import { Variation } from '../shared/models/variation.model';
 })
 export class ProductService {
   private API_URL = environment.URL_API;
+  public PromoSubject = new BehaviorSubject<Product[] | null>(null)
   constructor(private http: HttpClient) {}
 
   getProductPromo(): Observable<Product[]> {
@@ -31,9 +32,11 @@ export class ProductService {
             img: imgs,
             price: data[i].price,
             vendeur: data[i].vendeur,
+            FNSKU: data[i].FNSKU
           };
           arrayProducts.push(product);
         }
+        this.PromoSubject.next(arrayProducts)
         return arrayProducts;
       })
     );
@@ -60,7 +63,8 @@ export class ProductService {
           variations: variations,
           sizes: data.dataProduct.sizes,
           sizes_XXS_TO_XXXL: data.dataProduct.sizes_XXS_TO_XXXL,
-          stock: data.stock
+          stock: data.stock,
+          FNSKU: data.FNSKU
                 };
         return product;
       })

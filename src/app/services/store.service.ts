@@ -28,7 +28,8 @@ export class StoreService {
             img: data[i].img[0].formats.thumbnail.url,
             name: data[i].name,
             banner_desktop: data[i].banner_desktop.url,
-            banner_mobile: data[i].banner_mobile.url
+            banner_mobile: data[i].banner_mobile.url,
+            email: data[i].email
           };
           all.push(store);
         }
@@ -59,7 +60,8 @@ export class StoreService {
             name: data.products[i].name,
             price: data.products[i].price,
             vendeur: data.products[i].vendeur,
-            characteristics: data.products[i].characteristics
+            characteristics: data.products[i].characteristics,
+            FNSKU: data.FNSKU
           };
           productOfStore.push(product);
         }
@@ -70,7 +72,8 @@ export class StoreService {
           products: productOfStore,
           subCategory: arraySubCategory,
           banner_desktop: data.banner_desktop.url,
-          banner_mobile: data.banner_mobile.url
+          banner_mobile: data.banner_mobile.url,
+          email: data.email
         };
         return store;
       })

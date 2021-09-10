@@ -82,7 +82,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
   deconnection(): void {
-    this.auth.user$.next(null);
+    this.auth.logOut()
     this.username = null;
     this.auth.jwtToken = null;
     document.cookie = `authzm=;expires=${new Date(0)}`

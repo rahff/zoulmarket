@@ -13,5 +13,6 @@ export interface Product {
     sizes_XXS_TO_XXXL?: string[] | null;
     sizes?: number[] | null,
     stock?: number;
-    variations?: Variation[] | null
+    variations?: Variation[] | null,
+    FNSKU: string
 }
