@@ -49,7 +49,7 @@ form{
     border-radius: 7px 0 0 7px;
     border: 1px solid transparent;
     cursor: pointer;
-    background-color: #dddddd;
+    background-color: var(--gray);
     font-weight: 600;
     padding: 0;
     display: flex;
@@ -58,7 +58,7 @@ form{
     padding-right: 2px;
 }
 #select:hover{
-    background-color: #b9b9b9;
+    background-color: var(--darkSilver);
 }
 .col{
     height: 100%;

@@ -1,9 +1,11 @@
 
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { UserService } from 'src/app/services/user.service';
 import { Category } from 'src/app/shared/models/category.model';
 import { User } from 'src/app/shared/models/user.model';
 
@@ -17,7 +19,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public toggleOption: boolean = true;
   public categories: Category[] = [];
   public cartLength: number = 0;
-  public username: string | null = null;
+  public username!:string | null;
+  public userId!: string | null;
   private subscription: Subscription = new Subscription()
   @ViewChild('ulOption') public ulOption!: ElementRef<HTMLUListElement>;
   @ViewChild('onProfil') public onProfil!: ElementRef<HTMLUListElement>;
@@ -30,11 +33,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   constructor(private categoryService: CategoryService,
               private cartService: CartService,
-              private auth: AuthService) { }
+              private userService: UserService,
+              private auth: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.subscription.add(this.auth.user$.subscribe((user: User | null)=>{
+    this.subscription.add(this.userService.user$.subscribe((user: User | null)=>{
       if(user){
+        this.userId = user.id
         this.username = user.firstname
       }
     }))
@@ -85,7 +91,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.auth.logOut()
     this.username = null;
     this.auth.jwtToken = null;
-    document.cookie = `authzm=;expires=${new Date(0)}`
+    document.cookie = `authzm=;expires=${new Date(0)}`;
+    this.router.navigateByUrl('/')
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe()

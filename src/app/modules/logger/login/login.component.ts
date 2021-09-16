@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParamMap.subscribe((param: ParamMap)=>{
-      if(param){
+      if(param.get('origin')){
         this.redirectOnCart = true;
       }else{
         this.redirectOnCart = false;

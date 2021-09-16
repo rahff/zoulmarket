@@ -12,6 +12,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { Order } from 'src/app/shared/models/order.model';
 import { Store } from 'src/app/shared/models/store';
 import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-panier',
@@ -61,6 +62,7 @@ export class PanierComponent implements OnInit, OnDestroy {
   }
   constructor(private cartService: CartService,
               private auth: AuthService,
+              private userServive: UserService,
               private fb: FormBuilder,
               private productService: ProductService,
               private orderService: OrderService) {}
@@ -72,7 +74,7 @@ export class PanierComponent implements OnInit, OnDestroy {
      this.promo$ = this.productService.getProductPromo().pipe()
    }
     this.productService.PromoSubject
-    this.auth.user$.subscribe((user)=>{
+    this.userServive.user$.subscribe((user)=>{
       this.user = user      
     })
     this.initForm(this.user)

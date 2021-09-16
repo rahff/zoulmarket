@@ -1,9 +1,10 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, first, take, tap } from 'rxjs/operators';
+import { catchError, first, map, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User, NewUser, UserLog } from '../shared/models/user.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +16,13 @@ export class AuthService {
   private URL_API = environment.URL_API;
   private expirationCookieAuth = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
   public jwtToken: string | null | undefined = null;
-  private subjectUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
-    null
-  );
-  public user$ = this.subjectUser$.asObservable()
+ 
   private subScription: Subscription = new Subscription();
   private http!: HttpClient;
   private idOfCurrentUser: string | null = null;
 
-  constructor(private httpBackend: HttpBackend) {
+  constructor(private httpBackend: HttpBackend,
+              private userService: UserService) {
     this.http = new HttpClient(httpBackend);
     this.getTokenAndIdUserFromCookies();
     if (this.jwtToken && this.idOfCurrentUser) {
@@ -37,7 +36,7 @@ export class AuthService {
         if (response.jwt) {
           this.jwtToken = response.jwt;
           document.cookie = `authzm=${this.jwtToken}`;
-          this.subjectUser$.next(response.user);
+          this.userService.subjectUser$.next(response.user);
           document.cookie = `iduserzm=${response.user.id}`;
           resolve(true);
         } else {
@@ -54,7 +53,7 @@ export class AuthService {
           
           if (response.jwt) {
             this.jwtToken = response.jwt;
-            this.subjectUser$.next({
+            this.userService.subjectUser$.next({
               street: response.user.adresse.rue,
               city: response.user.adresse.city,
               confirmed: response.user.confirmed,
@@ -117,7 +116,7 @@ export class AuthService {
         .pipe(
           first(),
           tap((data: any) => {
-            this.subjectUser$.next({
+            this.userService.subjectUser$.next({
               street: data.adresse.rue,
               city: data.adresse.city,
               confirmed: data.confirmed,
@@ -131,6 +130,21 @@ export class AuthService {
               numero: data.adresse.numero
             });
           }),
+          map((data: any)=>{
+            return {
+              street: data.adresse.rue,
+              city: data.adresse.city,
+              confirmed: data.confirmed,
+              email: data.email,
+              firstname: data.firstname,
+              id: data.id,
+              name: data.name,
+              postal: data.adresse.postal,
+              role: data.role,
+              tel: data.tel,
+              numero: data.adresse.numero
+            }
+          }),
           catchError(() => {
             console.log('prob');
             return of(null);
@@ -141,6 +155,6 @@ export class AuthService {
     }
   }
   logOut(): void {
-    this.subjectUser$.next(null)
+    this.userService.subjectUser$.next(null)
   }
 }

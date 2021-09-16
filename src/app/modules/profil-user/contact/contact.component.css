@@ -1,0 +1,16 @@
+.mat-form-field{
+    margin-bottom: 50px;
+}
+.flex-center{
+    align-items: center;
+}
+.error{
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+}
+.form-group{
+    padding: 20px;
+    border: 1px solid lightslategray;
+    border-radius: 5px;
+}

@@ -34,15 +34,15 @@
       <li (mouseenter)="showOptions($event)" *ngIf="username"  class="nav-item flex col rel"> {{username}}
         <span  (mouseenter)="keepShowingElement($event)" (mouseleave)="keepShowingElement($event)" #onProfil class="onProfil">
           <ul class="flex-center col w-100">
-            <li class="p-1">Votre Profil</li> 
+            <li class="p-1" [routerLink]="['profil', userId]">Votre Profil</li> 
            <li (click)="deconnection()" class="p-1">Se déconnecter</li>
           </ul>
         </span> 
         <span class="bulle-vert"></span>
         <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="connection">
       </li>
-      <li *ngIf="cartLength" routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
-      <li *ngIf="!cartLength" class="nav-item"> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
+      <li title="votre panier" *ngIf="cartLength" routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
+      <li title="panier vide" *ngIf="!cartLength" class="nav-item"> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
     </ul>
   </div>
   <div class="navbar-mobile">

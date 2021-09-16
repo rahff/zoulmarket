@@ -9,6 +9,7 @@ import { SubCategory } from '../../models/sub-category.model';
 })
 export class CircleContainerComponent implements OnInit {
   @Input('data') public data!: SubCategory;
+  @Input('cardMenu') public cardMenu!: any;
   public URL_API_IMG = environment.URL_IMG;
   constructor() { }
 

@@ -1,0 +1,40 @@
+.flex.center.col{
+    width: 80% ;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.coord{
+    width: 90%;
+    margin: 35px auto;
+    border: 1px solid var(--darkSilver);
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.adress{
+    width: 50%;
+    margin: 35px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.row{
+    width: 100%;
+    padding: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--gray);
+    margin: 4px 0;
+    border-radius: 5px;
+}
+.mat-icon{
+    font-size: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

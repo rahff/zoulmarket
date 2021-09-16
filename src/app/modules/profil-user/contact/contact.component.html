@@ -1,0 +1,27 @@
+<form *ngIf="loaded" class="form-group" [formGroup]="formContact">
+    <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput type="email" formControlName="name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput type="email" formControlName="firstname">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Votre message</mat-label>
+       <textarea matInput formControlName="message"></textarea>
+       <p class="error" *ngIf="message?.hasError('notValid')">Par sécurité, nous n'accepptons pas les caractères spéciaux</p>
+    </mat-form-field>
+    <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
+    <div>
+        <p *ngIf="messageError" class="error"> {{messageError}}</p>
+        <p *ngIf="message"> {{messageSuccess}}</p>
+    </div>
+</form>
+<div *ngIf="loading" class="flex-center w-100 vh-100">
+    <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>
+</div>

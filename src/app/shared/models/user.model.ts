@@ -25,3 +25,16 @@ export interface User{
     confirmed: boolean,
     role: any
 }
+export interface DataMenuProfilUser {
+    title: string;
+    logo: string;
+    text: string;
+    link: string
+}
+export interface BodyMail{
+    name: string;
+    firstname: string;
+    tel: string;
+    email: string;
+    message: string
+}

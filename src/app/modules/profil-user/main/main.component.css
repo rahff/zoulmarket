@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+.wrapper-flex{
+    display: flex;
+    width: 80%;
+    max-width: 900px;
+    justify-content: space-around;
+    margin: 35px auto;
+}

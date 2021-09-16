@@ -1,0 +1,39 @@
+<div class="flex center col">
+    <div class="coord">
+        <h2>Coordonnées</h2>
+        <div class="row">
+          Nom: {{user.name}}
+            <mat-icon (click)="editInfosUser('Nom')">edit</mat-icon>
+          </div>
+        <div class="row">
+          Prénom: {{user.firstname}}
+          </div>
+        <div class="row">
+          Email: {{user.email}}
+            <mat-icon (click)="editInfosUser('email')">edit</mat-icon>
+          </div>
+        <div class="row">
+          Tél: {{user.tel}}
+            <mat-icon (click)="editInfosUser('numéro de téléphone')">edit</mat-icon>
+          </div>
+          <div class="row">
+              Mot de passe: ********
+                <mat-icon (click)="editInfosUser('mot de passe')">edit</mat-icon>
+              </div>
+          <div class="adress">
+              <h2>Adresse   <mat-icon (click)="editInfosUser('adresse')">edit</mat-icon></h2>
+              <div class="row">
+                N° {{user.numero}}
+                </div>
+              <div class="row">
+                  {{user.street}}
+                </div>
+              <div class="row">
+                  {{user.postal}}
+                </div>
+              <div class="row">
+                  {{user.city}}
+                </div>
+          </div>
+    </div>
+  </div>

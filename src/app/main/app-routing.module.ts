@@ -36,6 +36,9 @@ const routes: Routes = [
   },
   {
     path: "panier", loadChildren: ()=> import('../modules/checkout/checkout.module').then(m => m.CheckoutModule)
+  },
+  {
+    path: "profil", loadChildren: ()=> import('../modules/profil-user/profil-user.module').then(m => m.ProfilUserModule)
   }
 ];
 
