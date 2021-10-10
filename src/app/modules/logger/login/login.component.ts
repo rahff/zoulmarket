@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/shared/models/user.model';
 
 import { myValidators } from '../validators';
 @Component({
@@ -11,6 +13,7 @@ import { myValidators } from '../validators';
 })
 export class LoginComponent implements OnInit {
 
+  public emailFromCookie!: string;
   public form!: FormGroup;
   public messageError: string = "";
   public message: string  = "";
@@ -20,10 +23,12 @@ export class LoginComponent implements OnInit {
   public email!: AbstractControl | null;
   public password!: AbstractControl | null;
   private redirectOnCart: boolean = false;
+  private expirationCookieAuth = (new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
   constructor(private authService: AuthService,
               private fb: FormBuilder,
               private router: Router,
-              private activatedRoute: ActivatedRoute
+              private activatedRoute: ActivatedRoute,
+              private userServive: UserService
               ) { }
 
   ngOnInit(): void {
@@ -55,8 +60,12 @@ export class LoginComponent implements OnInit {
         identifier: this.email?.value,
         password: this.password?.value
       }
-      this.authService.postLoginUser(body).then((response: boolean | Error) =>{
+      this.authService.postLoginUser(body).then((response: {user: User, token: string}) =>{
         console.log(response);
+        this.userServive.addTokenInUser(response.user.id, response.token)
+        document.cookie = `iduserzm=${JSON.stringify(response.user.id)};expires=${JSON.stringify(this.expirationCookieAuth)}`;
+            document.cookie = `authzm=${JSON.stringify(response.token)};expires=${this.expirationCookieAuth}`;
+            document.cookie = `user=${JSON.stringify(response.user)};expires=${JSON.stringify(this.expirationCookieAuth)}`;
         this.message = "Bienvue vous êtes connecté(e)";
         this.messageError = "";
         this.loading = false;
@@ -69,7 +78,7 @@ export class LoginComponent implements OnInit {
           }
         }, 2000);
       }).catch((message)=>{
-        this.messageError = "Mot de passe incorrect"
+        this.messageError = message
         this.loading = false;
         this.loaded = true; 
       })
@@ -77,5 +86,4 @@ export class LoginComponent implements OnInit {
       myValidators.forEachControlOfForm(this.form);
     }
   }
-
 }

@@ -21,18 +21,21 @@
                 <mat-icon (click)="editInfosUser('mot de passe')">edit</mat-icon>
               </div>
           <div class="adress">
-              <h2>Adresse   <mat-icon (click)="editInfosUser('adresse')">edit</mat-icon></h2>
+            <div class="flex-center">
+              <h2 class="mr-1">Adresse</h2>
+              <mat-icon (click)="editInfosUser('adresse')">edit</mat-icon>
+            </div>
               <div class="row">
-                N° {{user.numero}}
+                N° {{user.adress.numero}}
                 </div>
               <div class="row">
-                  {{user.street}}
+                  {{user.adress.street}}
                 </div>
               <div class="row">
-                  {{user.postal}}
+                  {{user.adress.postal}}
                 </div>
               <div class="row">
-                  {{user.city}}
+                  {{user.adress.city}}
                 </div>
           </div>
     </div>

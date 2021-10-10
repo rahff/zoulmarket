@@ -1,0 +1,41 @@
+.mat-form-field{
+    margin-bottom: 50px;
+}
+.flex-center{
+    align-items: center;
+}
+.form-group{
+    padding: 25px;
+    border: 1px solid var(--darkSilver);
+    border-radius: 5px;
+    width: 280px;
+    height: fit-content;
+}
+h2{
+    margin-bottom: auto;
+}
+.mat-form-field{
+    margin-bottom: 0px!important;
+}
+.return{
+    margin-left: 25px;
+    padding: 10px;
+}
+.btn-return{
+    color: var(--primary) ;
+    font-size: 55px;
+    width: auto!important;
+    height: auto!important;
+}
+.btn-rounded{
+    padding: 5px;
+    border-radius: 50%;
+    
+    border: 1px solid var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    box-shadow: var(--box2);
+}

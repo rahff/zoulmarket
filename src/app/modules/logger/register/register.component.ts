@@ -91,8 +91,6 @@ export class RegisterComponent implements OnInit {
      }
       
     }
-    signupGoogle(): void {
-      this.authService.registerWithGoogle()
-    }
+  
 
   }

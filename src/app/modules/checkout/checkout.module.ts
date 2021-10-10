@@ -5,7 +5,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { CHECKOUT_ROUTES } from './checkout.routes';
 import { LoadingModule } from 'src/app/shared/loading/loading.module';
-import { NgxPayPalModule } from 'ngx-paypal';
+
+
 
 
 @NgModule({
@@ -16,8 +17,8 @@ import { NgxPayPalModule } from 'ngx-paypal';
   imports: [
     SharedModule,
     RouterModule.forChild(CHECKOUT_ROUTES),
-    LoadingModule,
-    NgxPayPalModule
-  ]
+    LoadingModule
+  ],
+  
 })
 export class CheckoutModule { }

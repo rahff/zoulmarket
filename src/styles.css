@@ -26,6 +26,7 @@ body{
     --whiteBtn: #FCFCFD;
     --green: #2F9A48;
     --box: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #f5ae52;
+    --box2: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #eaeded;
     --shadow: 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 2px 1px -1px rgb(0 0 0 / 12%), 0px 1px 3px 0px rgb(0 0 0 / 20%);
 }
 .abs-right-bottom{
@@ -81,6 +82,9 @@ h1,h2,h3{
 .vh-100 {
     height: 100vh;
 }
+.vh-80 {
+    height: 80vh;
+}
 .w-30{
     width: 30%;
 }
@@ -105,6 +109,9 @@ h1,h2,h3{
 .mini-logo {
     width: 25px;
     height: 25px;
+}
+.mr-1{
+    margin-right: 10px! important;
 }
 
 .btn {

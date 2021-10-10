@@ -8,21 +8,23 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
-
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {}
+  constructor(private auth: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.jwtToken || null;
-    if(token){      
-      const reqAuth = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}` )
+    const token = this.auth.jwtToken || '';
+ 
+    if(token){
+      console.log('intrecept');
+      const req = request.clone({
+        headers: request.headers.set('Authorization', `Bearer ${token}`)
       })
-      return next.handle(reqAuth);
+      return next.handle(req);
     }else{
-      return next.handle(request);
+      return next.handle(request)
     }
+    
   }
 }

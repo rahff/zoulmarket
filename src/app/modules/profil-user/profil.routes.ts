@@ -3,6 +3,7 @@ import { CommandesComponent } from "./commandes/commandes.component";
 import { ContactComponent } from "./contact/contact.component";
 import { MainComponent } from "./main/main.component";
 import { CardMenuResolver } from "./resolvers/cardMenu.resolver";
+import { SubjectResolver } from "./resolvers/subject-update-form.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 import { UserInfosResolver } from "./resolvers/userInfos.resolver";
 import { FormUpdateInfosUserComponent } from "./security/form-update-infos-user/form-update-infos-user.component";
@@ -30,7 +31,9 @@ export const PROFIL_ROUTES: Routes = [
                 }
             },
             {
-                path: "update/:subject", component: FormUpdateInfosUserComponent
+                path: "update/:subject", component: FormUpdateInfosUserComponent, resolve: {
+                    subject: SubjectResolver
+                }
             }
         ]
     }

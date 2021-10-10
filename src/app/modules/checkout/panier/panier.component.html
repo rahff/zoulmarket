@@ -1,97 +1,134 @@
-
-<div class="wrapper">
-<div class="container-cart">
+<div class="wrapper" *ngIf="loaded">
+  <div class="container-cart">
     <h1>Votre panier</h1>
-    <hr>
-<ul class="item-cart" *ngFor="let item of cart; let i=index">
-    <div class="row">
-    <div class="img">
-        <img [src]="URL_IMG + item.product.img[0].img_mini" [alt]="item.product.name">
-    </div>
-    <div class="info-item">
-    <li class="item"> {{item.product.name}} | {{item.product.description}} </li>
-    <li class="item"> Prix unitaire : {{item.product.price}} €</li>
-    <div class="flex center">
-        <li class="item"> Quantité : {{item.quantity}} </li>
-        <app-change-quantity (emitNewQuantity)="updateQuantity($event, i)" [quantity]="item.quantity"></app-change-quantity>
-    </div>
-    <li class="item"> total: {{item.cost}} €</li>
-</div>
-<div (click)="deleteItem(i)" class="abs-right-bottom">
-  <span class="suppr">supprimer</span>
-</div>
-</div>
-<div class="hr">
-    <hr>
-</div>
-</ul>
-<div class="userInfo-container">
-    <h1>Livraison à Vesoul et périphérie</h1>
-    <form class="form" [formGroup]="formUser">
+    <hr />
+    <ul
+      class="item-cart"
+      *ngFor="let item of itemsCartForTemplate; let i = index"
+    >
+      <div class="row">
+        <div class="img">
+          <img
+            [src]="URL_IMG + item.product.img[0].img_mini"
+            [alt]="item.product.name"
+          />
+        </div>
+        <div class="info-item">
+            <ul class="flex col">
+          <li class="item">
+            {{ item.product.name }} 
+          </li>
+          <li class="item">
+            {{ item.product.description }}
+          </li>
+          <li class="item">Prix unitaire : {{ item.product.price }} €</li>
+        </ul>
+          <div class="flex center">
+            <li class="item">Quantité : {{ item.quantity }}</li>
+            <app-change-quantity
+              (emitNewQuantity)="updateQuantity($event, i)"
+              [quantity]="item.quantity"
+            ></app-change-quantity>
+          </div>
+          <li class="item">total: {{ item.cost }} €</li>
+        </div>
+        <div (click)="deleteItem(i)" class="abs-right-bottom">
+          <span class="suppr">supprimer</span>
+        </div>
+      </div>
+      <div class="hr">
+        <hr />
+      </div>
+    </ul>
+    <div class="userInfo-container">
+      <h1>Livraison à Vesoul et périphérie</h1>
+      <form class="form" [formGroup]="formUser">
         <div class="group">
-            <h3 class="hidden">livarison</h3>
-        <mat-form-field appearance="fill">
+          <h3 class="hidden">livarison</h3>
+          <mat-form-field appearance="fill">
             <mat-label>Nom</mat-label>
-            <input type="text" matInput formControlName="name">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
+            <input type="text" matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Prénom</mat-label>
-            <input type="text" matInput formControlName="firstname">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
+            <input type="text" matInput formControlName="firstname" />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Téléphone</mat-label>
-            <input type="tel" matInput formControlName="tel">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
+            <input type="tel" matInput formControlName="tel" />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input type="email" matInput formControlName="email">
-        </mat-form-field>
-    </div>
+            <input type="email" matInput formControlName="email" />
+          </mat-form-field>
+        </div>
         <div class="form-array">
-            <h3>Adresse</h3>
-        <mat-form-field appearance="fill">
+          <h3>Adresse</h3>
+          <mat-form-field appearance="fill">
             <mat-label>N°</mat-label>
-            <input type="text" matInput formControlName="numero">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
+            <input type="text" matInput formControlName="numero" />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Rue</mat-label>
-            <input type="text" matInput formControlName="street">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
+            <input type="text" matInput formControlName="street" />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Commune</mat-label>
             <mat-select formControlName="city">
               <mat-option *ngFor="let city of cities" [value]="city">
-                {{city}}
+                {{ city }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-        <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill">
             <mat-label>Code postal</mat-label>
-            <input type="number" matInput formControlName="postal">
-        </mat-form-field>
+            <input type="number" matInput formControlName="postal" />
+          </mat-form-field>
+        </div>
+      </form>
     </div>
-    </form>
-</div>
-</div>
-<div class="sidebar">
+  </div>
+  <div class="sidebar">
     <div class="actions">
-        <div class="infos">
-            Total de la commande: <br>
-            {{(total).toFixed(2)}} €
-        </div>
-        <div *ngIf="!user">
-            <button routerLink="/connection" [queryParams]="{origin: cart}" class="btn-action">Se connecter <img class="abs" width="40px" height="40px" src="../../../../assets/navbar/logo.png" alt="logo"></button>
-        </div>
-        <ngx-paypal *ngIf="user" [config]="payPalConfig"></ngx-paypal>
+      <div class="infos">
+        Total de la commande: <br />
+        {{ total.toFixed(2) }} €
+      </div>
+      <div *ngIf="!user">
+        <button
+          routerLink="/connection"
+          [queryParams]="{ origin: cart }"
+          class="btn-action"
+        >
+          Se connecter
+          <img
+            class="abs"
+            width="40px"
+            height="40px"
+            src="../../../../assets/navbar/logo.png"
+            alt="logo"
+          />
+        </button>
+      </div>
+      <!-- //COMPOSANT STRIPE BTN // -->
+      <button (click)="initCheckout()" [disabled]="checkoutInit" class="btn-action" *ngIf="user">
+          PASSER COMMANDE {{total | number}} €
+      </button>
     </div>
     <h3>Plus d'articles</h3>
-    <div class="suggestions" *ngIf="(promo$ | async) as products">
-        <div class="promo"  *ngFor="let product of products">
-            <app-card-product [product]="product"></app-card-product>
-        </div>
+    <div class="suggestions" *ngIf="promo$ | async as products">
+      <div class="promo" *ngFor="let product of products">
+        <app-card-product [product]="product"></app-card-product>
+      </div>
     </div>
+  </div>
 </div>
+<div *ngIf="loading" class="flex-center w-100 vh-80">
+  <mat-spinner
+    color="primary"
+    mode="indeterminate"
+    [diameter]="diameter"
+  ></mat-spinner>
 </div>
-
 
 <app-loading [detectRoutingOnGoing]="onScreen"></app-loading>

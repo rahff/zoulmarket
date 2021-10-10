@@ -8,8 +8,8 @@ import { FooterComponent } from './footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
 import { LoadingModule } from '../shared/loading/loading.module';
+import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
 
 
 @NgModule({
@@ -35,6 +35,7 @@ import { LoadingModule } from '../shared/loading/loading.module';
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     }
+    
   ],
   bootstrap: [AppComponent]
 })

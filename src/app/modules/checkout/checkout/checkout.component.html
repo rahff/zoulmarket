@@ -1,1 +1,4 @@
-<p>checkout works!</p>
+<p>{{ message }}</p>
+<div class="flex-center">
+    <mat-spinner color="primary" [diameter]="diameter" *ngIf="waiting"></mat-spinner>
+</div>

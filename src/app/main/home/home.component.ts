@@ -49,13 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getTokenAndIdUserFromCookies()
     this.onScreen = true;
-    this. subscription = this.activatedRoute.queryParamMap.subscribe((queryparam: ParamMap)=>{
-      if(queryparam.get("id_token")){
-        this.tokenParam = queryparam.get("id_token")
-        this.authService.getTokenFromParam(this.tokenParam);
-      }
-    })
     this.promo = this.activatedRoute.snapshot.data["products"];
     this.stores = this.activatedRoute.snapshot.data["stores"];
     this.Promocategories = this.activatedRoute.snapshot.data["categories"]

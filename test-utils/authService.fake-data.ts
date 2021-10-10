@@ -32,13 +32,16 @@ export const fakeBody:NewUser = {
   export  const URL_API_USER = "http://localhost:1337/users/r45545r5r454";
   export const userInfos: User = {
       name: "jean",
-      adress: "14 rue du pont",
-      city: 'Paris',
+      adress: {
+        street: "rue du pont",
+        city: 'Paris',
+        postal: 75000,
+        numero:'12'
+      },
       confirmed: true,
       email: "jeanjean@gmail.com",
       firstname: "Didier",
       id: 'r45545r5r454',
-      poste: 75000,
       role: "public",
       tel: "0125458789"
   }

@@ -12,6 +12,7 @@ import { SecurityComponent } from './security/security.component';
 import { UserInfosComponent } from './security/user-infos/user-infos.component';
 import { FormUpdateInfosUserComponent } from './security/form-update-infos-user/form-update-infos-user.component';
 import { UserResolver } from './resolvers/user.resolver';
+import { SubjectResolver } from './resolvers/subject-update-form.resolver';
 
 
 
@@ -32,7 +33,8 @@ import { UserResolver } from './resolvers/user.resolver';
   providers: [
     UserInfosResolver,
     CardMenuResolver,
-    UserResolver
+    UserResolver,
+    SubjectResolver
   ]
 })
 export class ProfilUserModule { }

@@ -9,7 +9,8 @@ export const product: Product = {
     name: "testing",
     price: 75,
     vendeur: "tester",
-    characteristics: ["test1", "test2", "test3"]
+    characteristics: ["test1", "test2", "test3"],
+    FNSKU: 'FNSKU1'
 }
 export const product2: Product = {
     description: "fake2 description for testing",
@@ -18,7 +19,8 @@ export const product2: Product = {
     name: "testing2",
     price: 55,
     vendeur: "tester2",
-    characteristics: ["test12", "test22", "test32"]
+    characteristics: ["test12", "test22", "test32"],
+    FNSKU: 'FNSKU2'
 }
 export const fakeCart: ItemCart[] = [
     {

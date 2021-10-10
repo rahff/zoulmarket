@@ -5,7 +5,7 @@ import { fakeArrayCategory, URL_API, fakeSuggestionCategory, oneFakeCategoryById
 
 import { CategoryService } from './category.service';
 
-fdescribe('CategoryService', () => {
+describe('CategoryService', () => {
   let service: CategoryService,
       httpTesingController: HttpTestingController
 
@@ -92,7 +92,5 @@ fdescribe('CategoryService', () => {
     req.flush(oneFakeCategoryById)
     flush()
   }))
-  afterEach(()=>{
-    httpTesingController.verify()
-  })
+  
 });

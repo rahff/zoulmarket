@@ -2,21 +2,26 @@ import { fakeAsync, flushMicrotasks, TestBed, tick } from '@angular/core/testing
 import {  HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing"
 import { AuthService } from './auth.service';
 import { fakeBody, fakeAuth, fakeResponseError, URL_API_LOGIN, URL_API_REGISTER, bodyFake, URL_API_USER, userInfos  } from '../../../test-utils/authService.fake-data'
+import { UserService } from './user.service';
 
 
 describe('AuthService', () => {
   
   let service: AuthService;
+  let userService: UserService;
   let httpTestingController: HttpTestingController
   beforeEach(() => {
+    userService = jasmine.createSpyObj('UserService', ["subjectUser$"])
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
       ],
       providers: [
-        AuthService
+        AuthService,
+        {provide: UserService, useValue: userService}
       ]
     });
+    
     service = TestBed.inject(AuthService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
@@ -78,7 +83,7 @@ describe('AuthService', () => {
     });
     const req = httpTestingController.expectOne(URL_API_USER);
     req.flush(userInfos)
-    expect(service.user$.value).toEqual(userInfos)
+    expect(userService.subjectUser$.next(userInfos)).toHaveBeenCalledWith(userInfos)
   }));
   it("should reassign token in cookie", fakeAsync(()=>{
     const newToken = "1111111111111111111111"

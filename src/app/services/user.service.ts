@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { BodyMail, DataMenuProfilUser, User } from '../shared/models/user.model';
 
@@ -44,6 +44,40 @@ export class UserService {
         }else{
           return {message: "echec de l'envoi", status: false}
         }
+      })
+    )
+  }
+  addTokenInUser(id: string, token: string): void {
+    this.http.put(this.URL_API + "users/" + id, {confirmationToken: token}).subscribe((res)=>{
+      console.log(res);
+    })
+  }
+  updateUserInfos(body:any, id: string | null | undefined): Observable<{message: string, status: boolean}>{
+    return this.http.put(this.URL_API + "users/" + id, body).pipe(
+      first(),
+      map((data:any)=>{
+        if(data.name && data.adresse){
+       const updatedUser: User = {
+         adress: {
+           street :data.adresse.rue,
+           city: data.adresse.city,
+           numero:data.adresse.numero,
+           postal: data.adresse.postal
+          },
+          confirmed: data.confirmed,
+          email: data.email,
+          firstname: data.firstname,
+          id: data._id,
+          name: data.name,
+          role: data.role.type,
+          tel: data.tel
+       }
+        this.subjectUser$.next(updatedUser)
+        
+        return {message: "Vos données ont bien été modifiées", status : true}
+      }else{
+        return { message: "Un problème est survenu", status: false }
+      }
       })
     )
   }

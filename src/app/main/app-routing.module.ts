@@ -11,12 +11,7 @@ import { StoreResolver } from './resolvers/store.resolver';
 
 const routes: Routes = [
   {
-    path: "", pathMatch: "full", loadChildren: ()=> import('./home/home.module').then(m => m.HomeModule),
-    resolve: {
-      products: HomeProductsResolver,
-      categories: HomeCategoriesResolver,
-      stores: HomeStoresResolver
-    }
+    path: "", pathMatch: "full", loadChildren: ()=> import('./home/home.module').then(m => m.HomeModule)
   },
   {
     path: "boutique", loadChildren: ()=> import('../modules/container-boutique/container-boutique.module').then(m => m.ContainerBoutiqueModule),
@@ -45,9 +40,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   providers: [
-    HomeProductsResolver,
-    HomeCategoriesResolver,
-    HomeStoresResolver,
     CategoiesResolver,
     CategoiesPromoResolver,
     StoreResolver

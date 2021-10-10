@@ -1,1 +1,55 @@
-<p>form update works! {{subject}}</p>
+<div class="return">
+    <button class="btn-rounded"><mat-icon class="btn-return" routerLink="../..">keyboard_return</mat-icon></button>
+</div>
+<form *ngIf="loaded" class="form-group" [formGroup]="form">
+    <h2>Vous allez modifier votre {{subject}}</h2>
+    <mat-form-field appearance="fill" *ngIf="subject !== 'adresse'">
+        <mat-label>Votre 
+            <span *ngIf="subject === 'email'">nouvel</span>
+            <span *ngIf="subject === 'Nom' || subject === 'mot de passe' || subject === 'numéro de téléphone'">nouveau</span>
+            <span *ngIf="subject === 'adresse'">nouvelle</span>
+            {{subject}}</mat-label>
+        <input matInput [type]="typeOfControl" formControlName="name" *ngIf="subject === 'Nom'">
+        <input matInput [type]="typeOfControl" formControlName="email" *ngIf="subject === 'email'">
+        <input matInput [type]="typeOfControl" formControlName="tel" *ngIf="subject === 'numéro de téléphone'">
+        <input matInput [type]="typeOfControl" formControlName="password" *ngIf="subject === 'mot de passe'">
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="subject === 'mot de passe'">
+        <mat-label>Confirmez</mat-label>
+        <input matInput (input)="notMatchingPassword=false" [type]="typeOfControl" formControlName="confirm">
+        <p class="error" *ngIf="notMatchingPassword">Les deux passwords ne correspondent pas </p>
+        <p *ngIf="password?.errors?.error && password?.touched" class="error">
+            le mot de passe doit contenir au moins 6 caractères et inclure au moins un
+            chiffre et un caractère spécial ($£%§&[\@=\}*+])
+          </p>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="subject === 'adresse'">
+        <mat-label>N°</mat-label>
+        <input matInput type="text" formControlName="numero">
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="subject === 'adresse'">
+        <mat-label>Rue</mat-label>
+        <input matInput type="text" formControlName="rue">
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="subject === 'adresse'">
+        <mat-label>Code postal</mat-label>
+        <input matInput type="number" formControlName="postal">
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="subject === 'adresse'">
+        <mat-label>Commune</mat-label>
+       <mat-select formControlName="city">
+           <mat-option *ngFor="let city of cities" [value]="city">
+               {{city}}
+           </mat-option>
+       </mat-select>
+    </mat-form-field>
+    <p class="error" *ngIf="emptyField">Vous devez renseignez tous les champs </p>
+    <p class="error" *ngIf="messageError"> {{messageError}} </p>
+    <p *ngIf="message"> {{message}} </p>
+    <div class="flex-center">
+        <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
+    </div>
+</form>
+<div *ngIf="loading" class="flex-center w-100 vh-80">
+    <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>
+</div>

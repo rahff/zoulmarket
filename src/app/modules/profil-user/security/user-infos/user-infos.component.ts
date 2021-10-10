@@ -10,7 +10,7 @@ import { User } from 'src/app/shared/models/user.model';
 })
 export class UserInfosComponent implements OnInit {
 
-  public user!: User
+  public user!: User;
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {

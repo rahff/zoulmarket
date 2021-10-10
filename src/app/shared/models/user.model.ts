@@ -17,10 +17,12 @@ export interface User{
     firstname: string;
     email: string;
     tel: string;
-    numero: string;
-    street: string,
-    postal: number;
-    city: string;
+    adress: {
+        numero: string;
+        street: string,
+        postal: number;
+        city: string;
+    }
     id: string;
     confirmed: boolean,
     role: any
@@ -37,4 +39,8 @@ export interface BodyMail{
     tel: string;
     email: string;
     message: string
+}
+export interface AuthUser{
+    id: string;
+    confirmationToken: string
 }
