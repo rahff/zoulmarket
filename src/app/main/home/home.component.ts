@@ -39,16 +39,29 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
   }
+  public mobile: boolean = false;
   public onScreen: boolean = false;
   public promo!:Product[];
+  public categories: Category[] = [];
   public stores!:Store[];
   public Promocategories!: Category[];
   public subscription: Subscription = new Subscription();
   public tokenParam: string | null | undefined = null
   constructor(private activatedRoute: ActivatedRoute, 
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    if(window.innerWidth < 600){
+      this.mobile = true;
+      this.subscription.add(this.categoryService.getCategories().subscribe((data: Category[])=>{
+        if(data){
+          this.categories = data;
+        }else{
+          throw new Error("no data");
+        }
+      }))
+    }
     this.authService.getTokenAndIdUserFromCookies()
     this.onScreen = true;
     this.promo = this.activatedRoute.snapshot.data["products"];

@@ -1,7 +1,7 @@
 <nav class="nav">
   <div class="logo" routerLink='/'>
     <img class="img-logo" src="../../../assets/navbar/logo.png" alt="logo" />
-    ZoulMarket.fr
+   <span class="brand">ZoulMarket.fr</span> 
   </div>
   <div class="navbar-nav">
     <ul class="navbar">
@@ -30,7 +30,7 @@
         </button>
       </form>
       <li class="nav-item">Item 2</li>
-      <li *ngIf="!username" [routerLink]="['connection']" class="nav-item"> {{username}} <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Votre compte">
+      <li *ngIf="!username" [routerLink]="['connection']" class="nav-item"> <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Votre compte">
       <li (mouseenter)="showOptions($event)" *ngIf="username"  class="nav-item flex col rel"> {{username}}
         <span  (mouseenter)="keepShowingElement($event)" (mouseleave)="keepShowingElement($event)" #onProfil class="onProfil">
           <ul class="flex-center col w-100">
@@ -46,13 +46,26 @@
     </ul>
   </div>
   <div class="navbar-mobile">
-    <ul class="navbar-mobile">
-      <li class="nav-item-mobile"></li>
-      <li class="nav-item-mobile"></li>
-      <li class="nav-item-mobile"></li>
-      <li class="nav-item-mobile"></li>
-      <li class="nav-item-mobile"></li>
+ 
+    <ul [@ulMobile]="stateUlMobile" class="mobile">
+      <li *ngIf="!username" class="nav-item-mobile">
+        <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Se connecter">
+        <span class="li-item-mobile">Se connecter</span>
+      </li>
+      <li *ngIf="username" class="p-1" [routerLink]="['profil', userId]">Votre Profil</li> 
+      <li *ngIf="username" (click)="deconnection()" class="p-1">Se déconnecter</li>
+      <li class="nav-item-mobile">Menu Item</li>
+      <li class="nav-item-mobile">Menu Item</li>
+      <li class="nav-item-mobile">Menu Item</li>
     </ul>
-    <button type="button"></button>
+    <button (click)="openMenu()" class="btn-menu" type="button">
+      MENU
+      <div class="col">
+        <span class="bar-menu"></span>
+        <span class="bar-menu"></span>
+        <span class="bar-menu"></span>
+      </div>
+     
+    </button>
   </div>
 </nav>

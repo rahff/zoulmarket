@@ -7,9 +7,10 @@
             <span class="butt"></span>
             <span class="butt"></span>
         </div>
-        <span>MENU</span>
+        <span *ngIf="mobile">TOUTES LES CATEGORIES</span>
+        <span *ngIf="!mobile">MENU</span>
         </button>
-        <ul class="flex w-90">
+        <ul *ngIf="!mobile" class="flex w-90">
             <li class="sub-nav-item">list item</li>
             <li class="sub-nav-item">list item</li>
             <li class="sub-nav-item">list item</li>
@@ -19,18 +20,22 @@
     </nav>
 </header>
 <aside [@menu]="stateMenu" role="menu" class="menu">
-<header class="flex p-2 head-aside">Header aside <button (click)="toggleMenu($event)" class="mat-btn" mat-buton><img src="../../../assets/home/close_black_24dp.svg" alt="close" class="icon"></button></header>
-<ul class="inside">
+<header *ngIf="!mobile" class="flex p-2 head-aside">Header aside <button (click)="toggleMenu($event)" class="mat-btn" mat-buton><img src="../../../assets/home/close_black_24dp.svg" alt="close" class="icon"></button></header>
+<header *ngIf="mobile" class="flex p-2 head-aside">Catégories de produits <button (click)="toggleMenu($event)" class="mat-btn" mat-buton><img src="../../../assets/home/close_black_24dp.svg" alt="close" class="icon"></button></header>
+<ul *ngIf="mobile" class="inside">
+    <li *ngFor="let category of categories" class="aside-item"[routerLink]="['/boutique', 'products', category.id]"> {{ category.name }} </li>
+</ul>
+<ul *ngIf="!mobile" class="inside">
     <li class="aside-item">item aside</li>
     <li class="aside-item">item aside</li>
     <li class="aside-item">item aside</li>
 </ul>
-<ul class="inside">
+<ul *ngIf="!mobile" class="inside">
     <li class="aside-item">item aside</li>
     <li class="aside-item">item aside</li>
     <li class="aside-item">item aside</li>
 </ul>
-<ul class="inside">
+<ul *ngIf="!mobile" class="inside">
     <li class="aside-item">item aside</li>
     <li class="aside-item">item aside</li>
     <li class="aside-item">item aside</li>

@@ -33,3 +33,25 @@
     margin: 0 auto;
     width: 50%;
 }
+@media screen and (max-width: 575px) {
+    .wrapper{
+        width: 100%;
+    }
+    .img-content{
+        flex-direction: column;
+    }
+    .img-content img{
+        width: 100%;
+        margin: 0 auto;
+        display: block
+    }
+    .arrow-right img, .arrow-left img{
+        width: 50px;
+    }
+    .img{
+        width: 100%;
+    }
+    .title h1{
+        font-size: 30px;
+    }
+}

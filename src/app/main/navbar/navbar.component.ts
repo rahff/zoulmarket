@@ -1,4 +1,5 @@
 
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -12,7 +13,16 @@ import { User } from 'src/app/shared/models/user.model';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  animations: [
+    trigger("ulMobile", [
+      state("close", style("*")),
+      state("open", style({
+        height: "170px",
+      })),
+      transition("close <=> open", animate(500))
+    ])
+  ]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
@@ -21,6 +31,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public cartLength: number = 0;
   public username!:string | null;
   public userId!: string | null;
+  public stateUlMobile: string = "close";
   private subscription: Subscription = new Subscription()
   @ViewChild('ulOption') public ulOption!: ElementRef<HTMLUListElement>;
   @ViewChild('onProfil') public onProfil!: ElementRef<HTMLUListElement>;
@@ -54,6 +65,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subscription.add(this.cartService.cartLength$.subscribe((length: number)=>{
       this.cartLength = length
     }))
+  }
+  openMenu(): void {
+    if(this.stateUlMobile === "close"){
+      this.stateUlMobile = "open";
+    }else{
+      this.stateUlMobile = "close";
+    }
   }
   showListCategory(ev: Event): void {
     ev.stopPropagation();
