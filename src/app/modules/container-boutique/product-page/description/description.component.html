@@ -3,6 +3,9 @@
   <div class="content">
     {{ product.description }}
   </div>
+
+  <app-gallery *ngIf="onMobile" [alt]="product.name" [imgs]="product.img"></app-gallery>
+
   <div class="seller">
       <div role="link" [routerLink]="['/boutiques', product.store]"><span class="link"> Vendeur : {{ product.vendeur }}</span>
         <div>
@@ -13,6 +16,8 @@
             <mat-icon>star_outline</mat-icon>
         </div>
       </div>
+      <app-variation *ngIf="onMobile" [product]="product"></app-variation>
+
     </div>
   <div class="price">
     <p> Quantité: {{quantity}} </p>

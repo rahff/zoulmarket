@@ -54,3 +54,8 @@ header h1{
 .error{
     color: red;
 }
+@media screen and (max-width: 575px) {
+    .description{
+        padding: 5px;
+    }
+}

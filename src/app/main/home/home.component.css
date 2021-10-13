@@ -118,9 +118,22 @@ span.butt{
         padding: 10px 5px;
         flex-direction: column;
     }
-    .fr{
-        width: 90%;
-        margin: 15px auto;
-        
+    
+    header{
+        position: relative;
+    }
+    .icon-account{
+        position: absolute;
+        right: 3px;
+        top: 0px;
+    }
+    .bulle-vert{
+        background-color: var(--green);
+        padding: 5px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+    
     }
 }

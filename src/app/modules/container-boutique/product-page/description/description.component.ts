@@ -12,6 +12,7 @@ import { Product } from 'src/app/shared/models/product';
 export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
   @Input('product') public product!: Product;
   @Input('enableAddToCart') public enableAddToCart!: boolean;
+  @Input ('onMobile') public onMobile: boolean = false;
   public characteristics: string[] = [];
   public quantity: number = 1;
   public isMissedChooseSize: boolean = false
@@ -23,6 +24,9 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
     if(changes.product){
       if(changes.product?.currentValue){
         this.characteristics = this.extractCharacteristicsOfProduct(changes.product.currentValue.characteristics)
+      }
+      if(changes.onMobile?.currentValue){
+        this.onMobile = changes.onMobile.currentValue
       }
     }
     if(changes.enableAddToCart){

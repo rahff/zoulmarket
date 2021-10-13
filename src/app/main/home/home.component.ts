@@ -1,16 +1,15 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
-import { ProductService } from 'src/app/services/product.service';
-import { StoreService } from 'src/app/services/store.service';
+import { UserService } from 'src/app/services/user.service';
+
 import { Category } from 'src/app/shared/models/category.model';
 import { Product } from 'src/app/shared/models/product';
 import { Store } from 'src/app/shared/models/store';
-
-import { environment } from 'src/environments/environment';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public mobile: boolean = false;
   public onScreen: boolean = false;
   public promo!:Product[];
+  public userId: string | null = null;
   public categories: Category[] = [];
   public stores!:Store[];
   public Promocategories!: Category[];
@@ -49,7 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public tokenParam: string | null | undefined = null
   constructor(private activatedRoute: ActivatedRoute, 
               private authService: AuthService,
-              private categoryService: CategoryService) { }
+              private categoryService: CategoryService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
     if(window.innerWidth < 600){
@@ -59,6 +60,15 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.categories = data;
         }else{
           throw new Error("no data");
+        }
+      }))
+      this.subscription.add(this.userService.user$.subscribe((user: User | null)=>{
+        if(user){
+          this.userId = user.id;
+          console.log(user.id);
+          
+        }else{
+          this.userId = null
         }
       }))
     }

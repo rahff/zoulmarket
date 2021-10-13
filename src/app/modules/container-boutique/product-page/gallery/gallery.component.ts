@@ -1,5 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Product } from 'src/app/shared/models/product';
+import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -7,15 +6,12 @@ import { environment } from 'src/environments/environment';
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.css']
 })
-export class GalleryComponent implements OnInit, OnChanges {
+export class GalleryComponent implements OnInit {
   @Input('imgs') public imgs!: any[];
-  @Input('alt') public alt!:string;
+  @Input('alt') public alt:string = "";
   public URL_IMG = environment.URL_IMG
   constructor() { }
 
-  ngOnChanges(changes: SimpleChanges):void{
-    
-  }
   ngOnInit(): void {
   }
   changeImg(imgs: any, index: number): void {

@@ -44,7 +44,6 @@ body{
     width: 66%;
     margin: 50px auto;
 }
-
 .home-carousel {
     background: linear-gradient( -180deg, #007DAD, #fff);
 }
@@ -123,6 +122,13 @@ h1,h2,h3{
 .fr{
     width: 15%;
     height: 400px;
+}
+@media screen and (max-width: 575px) {
+    .fr{
+        width: 90%;
+        margin: 15px auto;
+        
+    }
 }
 .mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary {
     transition: 300ms;

@@ -39,6 +39,7 @@
     }
     .img-content{
         flex-direction: column;
+        width: 250px;
     }
     .img-content img{
         width: 100%;

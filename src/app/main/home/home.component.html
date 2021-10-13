@@ -7,9 +7,13 @@
             <span class="butt"></span>
             <span class="butt"></span>
         </div>
-        <span *ngIf="mobile">TOUTES LES CATEGORIES</span>
+        <span *ngIf="mobile">CATEGORIES</span>
         <span *ngIf="!mobile">MENU</span>
         </button>
+        <span *ngIf="userId" class="icon-account" [routerLink]="['profil', userId]">
+            <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Votre compte">
+            <span class="bulle-vert"></span>
+        </span>
         <ul *ngIf="!mobile" class="flex w-90">
             <li class="sub-nav-item">list item</li>
             <li class="sub-nav-item">list item</li>

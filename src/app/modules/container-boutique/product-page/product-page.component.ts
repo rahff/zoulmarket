@@ -6,6 +6,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { ItemCart } from 'src/app/shared/models/item-cart.model';
 import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
+import { defineSizeOfProduct, isVariable, VariationService } from './utils';
 
 
 
@@ -15,11 +16,12 @@ import { Variation } from 'src/app/shared/models/variation.model';
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.css']
 })
-export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductPageComponent implements OnInit, OnDestroy {
 
   public onScreen: boolean = false;
   public product!: Product;
-  private subciption: Subscription = new Subscription()
+  public onMobile: boolean = false;
+  public subciption: Subscription = new Subscription()
   public itemForCart: any;
   public variations: Variation[] | null | undefined  = null
   public nameOfProduct: string = "";
@@ -27,53 +29,42 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentSize: any[] | null = null;
   public choicedSize: any;
   public enableAddToCart: boolean = false;
-  constructor(private productService: ProductService,
-              private activatedRoute: ActivatedRoute,
-              private cartService: CartService) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private cartService: CartService,
+              private variationService: VariationService) { }
 
   ngOnInit(): void {
+    if(window.innerWidth < 600){
+      this.onMobile = true;    
+    }
     this.onScreen = true;
     this.product = this.activatedRoute.snapshot.data["product"]
     this.nameOfProduct = this.product.name;
-          this.variations = this.product.variations
-          if(this.product.pointures){
-            this.sizeMode = "Pointure";
-            this.currentSize = this.product.pointures;
-          }else if(this.product.sizes){
-            this.sizeMode = "Taille";
-            this.currentSize = this.product.sizes
-          }else if(this.product.sizes_XXS_TO_XXXL){
-            this.sizeMode = "Taille";    
-            this.currentSize = this.product.sizes_XXS_TO_XXXL
-          }
-          if(!this.product.pointures && !this.product.sizes && !this.product.sizes_XXS_TO_XXXL){
-            this.enableAddToCart = true
-          }
-          if(!this.product.variations){
-            this.product.variations = []
-          }
-  }
-  ngAfterViewInit(): void {
-  }
-  changeVariationData(obj: { variation: Variation, index: number}): void{
-    if(this.variations){
-      this.variations[obj.index] = {
-        description: this.product.description,
-        id: this.product.id,
-        img: this.product.img,
-        name: this.product.name,
-        price: this.product.price
+    if(isVariable(this.product)){
+      this.variations = this.product.variations
+    }else{
+      this.product.variations = []
+    }
+    this.subciption.add(this.variationService.variation$.subscribe((obj)=>{
+      if(this.variations){
+        if(obj){
+        this.variations[obj.index] = obj.variation;
+        this.product = {
+          ...this.product,
+          description: obj.variation.description,
+          img: obj.variation.img,
+          name: obj.variation.name,
+          price: obj.variation.price,
+          id: obj.variation.id,
+        }
       }
-    }
-    this.product = {
-      ...this.product,
-      description: obj.variation.description,
-      img: obj.variation.img,
-      name: obj.variation.name,
-      price: obj.variation.price,
-      id: obj.variation.id,
-    }
-    
+      }
+    }))
+    this.subciption.add(this.variationService.size$.subscribe((size)=>{
+      this.setChoisedSize(size);
+    }))
+    this.sizeMode = defineSizeOfProduct(this.product).sizeMode;
+    this.currentSize = defineSizeOfProduct(this.product).currentSize
   }
   setChoisedSize(size: any){
     this.choicedSize = size

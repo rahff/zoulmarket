@@ -1,15 +1,21 @@
-<main class="flex" *ngIf="product">
+<main class="flex" *ngIf="product && !onMobile">
     <div class="w-50">
   <app-gallery [alt]="nameOfProduct" [imgs]="product.img"></app-gallery>
 </div>
 <div class="w-40">
-  <app-description [enableAddToCart]="enableAddToCart" [product]="product" (EmmitItemForCart)="sendProductToCart($event)" ></app-description>
-  <app-variation (variationEmitter)="changeVariationData($event)" (sizeEmitter)="setChoisedSize($event)" [currentSize]="currentSize" [sizeMode]="sizeMode" [variations]="variations" ></app-variation>
+  <app-description [enableAddToCart]="enableAddToCart" [product]="product" (EmmitItemForCart)="sendProductToCart($event)" [onMobile]="onMobile" ></app-description>
+  <app-variation  [product]="product"></app-variation>
 </div>
 <div class="w-10">
   <div class="variation col">
   </div>
 </div>
 </main>
+<!-- //MOBILE DEVICE// -->
+<main class="flex col" *ngIf="product && onMobile">
+  <div class="w-100">
+    <app-description [onMobile]="onMobile" [enableAddToCart]="enableAddToCart" [product]="product" (EmmitItemForCart)="sendProductToCart($event)" ></app-description>
+  </div>
+</main>
 <app-loading [detectRoutingOnGoing]="onScreen"></app-loading>
-<pre>{{ product | json }}</pre>
+

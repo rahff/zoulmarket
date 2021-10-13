@@ -30,7 +30,7 @@
         </button>
       </form>
       <li class="nav-item">Item 2</li>
-      <li *ngIf="!username" [routerLink]="['connection']" class="nav-item"> <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Votre compte">
+      <li *ngIf="!username" [routerLink]="['connection']" class="nav-item"> <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Connection">
       <li (mouseenter)="showOptions($event)" *ngIf="username"  class="nav-item flex col rel"> {{username}}
         <span  (mouseenter)="keepShowingElement($event)" (mouseleave)="keepShowingElement($event)" #onProfil class="onProfil">
           <ul class="flex-center col w-100">
@@ -48,15 +48,15 @@
   <div class="navbar-mobile">
  
     <ul [@ulMobile]="stateUlMobile" class="mobile">
-      <li *ngIf="!username" class="nav-item-mobile">
+      <li *ngIf="!username" class="nav-item-mobile" (click)="openMenu()" [routerLink]="['connection']">
         <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Se connecter">
         <span class="li-item-mobile">Se connecter</span>
       </li>
-      <li *ngIf="username" class="p-1" [routerLink]="['profil', userId]">Votre Profil</li> 
+      <li *ngIf="username" class="p-1"  (click)="openMenu()" [routerLink]="['profil', userId]">Votre Profil</li> 
       <li *ngIf="username" (click)="deconnection()" class="p-1">Se déconnecter</li>
-      <li class="nav-item-mobile">Menu Item</li>
-      <li class="nav-item-mobile">Menu Item</li>
-      <li class="nav-item-mobile">Menu Item</li>
+      <li class="nav-item-mobile" (click)="openMenu()">Menu Item</li>
+      <li class="nav-item-mobile" (click)="openMenu()">Menu Item</li>
+      <li class="nav-item-mobile" (click)="openMenu()">Menu Item</li>
     </ul>
     <button (click)="openMenu()" class="btn-menu" type="button">
       MENU

@@ -3,4 +3,24 @@
 }
 .flex{
     justify-content: space-around;
+    margin:30px auto;
+}
+@media screen and (max-width: 575px) {
+    main.flex.container{
+        padding: 5px 3px;
+    }
+    .container{
+        padding: 30px 3px;
+    }
+    .colMobile{
+        flex-direction: column;
+    }
+    .flex{
+        margin: 15px auto;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    h1{
+        margin-bottom: 10px;
+    }
 }
