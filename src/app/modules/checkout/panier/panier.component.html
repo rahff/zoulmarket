@@ -115,12 +115,18 @@
           PASSER COMMANDE {{total | number}} €
       </button>
     </div>
-    <h3>Plus d'articles</h3>
-    <div class="suggestions" *ngIf="promo$ | async as products">
+    <h3 *ngIf="!onMobile">Plus d'articles</h3>
+    <div class="suggestions" *ngIf="!onMobile && (promo$ | async) as products">
       <div class="promo" *ngFor="let product of products">
         <app-card-product [product]="product"></app-card-product>
       </div>
     </div>
+  </div>
+</div>
+<h3 *ngIf="onMobile">Plus d'articles</h3>
+<div class="suggestions" *ngIf="onMobile && (promo$ | async) as products">
+  <div class="promo" *ngFor="let product of products">
+    <app-card-product [product]="product"></app-card-product>
   </div>
 </div>
 <div *ngIf="loading" class="flex-center w-100 vh-80">

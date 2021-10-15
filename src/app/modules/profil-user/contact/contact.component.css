@@ -14,3 +14,6 @@
     border: 1px solid lightslategray;
     border-radius: 5px;
 }
+@media screen and (max-width: 575px) {
+    
+}

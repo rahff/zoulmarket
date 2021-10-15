@@ -12,3 +12,18 @@
     justify-content: space-around;
     margin: 35px auto;
 }
+@media screen and (max-width: 575px) {
+    .container{
+        padding: 5px;
+        flex-direction: column;
+    }
+    .wrapper-flex{
+        width: 100%;
+        flex-direction: column;
+        margin: 20px auto;
+        align-items: center;
+    }
+    .container-card{
+        margin: 15px 0;
+    }
+}

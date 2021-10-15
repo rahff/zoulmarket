@@ -125,9 +125,16 @@ h1,h2,h3{
 }
 @media screen and (max-width: 575px) {
     .fr{
-        width: 90%;
+        width:45%;
         margin: 15px auto;
-        
+        height: 250px;
+    }
+    .mat-card-title{
+        font-size: 15px;
+    }
+    .form-group{
+        width: 95%;
+        margin: 30px auto;
     }
 }
 .mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary {

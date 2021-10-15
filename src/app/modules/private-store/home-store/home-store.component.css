@@ -11,3 +11,8 @@ header{
     cursor: pointer;
     margin: 0 20px;
 }
+@media screen and (max-width: 575px) {
+    main.flex{
+        flex-wrap: wrap;
+    }
+}

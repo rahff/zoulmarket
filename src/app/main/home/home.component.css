@@ -115,8 +115,9 @@ span.butt{
     }
     .container-fixed{
        
+        display: flex;
         padding: 10px 5px;
-        flex-direction: column;
+        flex-wrap: wrap;
     }
     
     header{

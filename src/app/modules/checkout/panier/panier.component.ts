@@ -12,6 +12,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 import { Cart } from './cart';
 import { AuthService } from 'src/app/services/auth.service';
+import { BlockScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-panier',
@@ -21,6 +22,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class PanierComponent implements OnInit, OnDestroy {
 
   public onScreen: boolean = false;
+  public onMobile: boolean = false;
   public cart!: Cart;
   public diameter: number = 400
   public itemsCartForTemplate: ItemCart[] = []
@@ -78,12 +80,13 @@ export class PanierComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if(window.innerWidth < 600){
-      this.diameter = 200
+      this.diameter = 200;
+      this.onMobile = true;
     }
-    this.promo$ = this.productService.PromoSubject.pipe();
-    if (!this.promo$._isScalar) {
-      this.promo$ = this.productService.getProductPromo().pipe();
-    }
+      this.promo$ = this.productService.PromoSubject.pipe();
+      if (!this.promo$._isScalar) {
+        this.promo$ = this.productService.getProductPromo().pipe();
+      }
     this.userServive.user$.subscribe((user) => {
       if(user){
         this.user = user;

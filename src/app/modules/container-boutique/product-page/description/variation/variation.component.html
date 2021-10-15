@@ -1,5 +1,5 @@
 <div #container class="flex col">
-  <mat-form-field appearance="fill" *ngIf="currentSize">
+  <mat-form-field appearance="fill" *ngIf="currentSize?.length">
     <mat-label> {{sizeMode}} </mat-label>
     <mat-select #inputSize (valueChange)="setValueOfSize()" >
       <mat-option *ngFor="let size of currentSize" [value]="size">
