@@ -77,9 +77,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
   sendProductToCart(obj: any): void {
     const itemForCart: ItemCart = {
-
       quantity: obj.quantity,
-      size: this.choicedSize || null,
+      size: this.choicedSize,
       cost: +(obj.product.price *obj.quantity).toFixed(2),
       product: obj.product
     } 
