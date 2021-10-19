@@ -55,16 +55,21 @@ export class ProductPageComponent implements OnInit, OnDestroy {
           img: obj.variation.img,
           name: obj.variation.name,
           price: obj.variation.price,
-          id: obj.variation.id,
+          FNSKU : obj.variation.FNSKU
         }
       }
       }
     }))
     this.subciption.add(this.variationService.size$.subscribe((size)=>{
-      this.setChoisedSize(size);
+      if(size){
+        this.setChoisedSize(size);
+      }
     }))
     this.sizeMode = defineSizeOfProduct(this.product).sizeMode;
     this.currentSize = defineSizeOfProduct(this.product).currentSize
+    if(!this.currentSize){
+      this.enableAddToCart = true
+    }
   }
   setChoisedSize(size: any){
     this.choicedSize = size
@@ -72,9 +77,11 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
   sendProductToCart(obj: any): void {
     const itemForCart: ItemCart = {
-      product: obj.product,
+
       quantity: obj.quantity,
-      cost: +(obj.product.price *obj.quantity).toFixed(2)
+      size: this.choicedSize || null,
+      cost: +(obj.product.price *obj.quantity).toFixed(2),
+      product: obj.product
     } 
     this.cartService.addItemToCart(itemForCart)    
   }

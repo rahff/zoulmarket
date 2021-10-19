@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-import { CheckoutSession, Order } from '../shared/models/order.model';
+import { CheckoutSession, Order, OrderItem } from '../shared/models/order.model';
 import { User } from '../shared/models/user.model';
 declare const Stripe: any
 @Injectable({
@@ -15,8 +15,8 @@ export class OrderService {
   
   private URL_API = environment.URL_API
   constructor(private http: HttpClient) { }
-  startCheckout(productIds: string[], productIdsAndQty: any[], user: User): Observable<CheckoutSession>{
-    return this.http.post<CheckoutSession>(this.URL_API + "initCheckout", {productIds, productIdsAndQty ,callbackUrl:this.buildCallbackUrl(), client: user})
+  startCheckout( orderItem: OrderItem[], user: User): Observable<CheckoutSession>{
+    return this.http.post<CheckoutSession>(this.URL_API + "initCheckout", {orderItem ,callbackUrl:this.buildCallbackUrl(), client: user})
   }
   postNewOrder(orders:Order[]): Observable<{order: Order | null, result: string, status: number}>{
      console.log(orders);
@@ -46,5 +46,12 @@ export class OrderService {
     stripe.redirectToCheckout({
       sessionId: session.stripeSessionId
     })
+  }
+  confirmOrder(id: string | null): Observable<boolean>{
+    return this.http.put(this.URL_API + "orders/" + id , {status: true}).pipe(
+      map((res)=>{
+        return true
+      })
+    )
   }
 }

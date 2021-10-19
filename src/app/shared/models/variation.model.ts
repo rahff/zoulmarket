@@ -5,4 +5,5 @@ export interface Variation {
     img: any[];
     stock?: number;
     id: string;
+    FNSKU: string
 }

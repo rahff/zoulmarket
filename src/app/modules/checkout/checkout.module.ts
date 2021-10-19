@@ -9,6 +9,7 @@ import { LoadingModule } from 'src/app/shared/loading/loading.module';
 
 
 
+
 @NgModule({
   declarations: [
     PanierComponent,

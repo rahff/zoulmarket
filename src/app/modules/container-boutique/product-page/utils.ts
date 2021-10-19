@@ -21,7 +21,8 @@ export  function defineSizeOfProduct(product: Product): {sizeMode: "Taille" | "P
         }
         if(!product.pointures && !product.sizes && !product.sizes_XXS_TO_XXXL){
             sizeMode = null,
-            currentSize = []
+            currentSize = null
+            
           }
    return { currentSize, sizeMode }
 }

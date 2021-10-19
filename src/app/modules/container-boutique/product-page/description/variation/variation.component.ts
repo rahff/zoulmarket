@@ -38,7 +38,7 @@ export class VariationComponent implements OnInit, OnChanges {
   }
   setValueOfSize(){
   this.valueSize = this.inputSize.value
-  this.sizeEmitter.emit(this.valueSize)  
+  this.variationService.setSizeForProduct(this.valueSize);
   }
   changeVariation(variation: Variation, index: number): void{
    this.variationService.changeVariationData({variation, index})

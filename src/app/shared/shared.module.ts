@@ -15,10 +15,6 @@ import { CardProductComponent } from './components/card-product/card-product.com
 import { LoadingModule } from './loading/loading.module';
 
 
-
-
-
-
 @NgModule({
   declarations: [
     CardProductComponent,
@@ -29,7 +25,7 @@ import { LoadingModule } from './loading/loading.module';
     ProductListComponent,
     ActiveDirective,
     VariationComponent,
-    ChangeQuantityComponent,
+    ChangeQuantityComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +33,8 @@ import { LoadingModule } from './loading/loading.module';
     FormsModule,
     MaterialModule,
     RouterModule,
-    LoadingModule
+    LoadingModule,
+    
   ],
   exports: [
     CommonModule,
@@ -52,7 +49,8 @@ import { LoadingModule } from './loading/loading.module';
     ProductListComponent,
     ActiveDirective,
     ChangeQuantityComponent,
-    LoadingModule
+    LoadingModule,
+
   ],
   
   

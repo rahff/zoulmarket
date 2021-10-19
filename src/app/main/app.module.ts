@@ -12,6 +12,7 @@ import { LoadingModule } from '../shared/loading/loading.module';
 import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
     }),
     BrowserAnimationsModule,
     HttpClientModule,
-    LoadingModule
+    LoadingModule,
+   
   ],
   providers: [
     {

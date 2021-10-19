@@ -1,6 +1,5 @@
 export interface Order {
-  productId: string;
-  productName: string
+  items: OrderItem[]
   adresse_livraison: {
     numero: string;
     street: string;
@@ -15,4 +14,9 @@ export interface Order {
 export interface CheckoutSession {
   stripeSessionId: string;
   stripePk: string;
+}
+export interface OrderItem {
+  productId: string;
+  quantity: number;
+  FNSKU: {product: string, store: string, size: any};
 }

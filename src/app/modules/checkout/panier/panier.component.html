@@ -16,7 +16,10 @@
         <div class="info-item">
             <ul class="flex col">
           <li class="item">
-            {{ item.product.name }} 
+            {{ item.product.name }}
+          </li>
+          <li class="item" *ngIf="item.size">
+             taille: {{item.size}}
           </li>
           <li class="item">
             {{ item.product.description }}

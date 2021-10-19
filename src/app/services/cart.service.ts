@@ -37,4 +37,9 @@ export class CartService {
     this.cart$.next(this.cart$.value)
     this.cartLength$.next(this.cart$.value.length)
    }
+   reinitCart(): void {
+    this.cartLength$.next(0)
+     this.cart$.next([]);
+     localStorage.removeItem('cart')
+   }
 }

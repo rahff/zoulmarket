@@ -80,6 +80,7 @@ export class ProductService {
         price: data[i].price,
         id: data[i]._id,
         stock: data[i].stock,
+        FNSKU: data[i].FNSKU
       };
       result.push(variation);
     }

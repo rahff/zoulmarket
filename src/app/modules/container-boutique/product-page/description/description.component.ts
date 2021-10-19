@@ -2,6 +2,7 @@ import { Output, SimpleChanges, ViewChild } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Product } from 'src/app/shared/models/product';
+import { VariationService } from '../utils';
 
 @Component({
   selector: 'app-description',
@@ -15,9 +16,10 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
   @Input ('onMobile') public onMobile: boolean = false;
   public characteristics: string[] = [];
   public quantity: number = 1;
-  public isMissedChooseSize: boolean = false
+  public isMissedChooseSize: boolean = false;
+  public currentFNSKU!: string;
   @Output() private EmmitItemForCart: EventEmitter<any> = new EventEmitter<any>();
-  constructor() { 
+  constructor(private variationService: VariationService) { 
 
   }
   ngOnChanges(changes: SimpleChanges): void{
@@ -38,9 +40,15 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
   ngOnInit(): void {
-  
+    this.currentFNSKU = this.product.FNSKU
+  this.variationService.variation$.subscribe((variation)=>{
+    if(variation){
+      this.currentFNSKU = variation?.variation.FNSKU
+    }
+  })
     
   }
+  
   ngAfterViewInit(): void{
   }
   updateQuantity(quantity: number): void {
@@ -49,7 +57,7 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
   addProductToCart(): void {  
     if(this.enableAddToCart){
       this.isMissedChooseSize = false;
-
+      this.product.FNSKU = this.currentFNSKU;
       this.EmmitItemForCart.emit({product: {...this.product}, quantity: this.quantity })
     }else{
       this.isMissedChooseSize = true;

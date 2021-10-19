@@ -1,6 +1,6 @@
 
 import { ItemCart } from "src/app/shared/models/item-cart.model";
-import { Order } from "src/app/shared/models/order.model";
+import { Order, OrderItem } from "src/app/shared/models/order.model";
 import { User } from "src/app/shared/models/user.model";
 
 export class Cart  {
@@ -22,11 +22,11 @@ export class Cart  {
         }
         return total
     }
-    getProductIdsAndQty(): any[]{
-        const array: any[] = []
+    getItemOrder(): OrderItem[]{
+        const array: OrderItem[] = []
         this.items.forEach((item)=>{
-            const idProduct = {productId: item.product.id, quantity: item.quantity}
-            array.push(idProduct)
+            const order = {productId: item.product.id, quantity: item.quantity, FNSKU: {product :item.product.FNSKU, store: item.product.vendeur, size: item.size}  }
+            array.push(order)
         })
         return array
     }
@@ -44,9 +44,8 @@ export class Cart  {
             const order: Order = {
                 FNSKU: item.product.FNSKU,
                 adresse_livraison: {...this.user.adress,client:`${this.user.name + ' ' + this.user.firstname}`},
-                productId: item.product.id,
+                items: this.getItemOrder(),
                 quantity: item.quantity,
-                productName: item.product.name,
                 paypal_auth: null
             }
             arrayOrders.push(order)

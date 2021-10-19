@@ -11,8 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 import { Cart } from './cart';
-import { AuthService } from 'src/app/services/auth.service';
-import { BlockScrollStrategy } from '@angular/cdk/overlay';
+
 
 @Component({
   selector: 'app-panier',
@@ -108,9 +107,8 @@ export class PanierComponent implements OnInit, OnDestroy {
   initCheckout(){
     if(this.user){
       this.checkoutInit = true;
-      const productIds = this.cart.getProductIds();
-      const productIdsAndQty = this.cart.getProductIdsAndQty();
-      this.orderService.startCheckout(productIds, productIdsAndQty, this.user).subscribe((session)=>{
+      const orderItem = this.cart.getItemOrder();
+      this.orderService.startCheckout(orderItem, this.user).subscribe((session)=>{
         console.log(session);
         this.orderService.redirectToCheckout(session)
         this.checkoutInit = false
@@ -169,24 +167,10 @@ export class PanierComponent implements OnInit, OnDestroy {
   }
  
   reinitCart(): void {
-    
     this.total = 0;
     localStorage.removeItem('cart');
   }
-  makePayements(): Promise<{orderId: string | null}>{
-    return new Promise((resolve, reject) =>{
-      return new Promise((resolve, reject)=>{
-        const orders = this.cart.createOrderForItems()
-        this.orderService.postNewOrder(orders).subscribe((res)=>{
-          if(res.status === 200){
-            resolve(res.result)
-          }else{
-            reject(res.result)
-          }
-        })
-      })
-    })
-  }
+  
   
 ngOnDestroy(): void {
   this.onScreen = false;
