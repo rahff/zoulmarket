@@ -1,0 +1,47 @@
+
+<main *ngIf="!loading">
+<div class="wrapper" *ngFor="let purchase of purchases; let i=index">
+    <div class="status">
+        <mat-icon>place</mat-icon>
+        <span *ngIf="purchase.livraison">livré chez {{purchase.dataUser.name}} à {{purchase.dataUser.city}} </span>
+        <!-- || -->
+        <span *ngIf="!purchase.livraison">Bientôt livré chez {{purchase.dataUser.name}} à {{purchase.dataUser.city}}</span>
+    </div>
+    <div *ngFor="let item of purchase.subject">
+    <div class="img-description">
+        <div class="w-40">
+            <img class="thumbnail" [src]="URL_IMG + item.url_img" [alt]="item.name">
+        </div>
+        <div class="w-60 gray">
+            <span>Achat du {{purchase.createdAt | date:"dd/MM/yyyy"}}</span>
+            <span> {{item.name}} </span> 
+            <span> {{item.price}} € </span>
+        </div>
+    </div>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Actions
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+         <ul class="action-list">
+             <li (click)="addToCartAndRedirect(item)" class="action-item">Acheter de nouveau </li>
+             <li (click)="routeToRating(item.productId)" class="action-item">Donner un avis sue le produit</li>
+             <li class="action-item">Retourner l'article</li>
+         </ul>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+</div>
+</main>
+<div *ngIf="loading" class="flex-center w-100 vh-80">
+    <mat-spinner
+      color="primary"
+      mode="indeterminate"
+      [diameter]="diameter"
+    ></mat-spinner>
+  </div>
+  
+<!-- <pre>{{purchases | json}}</pre> -->

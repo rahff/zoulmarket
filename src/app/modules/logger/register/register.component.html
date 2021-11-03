@@ -1,3 +1,4 @@
+<app-sub-nav></app-sub-nav>
 <h1>Bienvenue sur ZoulMarket.fr</h1>
 <form *ngIf="loaded" class="form-group" [formGroup]="form">
     <div class="flex-center">
@@ -20,10 +21,16 @@
         <input matInput type="tel" formControlName="tel" />
       </mat-form-field>
     </div>
-    <div class="flex-center">
+    <div class="flex-center col">
+      <h2>Adresse</h2>
+      <div class="flex-center">
       <mat-form-field appearance="fill">
-        <mat-label>Adresse</mat-label>
-        <input matInput type="text" formControlName="adress" />
+        <mat-label>N°</mat-label>
+        <input matInput type="text" formControlName="numero" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Voie/libellé</mat-label>
+        <input matInput type="text" formControlName="street" />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Code postal</mat-label>
@@ -37,6 +44,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
     </div>
     <div class="flex-center">
       <mat-form-field appearance="fill">
@@ -63,10 +71,7 @@
           </div>
       </mat-form-field>
     </div>
-    <div>
-      <p *ngIf=message>{{ message }}</p>
-    </div>
-
+  
   <button (click)="onSubmit()" mat-raised-button color="primary" type="button">Envoyer</button>
 </form>
 <div *ngIf="loading" class="flex-center w-100 vh-80">

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../services/auth.guard';
 import { CategoiesPromoResolver } from './resolvers/categories-promo.resolver';
 import { CategoiesResolver } from './resolvers/categories.resolver';
 import { HomeCategoriesResolver } from './resolvers/home-categories.resolver';
@@ -21,7 +22,7 @@ const routes: Routes = [
     }
   },
   {
-    path: "connection", loadChildren: ()=> import('../modules/logger/logger.module').then(m => m.LoggerModule)
+    path: "connexion", loadChildren: ()=> import('../modules/logger/logger.module').then(m => m.LoggerModule)
   },
   {
     path: "boutiques/:id", loadChildren: ()=> import('../modules/private-store/private-store.module').then(m => m.PrivateStoreModule),
@@ -30,10 +31,10 @@ const routes: Routes = [
     }
   },
   {
-    path: "panier", loadChildren: ()=> import('../modules/checkout/checkout.module').then(m => m.CheckoutModule)
+    path: "panier", loadChildren: ()=> import('../modules/checkout/checkout.module').then(m => m.CheckoutModule), 
   },
   {
-    path: "profil", loadChildren: ()=> import('../modules/profil-user/profil-user.module').then(m => m.ProfilUserModule)
+    path: "profil", loadChildren: ()=> import('../modules/profil-user/profil-user.module').then(m => m.ProfilUserModule), 
   }
 ];
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, first, map, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { User, NewUser, UserLog } from '../shared/models/user.model';
+import { User, NewUser, UserLog, MailToUser } from '../shared/models/user.model';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -25,64 +25,54 @@ export class AuthService {
     this.getTokenAndIdUserFromCookies();    
   }
 
-  postCredentialsNewUser(body: NewUser): Promise<boolean | string> {
-    return new Promise((resolve, reject) => {
-      this.http.post(this.URL_API_REGISTER, body).pipe(first()).subscribe((response: any) => {
-        if (response.jwt) {
-          this.jwtToken = response.jwt;
-          document.cookie = `authzm=${this.jwtToken}`;
+  postCredentialsNewUser(body: NewUser): Observable<User | null> {
+     return this.http.post(this.URL_API_REGISTER, body).pipe(
+       map((response: any)=>{
+         if(response.user){
+           console.log("response backend",response);
           this.userService.subjectUser$.next(response.user);
           document.cookie = `iduserzm=${response.user.id}`;
-          document.cookie = `user=${response.user}`;
-          resolve(true);
-        } else {
-          reject("Il y a eu un problème...Veuillez réessayer s'il vous palît");
-        }
-      });
-    });
+          document.cookie = `user=${JSON.stringify(response.user)}`;
+          return response.user
+         }else {
+           return null
+         }
+       }))
+          
+          
+    
+  
   }
-  postLoginUser(body: UserLog): Promise<{user: User, token: string}> {
-    return new Promise((resolve, reject) => {
-      this.http.post(this.URL_API_LOGIN, body).pipe(first()).subscribe(
-        (response: any) => {    
-          if (response.jwt) {
-            this.jwtToken = response.jwt;
-            this.userService.subjectUser$.next({
-              adress: {
-                street: response.user.adresse.rue,
-                city: response.user.adresse.city,
-                postal: response.user.adresse.postal,
-                numero: response.user.adresse.numero
-              },
-              confirmed: response.user.confirmed,
-              email: response.user.email,
-              firstname: response.user.firstname,
-              id: response.user.id,
+  postLoginUser(body: UserLog):Observable<{user: User | null, token: string | null}> {
+      return this.http.post(this.URL_API_LOGIN, body).pipe(
+        map((response: any)=>{
+        if (response.jwt) {        
+          this.jwtToken = response.jwt;
+          const user: User = {
+            adresse: {
+              rue: response.user.adresse.rue,
+              city: response.user.adresse.city,
+              postal: response.user.adresse.postal,
+              numero: response.user.adresse.numero,
               name: response.user.name,
-              role: response.user.role,
-              tel: response.user.tel,
-            });
-            resolve({ user:{
-              adress: {
-                street: response.user.adresse.rue,
-                city: response.user.adresse.city,
-                postal: response.user.adresse.postal,
-                numero: response.user.adresse.numero
-              },
-              confirmed: response.user.confirmed,
-              email: response.user.email,
-              firstname: response.user.firstname,
-              id: response.user.id,
-              name: response.user.name,
-              role: response.user.role,
-              tel: response.user.tel,
-            },token: response.jwt});
-          } else {
-            reject("Vos indentifiants sont incorrects");
+              firstname: response.user.firstname
+            },
+            confirmed: response.user.confirmed,
+            email: response.user.email,
+            firstname: response.user.firstname,
+            id: response.user.id,
+            name: response.user.name,
+            role: response.user.role,
+            tel: response.user.tel,
+            orders: response.orders
           }
+          this.userService.subjectUser$.next(user);
+          document.cookie = `user=${JSON.stringify(user)};expires=${this.expirationCookieAuth}`;
+            return { user: response.user, token: response.jwt}
+        } else{
+          return {user: null, token: null}
         }
-      );
-    });
+      }))
   }
   getTokenAndIdUserFromCookies(): void {
     const allCookiesInArray: any[] = document.cookie.split(';');
@@ -101,8 +91,12 @@ export class AuthService {
       this.idOfCurrentUser = allCookieInObject.iduserzm.split('"')[1];
     }
     if(this.jwtToken && this.idOfCurrentUser){
-      this.getUserInfo(this.idOfCurrentUser).subscribe((res)=>{
-        console.log(res);
+      this.getUserInfo(this.idOfCurrentUser).subscribe((user: User | null)=>{
+        if(user){
+          console.log(user);
+          
+          this.userService.subjectUser$.next(user)
+        }
       })
     }
   }
@@ -116,46 +110,16 @@ export class AuthService {
         })
         .pipe(
           first(),
-          tap((data: any) => {
-            this.userService.subjectUser$.next({
-              adress:{
-                street: data.adresse.rue,
-                city: data.adresse.city,
-                postal: data.adresse.postal,
-                numero: data.adresse.numero
-              },
-              confirmed: data.confirmed,
-              email: data.email,
-              firstname: data.firstname,
-              id: data.id,
-              name: data.name,
-              role: data.role,
-              tel: data.tel,
-            });
-          }),
           map((data: any)=>{
-            document.cookie = `user=${JSON.stringify({
-              adress: {
-                street: data.adresse.rue,
-                city: data.adresse.city,
+            const user: User = {
+              adresse:{
                 postal: data.adresse.postal,
-                numero: data.adresse.numero
-              },
-              confirmed: data.confirmed,
-              email: data.email,
-              firstname: data.firstname,
-              id: data.id,
-              name: data.name,
-              role: data.role,
-              tel: data.tel
-            })};expires=${this.expirationCookieAuth}`;
-            return {
-              adress: {
-                street: data.adresse.rue,
                 city: data.adresse.city,
-                postal: data.adresse.postal,
-                numero: data.adresse.numero
-              },
+                numero:data.adresse.numero,
+                rue: data.adresse.rue,
+                name: data.name,
+                firstname: data.firstname
+            },
               confirmed: data.confirmed,
               email: data.email,
               firstname: data.firstname,
@@ -163,7 +127,10 @@ export class AuthService {
               name: data.name,
               role: data.role,
               tel: data.tel,
+              orders: data.orders
             }
+            document.cookie = `user=${JSON.stringify(user)};expires=${this.expirationCookieAuth}`;
+            return user
           }),
           catchError(() => {
             console.log('prob');
@@ -179,5 +146,22 @@ export class AuthService {
     document.cookie=`user=;expires=152`;
     document.cookie= `authzm=;expires=152}`;
     document.cookie= `iduserzm=;expires=152}`;
+  }
+  resetPasswordProcess(body:any): Observable<boolean>{
+    return this.http.post('http://localhost:1337/auth/reset-password', body).pipe(
+      map((res: any)=>{
+        console.log(res);
+        return true
+      })
+    )
+  }
+  triggerConfirmationMail(userInfos: MailToUser): Observable<boolean>{
+    
+    return this.http.post(this.URL_API + "emailverification", userInfos.to).pipe(
+      map((res: any)=>{
+       console.log(res);
+       return true
+      })
+    )
   }
 }

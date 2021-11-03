@@ -13,6 +13,7 @@ import { VariationComponent } from '../modules/container-boutique/product-page/d
 import { ProductPageComponent } from '../modules/container-boutique/product-page/product-page.component';
 import { CardProductComponent } from './components/card-product/card-product.component';
 import { LoadingModule } from './loading/loading.module';
+import { SubNavComponent } from './components/sub-nav/sub-nav.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { LoadingModule } from './loading/loading.module';
     ProductListComponent,
     ActiveDirective,
     VariationComponent,
-    ChangeQuantityComponent
+    ChangeQuantityComponent,
+    SubNavComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { LoadingModule } from './loading/loading.module';
     ActiveDirective,
     ChangeQuantityComponent,
     LoadingModule,
+    SubNavComponent
 
   ],
   

@@ -103,7 +103,8 @@ export class CategoryService {
             name: data[i].name,
             price: data[i].price,
             vendeur: data[i].vendeur,
-            FNSKU: data[i].FNSKU
+            FNSKU: data[i].FNSKU,
+            avis: data[i].avis
           }
           arrayProduct.push(product)
         }
@@ -133,7 +134,8 @@ export class CategoryService {
           name: dataProduct.name,
           vendeur: dataProduct.vendeur,
           description: '',
-          FNSKU: dataProduct.FNSKU
+          FNSKU: dataProduct.FNSKU,
+          avis: dataProduct.avis
         }
         arrayProduct.push(product)
        });

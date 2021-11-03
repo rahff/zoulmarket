@@ -1,5 +1,5 @@
 <nav class="nav">
-  <div class="logo" routerLink='/'>
+  <div class="logo-nav" routerLink='/'>
     <img class="img-logo" src="../../../assets/navbar/logo.png" alt="logo" />
    <span class="brand">ZoulMarket.fr</span> 
   </div>
@@ -30,25 +30,28 @@
         </button>
       </form>
       <li class="nav-item">Item 2</li>
-      <li *ngIf="!username" [routerLink]="['connection']" class="nav-item"> <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Connection">
+      <li *ngIf="!username" [routerLink]="['connexion']" class="nav-item">
+         <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Connection">
+         Se connecter
+      </li>
       <li (mouseenter)="showOptions($event)" *ngIf="username"  class="nav-item flex col rel"> {{username}}
         <span  (mouseenter)="keepShowingElement($event)" (mouseleave)="keepShowingElement($event)" #onProfil class="onProfil">
           <ul class="flex-center col w-100">
-            <li class="p-1" [routerLink]="['profil', userId]">Votre Profil</li> 
+            <li class="p-1" (click)="navigateOnProfil()">Votre Profil</li> 
            <li (click)="deconnection()" class="p-1">Se déconnecter</li>
           </ul>
         </span> 
         <span class="bulle-vert"></span>
-        <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="connection">
+        <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="connexion">
       </li>
-      <li title="votre panier" *ngIf="cartLength" routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
-      <li title="panier vide" *ngIf="!cartLength" class="nav-item"> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
+      <li title="votre panier" routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
+      <!-- <li title="panier vide" (click)="connectionAlert()" *ngIf="!cartLength || cartLength && !username" class="nav-item"><span class="bulle">{{cartLength}}</span>  <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li> -->
     </ul>
   </div>
   <div class="navbar-mobile">
  
     <ul [@ulMobile]="stateUlMobile" class="mobile">
-      <li *ngIf="!username" class="nav-item-mobile" (click)="openMenu()" [routerLink]="['connection']">
+      <li *ngIf="!username" class="nav-item-mobile" (click)="openMenu()" [routerLink]="['connexion']">
         <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Se connecter">
         <span class="li-item-mobile">Se connecter</span>
       </li>

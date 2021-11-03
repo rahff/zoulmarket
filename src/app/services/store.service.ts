@@ -53,7 +53,6 @@ export class StoreService {
         for (let i = 0; i < data.products.length; i++) {
           const imgs = this.extractUrlOfData(data.products, i);
           const product: Product = {
-          
             description: data.products[i].description,
             id: data.products[i]._id,
             img: imgs,
@@ -61,7 +60,8 @@ export class StoreService {
             price: data.products[i].price,
             vendeur: data.products[i].vendeur,
             characteristics: data.products[i].characteristics,
-            FNSKU: data.FNSKU
+            FNSKU: data.FNSKU,
+            avis: data.products[i].avis
           };
           productOfStore.push(product);
         }

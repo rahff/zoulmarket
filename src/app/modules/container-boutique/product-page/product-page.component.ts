@@ -8,85 +8,86 @@ import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
 import { defineSizeOfProduct, isVariable, VariationService } from './utils';
 
-
-
-
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
-  styleUrls: ['./product-page.component.css']
+  styleUrls: ['./product-page.component.css'],
 })
 export class ProductPageComponent implements OnInit, OnDestroy {
-
   public onScreen: boolean = false;
   public product!: Product;
   public onMobile: boolean = false;
-  public subciption: Subscription = new Subscription()
+  public subciption: Subscription = new Subscription();
   public itemForCart: any;
-  public variations: Variation[] | null | undefined  = null
-  public nameOfProduct: string = "";
-  public sizeMode!: "Taille" | "Pointure" | null;
+  public variations: Variation[] | null | undefined = null;
+  public nameOfProduct: string = '';
+  public sizeMode!: 'Taille' | 'Pointure' | null;
   public currentSize: any[] | null = null;
   public choicedSize: any;
   public enableAddToCart: boolean = false;
-  constructor(private activatedRoute: ActivatedRoute,
-              private cartService: CartService,
-              private variationService: VariationService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService,
+    private variationService: VariationService
+  ) {}
 
   ngOnInit(): void {
-    if(window.innerWidth < 600){
-      this.onMobile = true;    
+    if (window.innerWidth < 600) {
+      this.onMobile = true;
     }
     this.onScreen = true;
-    this.product = this.activatedRoute.snapshot.data["product"]
+    this.product = this.activatedRoute.snapshot.data['product'];
     this.nameOfProduct = this.product.name;
-    if(isVariable(this.product)){
-      this.variations = this.product.variations
-    }else{
-      this.product.variations = []
+    if (isVariable(this.product)) {
+      this.variations = this.product.variations;
+    } else {
+      this.product.variations = [];
     }
-    this.subciption.add(this.variationService.variation$.subscribe((obj)=>{
-      if(this.variations){
-        if(obj){
-        this.variations[obj.index] = obj.variation;
-        this.product = {
-          ...this.product,
-          description: obj.variation.description,
-          img: obj.variation.img,
-          name: obj.variation.name,
-          price: obj.variation.price,
-          FNSKU : obj.variation.FNSKU
+    this.subciption.add(
+      this.variationService.variation$.subscribe((obj) => {
+        if (this.variations) {
+          if (obj) {
+            this.variations[obj.index] = obj.variation;
+            this.product = {
+              ...this.product,
+              description: obj.variation.description,
+              img: obj.variation.img,
+              name: obj.variation.name,
+              price: obj.variation.price,
+              FNSKU: obj.variation.FNSKU,
+            };
+          }
         }
-      }
-      }
-    }))
-    this.subciption.add(this.variationService.size$.subscribe((size)=>{
-      if(size){
-        this.setChoisedSize(size);
-      }
-    }))
+      })
+    );
+    this.subciption.add(
+      this.variationService.size$.subscribe((size) => {
+        if (size) {
+          this.setChoisedSize(size);
+        }
+      })
+    );
     this.sizeMode = defineSizeOfProduct(this.product).sizeMode;
-    this.currentSize = defineSizeOfProduct(this.product).currentSize
-    if(!this.currentSize){
-      this.enableAddToCart = true
+    this.currentSize = defineSizeOfProduct(this.product).currentSize;
+    if (!this.currentSize) {
+      this.enableAddToCart = true;
     }
   }
-  setChoisedSize(size: any){
-    this.choicedSize = size
-    this.enableAddToCart = true
+  setChoisedSize(size: any) {
+    this.choicedSize = size;
+    this.enableAddToCart = true;
   }
   sendProductToCart(obj: any): void {
     const itemForCart: ItemCart = {
       quantity: obj.quantity,
       size: this.choicedSize,
-      cost: +(obj.product.price *obj.quantity).toFixed(2),
-      product: obj.product
-    } 
-    this.cartService.addItemToCart(itemForCart)    
+      cost: +(obj.product.price * obj.quantity).toFixed(2),
+      product: obj.product,
+    };
+    this.cartService.addItemToCart(itemForCart);
   }
   ngOnDestroy(): void {
-    this.subciption.unsubscribe()
+    this.subciption.unsubscribe();
     this.onScreen = false;
   }
-
 }

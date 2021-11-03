@@ -1,71 +1,92 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
-import Swal from 'sweetalert2'
+import { Purchase } from 'src/app/shared/models/order.model';
+import { MakeAlert } from '../../../shared/functions';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+  styleUrls: ['./checkout.component.css'],
 })
-export class CheckoutComponent implements OnInit, OnDestroy {
-
-  message: string = "Veuillez patienter ..."
-  waiting: boolean = true
+export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
+  message: string = 'Veuillez patienter ...';
+  waiting: boolean = true;
   onScreen: boolean = false;
   diameter: number = 400;
   orderId: string | null = null;
   userId!: string;
-  isSuccessOrder: boolean = false
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private orderService: OrderService,
-              private userService: UserService,
-              private cartService: CartService) { }
+  userEmail!: string;
+  orderOfUser: string[] = [];
+  Subscription = new Subscription()
+  isSuccessOrder: boolean = false;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private orderService: OrderService,
+    private userService: UserService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
-    if(window.innerWidth < 600){
-      this.diameter = 200
+    if (window.innerWidth < 600) {
+      this.diameter = 200;
     }
     this.onScreen = true;
-    this.userService.user$.subscribe((user)=>{
-      if(user){
-        this.userId = user.id
+    this.Subscription.add(this.userService.user$.subscribe((user) => {
+      if (user) {
+        this.userId = user.id;
+        this.orderOfUser = this.extractId(user.orders)
+        this.userEmail = user.email
       }
-    })
-    this.route.queryParamMap.subscribe((queryParm: ParamMap)=>{
-      queryParm.get('purchaseResult') === "success" ? this.isSuccessOrder = true : this.isSuccessOrder = false;
-      if(this.isSuccessOrder){
-        this.orderId = queryParm.get('id');
-        this.orderService.confirmOrder(this.orderId).subscribe((res)=>{
-          if(res){
-            this.cartService.reinitCart();
-            this.waiting = false
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Votre achat est validé',
-              showConfirmButton: false,
-              timer: 1500
-            }).then((res)=>{
-              Swal.fire({
-                icon: 'info',
-                title: 'Information',
-                text: 'Vous avez reçu un email avec votre QR code',
-                footer: '<a routerLink=["profil", userId]>Voir le détail de mon achat</a>'
-              }).then((res)=>{
-                this.router.navigate(['/'])
-              })
-            })
-          }
-        })
+    }));
+    this.route.queryParamMap.subscribe((queryParm: ParamMap) => {
+      queryParm.get('purchaseResult') === 'success'
+        ? (this.isSuccessOrder = true)
+        : (this.isSuccessOrder = false);
+        this.orderId = queryParm.get('id')
+    });
+  }
+  ngAfterViewInit(): void {
+    if (this.isSuccessOrder) {
+  
+      this.Subscription.add(this.orderService.confirmOrder(this.orderId).subscribe((res: any) => {
+        if (res) {
+          this.orderService
+            .addOrderOnUser([...this.orderOfUser, res._id],this.userId)
+            .subscribe((res: any) => {
+              this.cartService.reinitCart();
+              this.waiting = false;
+              MakeAlert('Votre achat est validé', 'success')
+              .then((res) => {
+                MakeAlert(`Vous allez reçevoir votre facture par email `, "info")
+                .then((res) => {
+                  window.localStorage.removeItem('stripeIdSession');
+                  this.waiting = true;
+                  //call http post email
+                  this.router.navigate(['/']);
+                });
+              });
+            });
+        }
+      }));
+    }
+  }
+  extractId(array:Purchase[] | undefined): string[]{
+    const arrayIds: string[] = [];
+    if(array){
+      for(let i = 0; i < array.length; i++){
+        const id = array[i].id;
+        arrayIds.push(id)
       }
-    })
+    }
+    return arrayIds
   }
-  ngOnDestroy(): void{
-    this.onScreen = false
+  ngOnDestroy(): void {
+    this.onScreen = false;
+    this.Subscription.unsubscribe()
   }
-
 }

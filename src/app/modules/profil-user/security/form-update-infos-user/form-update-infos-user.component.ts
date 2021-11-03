@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { myValidators } from 'src/app/modules/logger/validators';
+import { myValidators } from '../../../../shared/functions'
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -40,8 +40,6 @@ export class FormUpdateInfosUserComponent implements OnInit {
     }
     this.subject = this.route.snapshot.data['subject']
     this.userId = this.route.parent?.snapshot.paramMap.get('userId');
-    console.log(this.userId);
-    
     this.typeOfControl = this.initTypeOfControl(this.subject)
     this.initForm();
   }

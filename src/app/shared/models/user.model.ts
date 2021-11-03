@@ -1,11 +1,19 @@
+import { Purchase } from "./order.model";
+
 export interface NewUser {
     name: string;
     firstname: string;
     email: string;
     tel: string;
-    adress: string,
-    poste: number;
-    city: string;
+    adresse:{
+        postal: number;
+        city: string;
+        numero: string;
+        rue: string;
+        name: string;
+        firstname: string;
+    },
+    confirmed: boolean;
     password: string;
 }
 export interface UserLog {
@@ -17,15 +25,18 @@ export interface User{
     firstname: string;
     email: string;
     tel: string;
-    adress: {
-        numero: string;
-        street: string,
+    adresse:{
         postal: number;
         city: string;
+        numero: string;
+        rue: string;
+        name: string;
+        firstname: string;
     }
     id: string;
     confirmed: boolean,
-    role: any
+    role: any,
+    orders?: Purchase[]
 }
 export interface DataMenuProfilUser {
     title: string;
@@ -43,4 +54,11 @@ export interface BodyMail{
 export interface AuthUser{
     id: string;
     confirmationToken: string
+}
+export interface MailToUser{
+    to: string;
+    from: string;
+    subject: string;
+    url: string;
+    name: string;
 }

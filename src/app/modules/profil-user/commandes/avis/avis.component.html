@@ -1,0 +1,55 @@
+<div class="wrapper" *ngIf=!loading>
+    <header>
+        <mat-icon>
+            face
+        </mat-icon>
+        <span>{{username}}</span>
+    </header>
+    <div class="rating col">
+        <div class="flex">
+        <div class="w-30">
+            <img class="img" [src]="URL_IMG + product.img[0].img_mini" alt="product.name">
+        </div>
+        <div class="col w-70">
+            <div class="title">
+                <h4>{{product.description}}</h4>
+            </div>
+        </div>
+    </div>
+        <div class="stars">
+            <mat-icon *ngFor="let star of stars; let i=index" (click)="setRating(i)">{{ star }}</mat-icon>
+        </div>
+    </div>
+    <form class="comment" [formGroup]="comment">
+        <div class="col">
+        <p class="info">Résumer votre commentaire en quelques mots</p>
+        <mat-form-field appearance="fill">
+            <mat-label>Ajouter un titre</mat-label>
+           <input matInput formControlName="title">
+           <p class="error" *ngIf="title?.hasError('notValid')">Par sécurité, nous n'acceptons pas les caractères spéciaux</p>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <p class="info">Dites ce que vous pensez de ce produit en moins de 300 caractères</p>
+        <mat-form-field appearance="fill">
+            <mat-label>Ajouter votre commentaire</mat-label>
+           <textarea (input)="checkLonger()" [cols]="cols" [rows]="rows" matInput formControlName="mainComment"></textarea>
+           <p class="error" *ngIf="mainComment?.hasError('notValid')">Par sécurité, nous n'acceptons pas les caractères spéciaux</p>
+           <p class="error" *ngIf="mainComment?.hasError('toLong')">Vous avez exèdé les 300 caratères</p>
+        </mat-form-field>
+    </div>
+        <span class="how-much">{{countComment}}/300</span>
+    </form>
+    <div class="action">
+        <button (click)="onSubmit()" class="btn">Valider</button>
+    </div>
+</div>
+
+
+<div *ngIf="loading" class="flex-center w-100 vh-80">
+    <mat-spinner
+      color="primary"
+      mode="indeterminate"
+      [diameter]="diameter"
+    ></mat-spinner>
+  </div>

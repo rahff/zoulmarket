@@ -1,0 +1,51 @@
+<header class="nav">
+  <nav class="flex">
+    <button (click)="toggleMenu($event)" class="btn-sub-nav">
+      <div class="col flex">
+        <span class="butt"></span>
+        <span class="butt"></span>
+        <span class="butt"></span>
+      </div>
+      <span *ngIf="mobile">CATEGORIES</span>
+      <span *ngIf="!mobile">MENU</span>
+    </button>
+    <span *ngIf="mobile && userId" class="icon-account" [routerLink]="['/profil', userId]">
+      <img
+        src="../../../assets/navbar/account_circle_black_24dp.svg"
+        alt="Votre compte"
+      />
+      <span *ngIf="userId" class="bulle-vert"></span>
+    </span>
+    <!-- || -->
+    <span *ngIf="!userId && mobile" class="icon-account" routerLink="/connexion">
+      <img
+        src="../../../assets/navbar/account_circle_black_24dp.svg"
+        alt="Votre compte"
+      />
+    </span>
+    <span
+      title="votre panier"
+      *ngIf="mobile"
+      routerLink="/panier"
+      class="nav-item"
+    >
+      <span *ngIf="mobile && cartLength" class="bulle">{{ cartLength }}</span>
+      <img class="icon-panier"
+        src="../../../assets/navbar/shopping_cart_black_24dp.svg"
+        alt="voir_le_panier"
+    /></span>
+    <!-- <span>
+    <img *ngIf="mobile && !cartLength" class="icon-panier"
+      src="../../../assets/navbar/shopping_cart_black_24dp.svg"
+      alt="panier_vide"/>
+    <span title="panier vide" *ngIf="mobile && cartLength" class="bulle"></span>
+  </span> -->
+    <ul *ngIf="!mobile" class="flex w-90">
+      <li class="sub-nav-item">list item</li>
+      <li class="sub-nav-item">list item</li>
+      <li class="sub-nav-item">list item</li>
+      <li class="sub-nav-item">list item</li>
+      <li class="sub-nav-item">list item</li>
+    </ul>
+  </nav>
+</header>

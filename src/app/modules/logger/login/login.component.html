@@ -1,3 +1,4 @@
+<app-sub-nav></app-sub-nav>
 <form *ngIf="loaded" class="form-group" [formGroup]="form">
     <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
@@ -8,10 +9,9 @@
         <input matInput type="password" formControlName="password">
     </mat-form-field>
     <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
+    <p (click)="initResetPasswordProcess()">Vous avez oubliez votre mot de passe?</p>
     <a [routerLink]="['/connection', 'inscription']" class="btn" mat-button type="button">Créer un compte</a>
     <div>
-        <p *ngIf="messageError" class="error"> {{messageError}}</p>
-        <p *ngIf="message"> {{message}}</p>
     </div>
 </form>
 <div *ngIf="loading" class="flex-center w-100 vh-80">

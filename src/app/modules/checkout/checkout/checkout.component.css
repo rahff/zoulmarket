@@ -4,3 +4,8 @@
     align-items: center;
     height: 80vh;
 }
+.link{
+    color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
+}

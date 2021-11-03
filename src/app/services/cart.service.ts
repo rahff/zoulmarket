@@ -29,6 +29,8 @@ export class CartService {
   }
 
   addItemToCart(item: ItemCart): void {
+    console.log(this.cart$.value);
+    
     this.cart$.next([...this.cart$.value, item]);
     this.cartLength$.next(this.cart$.value.length)
   }

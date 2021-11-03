@@ -8,14 +8,13 @@ import { SubCategory } from 'src/app/shared/models/sub-category.model';
 @Component({
   selector: 'app-menu-category',
   templateUrl: './menu-category.component.html',
-  styleUrls: ['./menu-category.component.css']
+  styleUrls: ['./menu-category.component.css'],
 })
 export class MenuCategoryComponent implements OnInit, OnDestroy {
   public onScreen: boolean = false;
   public products!: Product[];
-  public subCategories!: SubCategory[]
-  constructor(private activatedRoute: ActivatedRoute,
-              private categoryService: CategoryService) { }
+  public subCategories!: SubCategory[];
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.onScreen = true;
@@ -25,5 +24,4 @@ export class MenuCategoryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onScreen = false;
   }
-
 }

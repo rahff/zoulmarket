@@ -32,11 +32,14 @@ export class ProductService {
             img: imgs,
             price: data[i].price,
             vendeur: data[i].vendeur,
-            FNSKU: data[i].FNSKU
+            FNSKU: data[i].FNSKU,
+            avis: data[i].avis
           };
           arrayProducts.push(product);
         }
         this.PromoSubject.next(arrayProducts)
+        console.log(arrayProducts);
+        
         return arrayProducts;
       })
     );
@@ -46,10 +49,6 @@ export class ProductService {
       map((data: any) => {    
         const imgs: any[] = this.extractUrlOfData(data, null);
         const variations = this.extractVariations(data.dataProduct.variations);      
-        this.clearDataProduct(data.dataProduct.characteristics);
-        this.clearDataProduct(data.dataProduct.pointures);
-        this.clearDataProduct(data.dataProduct.sizes);
-        this.clearDataProduct(data.dataProduct.sizes_XXS_TO_XXXL);
         const product: Product = {
           name: data.name,
           price: data.price,
@@ -64,7 +63,8 @@ export class ProductService {
           sizes: data.dataProduct.sizes,
           sizes_XXS_TO_XXXL: data.dataProduct.sizes_XXS_TO_XXXL,
           stock: data.stock,
-          FNSKU: data.FNSKU
+          FNSKU: data.FNSKU,
+          avis: data.avis 
                 };
         return product;
       })
@@ -86,7 +86,15 @@ export class ProductService {
     }
     return result;
   }
-  extractUrlOfData(data: any[] | any, index: number | null): string[] {
+  addRatingComponentOnProduct(id: string, body: Product): Observable<boolean>{
+    return this.http.put(this.API_URL + "products/" + id, body).pipe(
+      map((response: any)=>{
+        console.log(response);
+          return true
+      })
+    )
+  }
+  extractUrlOfData(data: any[] | any, index: number | null): any[] {
     const result: any[] = [];
     if (index !== null) {
       data[index].img.forEach((el: any) => {
@@ -106,13 +114,6 @@ export class ProductService {
         });
       });
       return result;
-    }
-  }
-  clearDataProduct(data: any): void {
-    for (const key in data) {
-      if(key === "id" || key === "_id" || key === "__v")
-        delete data[key];
-        
     }
   }
 }

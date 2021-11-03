@@ -17,7 +17,6 @@ export class UserInfosComponent implements OnInit {
     this.user = this.route.snapshot.data['user']
   }
   editInfosUser(subject:string): void {
-    console.log(subject);
     this.router.navigate(["/profil","security",this.user.id,"update", subject])
 
   }

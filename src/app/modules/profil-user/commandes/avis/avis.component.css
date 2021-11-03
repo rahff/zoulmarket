@@ -1,0 +1,74 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+header{
+    background-color:rgb(210, 251, 251);
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+header span{
+    margin-left: 10px;
+}
+header .mat-icon{
+    color: gray;
+    font-size: 45px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex{
+    padding: 3px;
+}
+.rating{
+    display: flex;
+    padding: 10px 0px;
+}
+.rating .mat-icon{
+    font-size: 55px;
+    width: 55px;
+    height: 55px;
+    color: var(--accent);
+    cursor: pointer;
+}
+.img{
+    width: 100%;
+}
+.stars{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comment{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 5px;
+}
+.how-much{
+    position: absolute;
+    bottom: 0px;
+    left: 5px;
+    color: rgba(128, 128, 128, 0.746);
+}
+.col{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%
+}
+.mat-form-field{
+    margin: 0 auto;
+    width: 300px;
+}

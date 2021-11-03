@@ -12,7 +12,7 @@ export class UserService {
   public subjectUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
   );
-  public user$ = this.subjectUser$.asObservable()
+  public user$ = this.subjectUser$.asObservable().pipe()
   private URL_API = environment.URL_API;
   constructor(private http: HttpClient) { }
 
@@ -47,30 +47,28 @@ export class UserService {
       })
     )
   }
-  addTokenInUser(id: string, token: string): void {
-    this.http.put(this.URL_API + "users/" + id, {confirmationToken: token}).subscribe((res)=>{
-      console.log(res);
-    })
-  }
   updateUserInfos(body:any, id: string | null | undefined): Observable<{message: string, status: boolean}>{
     return this.http.put(this.URL_API + "users/" + id, body).pipe(
       first(),
       map((data:any)=>{
         if(data.name && data.adresse){
        const updatedUser: User = {
-         adress: {
-           street :data.adresse.rue,
-           city: data.adresse.city,
-           numero:data.adresse.numero,
-           postal: data.adresse.postal
-          },
+        adresse:{
+          postal: data.adresse.postal,
+          city: data.adresse.city,
+          numero: data.adresse.numero,
+          rue: data.adresses.rue,
+          name: data.name,
+          firstname: data.firstname
+      },
           confirmed: data.confirmed,
           email: data.email,
           firstname: data.firstname,
           id: data._id,
           name: data.name,
           role: data.role.type,
-          tel: data.tel
+          tel: data.tel,
+          orders: data.orders
        }
         this.subjectUser$.next(updatedUser)
         

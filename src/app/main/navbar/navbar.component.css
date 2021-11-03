@@ -9,7 +9,7 @@ nav{
 .navbar-mobile{
     display: none;
 }
-.logo{
+.logo-nav{
     width: 1fr;
     display: flex;
     justify-content: flex-start;
@@ -44,22 +44,6 @@ form{
     color: var(--primary);
     font-weight: 500;
 }
-#select{
-    height: 100%;
-    border-radius: 7px 0 0 7px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    background-color: var(--gray);
-    font-weight: 600;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 2px;
-}
-#select:hover{
-    background-color: var(--darkSilver);
-}
 .col{
     height: 100%;
 }
@@ -68,18 +52,7 @@ form{
     cursor: pointer;
     justify-content: center;
     align-items: center;
-}
-.option{
-    padding: 3px 0px;
-    display: none;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-    cursor: pointer;
-    position: absolute;
-    width: 50%;
-    background-color: #fff ;
-    box-shadow: var(--box);
+    display: flex;
 }
 .select-item{
     color: var(--primary);

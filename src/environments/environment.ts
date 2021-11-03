@@ -6,8 +6,12 @@ export const environment = {
   production: false,
   URL_API : "http://localhost:1337/",
   URL_IMG: "http://localhost:1337",
-  PAYPAL_CLIENT_ID: "AchK38a2SS8iT7mheghBTLjGEJuUgbEjCY6Ux2MmCRbIzdMTezR87mmps8rxXTpUelaeMNM2buJ_C5bj",
-  PAYPAL_SECRET: "EI2SthbioXkUdnmUBnGeIr_LT9MQj7vgllusMD5Jz1D8T48FuEE99ctzyI3d5pPxchoIOV26oEjT_1D3"
+  URL_API_FORGOT_PASSWORD: "http://localhost:1337/auth/forgot-password",
+  URL_API_CONFIRMATION_MAIL: "http://localhost:1337/emailverification",
+  URL_QRCODE: "https://api.qr-code-generator.com/v1/create?access-token=gfMm4d6jQAyIdTMc9Yb-dWDpMheL1cL-Bsf6fsp2cFJQD1uq0_laGF4d4BeW6M-1",
+  SMPT_HOSTNAME: "contact@digitaldevelopment.fr",
+  LINK_EMAIL_CONFIRMATION: "http://localhost:4200",
+  LINK_EMAIL_RESILLIATION: "http://localhost:4200/reset_password"
 };
 
 /*

@@ -4,7 +4,6 @@ import { LoadingModule } from 'src/app/shared/loading/loading.module';
 import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
 import { PROFIL_ROUTES } from './profil.routes';
-import { UserInfosResolver } from './resolvers/userInfos.resolver';
 import { CardMenuResolver } from './resolvers/cardMenu.resolver';
 import { CommandesComponent } from './commandes/commandes.component';
 import { ContactComponent } from './contact/contact.component';
@@ -13,6 +12,8 @@ import { UserInfosComponent } from './security/user-infos/user-infos.component';
 import { FormUpdateInfosUserComponent } from './security/form-update-infos-user/form-update-infos-user.component';
 import { UserResolver } from './resolvers/user.resolver';
 import { SubjectResolver } from './resolvers/subject-update-form.resolver';
+import { AvisComponent } from './commandes/avis/avis.component';
+import { ListComponent } from './commandes/list/list.component';
 
 
 
@@ -23,7 +24,9 @@ import { SubjectResolver } from './resolvers/subject-update-form.resolver';
     ContactComponent,
     SecurityComponent,
     UserInfosComponent,
-    FormUpdateInfosUserComponent
+    FormUpdateInfosUserComponent,
+    AvisComponent,
+    ListComponent
   ],
   imports: [
     SharedModule,
@@ -31,7 +34,6 @@ import { SubjectResolver } from './resolvers/subject-update-form.resolver';
     RouterModule.forChild(PROFIL_ROUTES)
   ],
   providers: [
-    UserInfosResolver,
     CardMenuResolver,
     UserResolver,
     SubjectResolver

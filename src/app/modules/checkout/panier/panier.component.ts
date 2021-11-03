@@ -5,13 +5,13 @@ import { environment } from 'src/environments/environment';
 import { User } from 'src/app/shared/models/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/shared/models/product';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
-
+import { MakeAlert } from 'src/app/shared/functions';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 import { Cart } from './cart';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-panier',
@@ -19,18 +19,18 @@ import { Cart } from './cart';
   styleUrls: ['./panier.component.css'],
 })
 export class PanierComponent implements OnInit, OnDestroy {
-
   public onScreen: boolean = false;
   public onMobile: boolean = false;
   public cart!: Cart;
-  public diameter: number = 400
-  public itemsCartForTemplate: ItemCart[] = []
+  public diameter: number = 400;
+  public itemsCartForTemplate: ItemCart[] = [];
   public URL_IMG = environment.URL_IMG;
   public total!: number;
   public showSuccess: boolean = false;
   public showCancel: boolean = false;
   public showError: boolean = false;
   public user!: User;
+  public subscription: Subscription = new Subscription();
   public formUser!: FormGroup;
   public loading: boolean = false;
   public loaded: boolean = true;
@@ -44,7 +44,6 @@ export class PanierComponent implements OnInit, OnDestroy {
     'Vaivre',
     'Coulevon',
   ];
-  private ID_PAYPAL = environment.PAYPAL_CLIENT_ID;
   get name() {
     return this.formUser.get('name');
   }
@@ -75,55 +74,73 @@ export class PanierComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private productService: ProductService,
     private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    if(window.innerWidth < 600){
+    if (window.innerWidth < 600) {
       this.diameter = 200;
       this.onMobile = true;
     }
-      this.promo$ = this.productService.PromoSubject.pipe();
-      if (!this.promo$._isScalar) {
-        this.promo$ = this.productService.getProductPromo().pipe();
-      }
-    this.userServive.user$.subscribe((user) => {
-      if(user){
+    this.promo$ = this.productService.PromoSubject.pipe();
+    if (!this.promo$._isScalar) {
+      this.promo$ = this.productService.getProductPromo().pipe();
+    }
+    this.subscription.add(this.userServive.user$.subscribe((user) => {
+      if (user) {
         this.user = user;
       }
-    });
+    }));
     this.initForm(this.user);
     this.onScreen = true;
     //
 
-    this.cartService.cart$.subscribe((items: ItemCart[]) => {
+    this.subscription.add(this.cartService.cart$.subscribe((items: ItemCart[]) => {
+      if(items.length === 0){
+        MakeAlert('Votre panier est vide !', "info", 2000).then(()=>{
+          this.router.navigate(['/'])
+        })
+      }
       this.cart = new Cart(this.user, items);
-      this.itemsCartForTemplate = this.cart.items
-      this.total = this.cart.calculTotal()
+      this.itemsCartForTemplate = this.cart.items;
+      this.total = this.cart.calculTotal();
       localStorage.removeItem('cart');
       localStorage.setItem('cart', JSON.stringify(this.cart.items));
-    });
+    }));
     //
   }
-  initCheckout(){
-    if(this.user){
+  initCheckout() {
+    if (this.user && this.user.confirmed) {
       this.checkoutInit = true;
+      this.loaded = false;
+      this.loading = true;
       const orderItem = this.cart.getItemOrder();
-      this.orderService.startCheckout(orderItem, this.user).subscribe((session)=>{
-        console.log(session);
-        this.orderService.redirectToCheckout(session)
-        this.checkoutInit = false
-      },
-      (err)=>{
-        this.checkoutInit = false;
-      })
-    }else{
-      return
-    }
+      console.log(orderItem);
 
+      this.orderService.startCheckout(orderItem, this.user).subscribe(
+        (session) => {
+          console.log(session);
+          this.orderService.redirectToCheckout(session);
+          this.checkoutInit = false;
+          this.loaded = true;
+          this.loading = false;
+        },
+        (err) => {
+          this.loaded = true;
+          this.loading = false;
+          this.checkoutInit = false;
+        }
+      );
+    } else {
+      MakeAlert('Vous n\'avez pas finaliser la création de votre compte', 'error')
+      .then((res) => {
+       return
+      });
+    }
   }
   findCityUser(user: User | null): number {
     if (user) {
-      const res = this.cities.indexOf(user.adress.city);
+      const res = this.cities.indexOf(user.adresse.city);
       if (res !== -1) {
         return res;
       } else {
@@ -149,9 +166,9 @@ export class PanierComponent implements OnInit, OnDestroy {
       this.formUser = this.fb.group({
         name: [this.user?.name, Validators.required],
         firstname: [this.user?.firstname, Validators.required],
-        numero: [this.user?.adress.numero, Validators.required],
-        street: [this.user?.adress.street, Validators.required],
-        postal: [this.user?.adress.postal, Validators.required],
+        numero: [this.user?.adresse.numero, Validators.required],
+        street: [this.user?.adresse.rue, Validators.required],
+        postal: [this.user?.adresse.postal, Validators.required],
         city: [this.cities[this.findCityUser(this.user)], Validators.required],
         email: [this.user?.email, [Validators.required, Validators.email]],
         tel: [this.user?.tel, Validators.required],
@@ -161,20 +178,18 @@ export class PanierComponent implements OnInit, OnDestroy {
   updateQuantity(obj: number, index: number): void {
     this.cartService.updateQuantity(obj, index);
   }
-  
+
   deleteItem(index: number): void {
     this.cartService.deleteItem(index);
   }
- 
+
   reinitCart(): void {
     this.total = 0;
     localStorage.removeItem('cart');
   }
-  
-  
-ngOnDestroy(): void {
-  this.onScreen = false;
-}
-}
 
-
+  ngOnDestroy(): void {
+    this.onScreen = false;
+    this.subscription.unsubscribe()
+  }
+}

@@ -6,12 +6,14 @@ import { RouterModule } from '@angular/router';
 import { LOGGER_ROUTES } from './logger.routes';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MaterialModule } from 'src/app/shared/material/material.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ResetPasswordComponent
   ],
   imports: [
     SharedModule,
