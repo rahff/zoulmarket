@@ -1,10 +1,10 @@
-<app-sub-nav></app-sub-nav>
+
 <main class="flex" *ngIf="product && !onMobile">
     <div class="w-50">
-  <app-gallery [alt]="nameOfProduct" [imgs]="product.img"></app-gallery>
+  <app-gallery *ngIf="nameOfProduct && product" [alt]="nameOfProduct" [imgs]="product.img"></app-gallery>
 </div>
 <div class="w-40">
-  <app-description [enableAddToCart]="enableAddToCart" [product]="product" (EmmitItemForCart)="sendProductToCart($event)" [onMobile]="onMobile" ></app-description>
+  <app-description [enableAddToCart]="enableAddToCart" [product]="product" (EmitterAvisEvent)="showAvisAndScroll($event)" (EmmitItemForCart)="sendProductToCart($event)" [onMobile]="onMobile" ></app-description>
   <app-variation  [product]="product"></app-variation>
 </div>
 <div class="w-10">
@@ -12,11 +12,35 @@
   </div>
 </div>
 </main>
+<div id="avis" class="wrapper" *ngIf="!onMobile && showAvis">
+  <h1>Ce qu'en pensent les autres...</h1>
+  <mat-card class="avis">
+    <div>
+      <article class="flex col" *ngFor="let avis of product?.avis">
+        <div class="flex">
+          <mat-icon class="smile">{{setFace(avis.rating)}} </mat-icon ><span> {{avis.username}}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex">
+          <mat-icon *ngFor="let star of nbrOfStarForAvis(avis.rating)">star </mat-icon >
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex">
+          <span class="smile"> comenté le {{avis.createdAt | date: "dd/MM/yy"}} </span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex">
+          <span>{{avis.commentaire}}</span>
+        </div>
+      </article>
+    </div>
+  </mat-card>
+</div>
 <!-- //MOBILE DEVICE// -->
 <main class="flex col" *ngIf="product && onMobile">
   <div class="w-100">
-    <app-description [onMobile]="onMobile" [enableAddToCart]="enableAddToCart" [product]="product" (EmmitItemForCart)="sendProductToCart($event)" ></app-description>
+    <app-description [onMobile]="onMobile" [enableAddToCart]="enableAddToCart" [product]="product" (EmitterAvisEvent)="showAvisAndScroll($event)" (EmmitItemForCart)="sendProductToCart($event)" ></app-description>
   </div>
+ 
 </main>
-<app-loading [detectRoutingOnGoing]="onScreen"></app-loading>
 

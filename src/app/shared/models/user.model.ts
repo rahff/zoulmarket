@@ -62,3 +62,12 @@ export interface MailToUser{
     url: string;
     name: string;
 }
+export interface Avis {
+    title: string;
+    rating: number;
+    user: string;
+    product: string;
+    commentaire: string;
+    username: string;
+    createdAt?: Date
+}

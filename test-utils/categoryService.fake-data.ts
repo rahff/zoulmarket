@@ -1,5 +1,5 @@
 import { SubCategory } from 'src/app/shared/models/sub-category.model';
-import { product, product2 } from './cartSevice.fake-data';
+
 
 export const subCategory: any = {
   _id: '611b0d4341ea2b39bd0a1844',

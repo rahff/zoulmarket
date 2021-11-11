@@ -1,3 +1,4 @@
+import { Avis } from './user.model';
 import { Variation } from './variation.model';
 
 export interface Product {
@@ -12,14 +13,8 @@ export interface Product {
   pointures?: any | null;
   sizes_XXS_TO_XXXL?: string[] | null;
   sizes?: number[] | null;
-  stock?: number;
+  stock?: boolean;
   variations?: Variation[] | null;
   FNSKU: string;
-  avis: Comment[];
-}
- interface Comment {
-  rating: number;
-  commentaire: string;
-  title: string;
-  user: string
+  avis: Avis[];
 }

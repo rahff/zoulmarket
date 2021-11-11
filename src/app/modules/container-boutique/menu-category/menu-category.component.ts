@@ -18,8 +18,9 @@ export class MenuCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onScreen = true;
-    this.subCategories = this.activatedRoute.snapshot.data['subCategories'];
-    this.products = this.activatedRoute.snapshot.data['products'];
+    this.subCategories = this.activatedRoute.snapshot.data['dataCategory'];  
+    
+      
   }
   ngOnDestroy(): void {
     this.onScreen = false;

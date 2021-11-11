@@ -1,0 +1,12 @@
+.mat-icon{
+    color: rgb(226, 195, 19);
+}
+.wrapper{
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+}
+.flex span{
+    margin-left: 7px;
+    align-items: center;
+}

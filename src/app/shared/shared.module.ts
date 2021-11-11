@@ -19,15 +19,10 @@ import { SubNavComponent } from './components/sub-nav/sub-nav.component';
 @NgModule({
   declarations: [
     CardProductComponent,
-    ProductPageComponent,
-    GalleryComponent,
-    DescriptionComponent,
     CircleContainerComponent,
-    ProductListComponent,
     ActiveDirective,
-    VariationComponent,
-    ChangeQuantityComponent,
-    SubNavComponent
+    SubNavComponent,
+    ChangeQuantityComponent
   ],
   imports: [
     CommonModule,
@@ -44,16 +39,11 @@ import { SubNavComponent } from './components/sub-nav/sub-nav.component';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    ProductPageComponent,
-    GalleryComponent,
-    DescriptionComponent,
     CircleContainerComponent,
-    ProductListComponent,
     ActiveDirective,
-    ChangeQuantityComponent,
     LoadingModule,
-    SubNavComponent
-
+    SubNavComponent,
+    ChangeQuantityComponent
   ],
   
   

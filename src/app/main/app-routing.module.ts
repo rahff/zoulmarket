@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../services/auth.guard';
 import { CategoiesPromoResolver } from './resolvers/categories-promo.resolver';
 import { CategoiesResolver } from './resolvers/categories.resolver';
-import { HomeCategoriesResolver } from './resolvers/home-categories.resolver';
-import { HomeProductsResolver } from './resolvers/home-products.resolver';
-import { HomeStoresResolver } from './resolvers/home-stores.resolver';
+
 import { StoreResolver } from './resolvers/store.resolver';
 
 
@@ -34,12 +32,12 @@ const routes: Routes = [
     path: "panier", loadChildren: ()=> import('../modules/checkout/checkout.module').then(m => m.CheckoutModule), 
   },
   {
-    path: "profil", loadChildren: ()=> import('../modules/profil-user/profil-user.module').then(m => m.ProfilUserModule), 
+    path: "profil", loadChildren: ()=> import('../modules/profil-user/profil-user.module').then(m => m.ProfilUserModule), canLoad: [AuthGuard]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: "top"})],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: "top", anchorScrolling: 'enabled'})],
   providers: [
     CategoiesResolver,
     CategoiesPromoResolver,

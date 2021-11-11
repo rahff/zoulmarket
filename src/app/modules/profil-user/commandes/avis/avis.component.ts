@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { MakeAlert, myValidators } from 'src/app/shared/functions';
 import { Product } from 'src/app/shared/models/product';
+import { Avis } from 'src/app/shared/models/user.model';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -82,16 +83,18 @@ export class AvisComponent implements OnInit {
   onSubmit(): void {
     if(this.comment.valid){
       if(this.userId){
-        const body: Product = {
-          ...this.product,
-          avis:[...this.product.avis,{
+        const body: Avis = { 
           user: this.userId,
           rating: this.currentRating,
           title: this.title?.value,
-          commentaire: this.mainComment?.value
-        }]
+          commentaire: this.mainComment?.value,
+          product: this.product.id,
+          username: this.username ? this.username : "Anonyme"
+          
         }
-        this.productService.addRatingComponentOnProduct(this.product.id, body).subscribe(()=>{
+        console.log(this.product);
+        
+        this.productService.addRatingComponentOnProduct(body).subscribe(()=>{
           MakeAlert('Votre commentaire à été ajouté avec succès', "success", 1500).then(()=>{
             this.router.navigate(['..']);
           })

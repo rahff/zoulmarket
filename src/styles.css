@@ -169,6 +169,16 @@ h1,h2,h3{
     width: 15%;
     height: 400px;
 }
+.smile{
+    color: #A5B1B1;
+}
+.avis{
+    width: 200px;
+}
+.mat-card .mat-divider.mat-divider-horizontal{
+    position: relative;
+}
+
 @media screen and (max-width: 575px) {
     .fr{
         width:45%;

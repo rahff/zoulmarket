@@ -1,5 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { fakeAsync, flush, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { map } from 'rxjs/operators';
 import { fakeArrayCategory, URL_API, fakeSuggestionCategory, oneFakeCategoryById, subCategory, ArrayProducts } from 'test-utils/categoryService.fake-data';
 

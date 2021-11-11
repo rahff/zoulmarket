@@ -7,15 +7,15 @@
   <app-gallery *ngIf="onMobile" [alt]="product.name" [imgs]="product.img"></app-gallery>
 
   <div class="seller">
-      <div role="link" [routerLink]="['/boutiques', product.store]"><span class="link"> Vendeur : {{ product.vendeur }}</span>
-        <div>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star_outline</mat-icon>
-        </div>
+      <div><span role="link" class="link" [routerLink]="['/boutiques', product.store]"> Vendeur : {{ product.vendeur }}</span>
+        <div class="flex col">
+        <div class="flex" *ngIf="rating.length">
+            <mat-icon *ngFor="let star of rating">star</mat-icon>
+          </div>
+          <p (click)="emitAvisEvent()" class="link" *ngIf="rating.length">voir les avis</p>
+          <span *ngIf="!rating.length">aucun avis</span>
       </div>
+    </div>
       <app-variation *ngIf="onMobile" [product]="product"></app-variation>
 
     </div>
@@ -34,3 +34,27 @@
     <li class="list-item" *ngFor="let item of characteristics"> {{item}} </li>
   </ul>
 </div>
+<div id="avis" class="wrapper" *ngIf="onMobile && showAvis">
+  <h1>Ce qu'en pensent les autres...</h1>
+  <mat-card class="avis">
+    <div>
+      <article class="flex col" *ngFor="let avis of product?.avis">
+        <div class="flex">
+          <mat-icon class="smile">{{setFace(avis.rating)}} </mat-icon ><span> {{avis.username}}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex">
+          <mat-icon *ngFor="let star of nbrOfStarForAvis(avis.rating)">star </mat-icon >
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex">
+          <span class="smile"> comenté le {{avis.createdAt | date: "dd/MM/yy"}} </span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex">
+          <span>{{avis.commentaire}}</span>
+        </div>
+      </article>
+    </div>
+  </mat-card>
+  </div>

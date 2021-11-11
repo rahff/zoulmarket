@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
-import { ProductService } from 'src/app/services/product.service';
 import { ItemCart } from 'src/app/shared/models/item-cart.model';
 import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
@@ -15,47 +14,49 @@ import { defineSizeOfProduct, isVariable, VariationService } from './utils';
 })
 export class ProductPageComponent implements OnInit, OnDestroy {
   public onScreen: boolean = false;
-  public product!: Product;
+  public product: Product | null = null;
   public onMobile: boolean = false;
   public subciption: Subscription = new Subscription();
   public itemForCart: any;
+  public showAvis: boolean = false;
   public variations: Variation[] | null | undefined = null;
-  public nameOfProduct: string = '';
+  public nameOfProduct: string | null = '';
   public sizeMode!: 'Taille' | 'Pointure' | null;
   public currentSize: any[] | null = null;
   public choicedSize: any;
   public enableAddToCart: boolean = false;
+  public diameter: number = 500;
+  public loading: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private cartService: CartService,
-    private variationService: VariationService
+    private variationService: VariationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     if (window.innerWidth < 600) {
       this.onMobile = true;
+      this.diameter = 200;
     }
     this.onScreen = true;
-    this.product = this.activatedRoute.snapshot.data['product'];
-    this.nameOfProduct = this.product.name;
-    if (isVariable(this.product)) {
-      this.variations = this.product.variations;
-    } else {
-      this.product.variations = [];
-    }
+    this.initValue();
     this.subciption.add(
       this.variationService.variation$.subscribe((obj) => {
         if (this.variations) {
           if (obj) {
             this.variations[obj.index] = obj.variation;
-            this.product = {
-              ...this.product,
-              description: obj.variation.description,
-              img: obj.variation.img,
-              name: obj.variation.name,
-              price: obj.variation.price,
-              FNSKU: obj.variation.FNSKU,
-            };
+            if (this.product) {
+              this.product = {
+                ...this.product,
+                description: obj.variation.description,
+                img: obj.variation.img,
+                name: obj.variation.name,
+                price: obj.variation.price,
+                FNSKU: obj.variation.FNSKU,
+              };
+            }
           }
         }
       })
@@ -73,6 +74,19 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       this.enableAddToCart = true;
     }
   }
+  initValue(): void {
+    this.product = this.activatedRoute.snapshot.data['product'];
+    console.log(this.product);
+    
+    if(this.product){
+      this.nameOfProduct = this.product.name;
+      if (isVariable(this.product)) {
+        this.variations = this.product.variations;
+      } else {
+        this.product.variations = [];
+      }
+    }
+  }
   setChoisedSize(size: any) {
     this.choicedSize = size;
     this.enableAddToCart = true;
@@ -85,6 +99,29 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       product: obj.product,
     };
     this.cartService.addItemToCart(itemForCart);
+  }
+  showAvisAndScroll(event: boolean): void {
+    console.log('recept', event);
+    this.showAvis = event;
+    setTimeout(() => {
+      document.getElementById('avis')?.scrollIntoView({behavior: "smooth"})
+    }, 100);
+  }
+  nbrOfStarForAvis(rating: number): any[] {
+    const array: number[] = [];
+    for (let i = 0; i < rating; i++) {
+      array.push(i);
+    }
+    return array;
+  }
+  setFace(rating: number): string {
+    if (rating >= 4) {
+      return 'sentiment_satisfied_alt';
+    } else if ((rating = 3)) {
+      return 'sentiment_neutral';
+    } else {
+      return 'sentiment_dissatisfied';
+    }
   }
   ngOnDestroy(): void {
     this.subciption.unsubscribe();

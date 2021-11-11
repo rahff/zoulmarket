@@ -3,7 +3,7 @@ export interface Variation {
     description: string;
     price: number;
     img: any[];
-    stock?: number;
+    stock?: boolean;
     id: string;
     FNSKU: string
 }

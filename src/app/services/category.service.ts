@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Category } from '../shared/models/category.model';
 import { Product } from '../shared/models/product';
 import { SubCategory } from '../shared/models/sub-category.model';
-
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +23,7 @@ export class CategoryService {
             name: data[i].name,
             id: data[i]._id,
             icon: data[i].icon[0],
-            promo: data[i].promo
+            promo: data[i].promo,
           };
           arrayCategory.push(category);
         }
@@ -44,7 +43,7 @@ export class CategoryService {
             icon: data[i].icon.formats.thumbnail.url,
             id: data[i]._id,
             name: data[i].name,
-            promo: data[i].promo
+            promo: data[i].promo,
           };
           arraySuggestion.push(suggestion);
         }
@@ -63,28 +62,27 @@ export class CategoryService {
         return arrayIds;
       }),
       map((data: any) => {
-        return this.getSubCategoriesByIds(data)
+        return this.getSubCategoriesByIds(data);
       })
     );
   }
-  getSubCategoriesByIds(data: any):SubCategory[]{
-    
-      const arraySubCategory: SubCategory[] = [];
-      data.forEach(async (id: string) => {
-        const oneSubCategory = await this.http
-          .get(this.URL_API + 'sous-categories/' + id).pipe(first())
-          .subscribe((data: any) => {
-              const subCategory: SubCategory = {
-                id: data._id,
-                img: data.img.url,
-                name: data.name,
-                products: data.products,
-              }
-              arraySubCategory.push(subCategory);
-          });
-      });    
-      return arraySubCategory;
-    
+  getSubCategoriesByIds(data: any): SubCategory[] {
+    const arraySubCategory: SubCategory[] = [];
+    data.forEach(async (id: string) => {
+      const oneSubCategory = await this.http
+        .get(this.URL_API + 'sous-categories/' + id)
+        .pipe(first())
+        .subscribe((data: any) => {
+          const subCategory: SubCategory = {
+            id: data._id,
+            img: data.img.url,
+            name: data.name,
+            products: data.products,
+          };
+          arraySubCategory.push(subCategory);
+        });
+    });
+    return arraySubCategory;
   }
 
   getProductOfSubCategory(id: string | null): Observable<Product[]> {
@@ -95,7 +93,7 @@ export class CategoryService {
       map((data: any) => {
         const arrayProduct: Product[] = [];
         for (let i = 0; i < data.length; i++) {
-          const imgs = this.extractUrlOfData(data, i)
+          const imgs = this.extractUrlOfData(data, i);
           const product: Product = {
             description: data[i].description,
             id: data[i]._id,
@@ -104,29 +102,52 @@ export class CategoryService {
             price: data[i].price,
             vendeur: data[i].vendeur,
             FNSKU: data[i].FNSKU,
-            avis: data[i].avis
-          }
-          arrayProduct.push(product)
+            avis: data[i].avis,
+          };
+          arrayProduct.push(product);
         }
         return arrayProduct;
       })
     );
   }
-  getPromoOfCategory(id: string | null | undefined): Observable<Product[]>{
-
-    return this.http.get(this.URL_API + 'categories/'+ id).pipe(
-      map((data: any)=>{
-        return data.promo
+  getPromoOfCategory(id: string | null | undefined): Observable<Product[]> {
+    return this.http.get(this.URL_API + 'categories/' + id).pipe(
+      map((data: any) => {
+        return data.promo;
       }),
-      map((path: any)=>{
-     return this.getPromoProductIngetPromoOfCategory(path)
-  }))
-}
-  getPromoProductIngetPromoOfCategory(path: string): Product[]{
+      map((path: any) => {
+        return this.getPromoProductIngetPromoOfCategory(path);
+      })
+    );
+  }
+  getCategoryById(id: string): Observable<any> {
+    return this.http.get(this.URL_API + 'categories/' + id).pipe(
+      map((data: any) => {
+        return data.sous_categories;
+      }),
+      map((data: any) => {
+        const arraySubCategory: SubCategory[] = []
+        for (let i = 0; i < data.length; i++) {
+          const subCategory: any = {
+            ...data[i],
+            img: data[i].img.formats.thubnail ? data[i].img.formats.thubnail.url : data[i].img.formats.small.url
+          };
+          delete subCategory.__v;
+          delete subCategory._id;
+          delete subCategory.pulblished_at;
+          delete subCategory.updatedAt;
+          delete subCategory.createdAt;
+          arraySubCategory.push(subCategory)
+        }
+        return arraySubCategory;
+      })
+    );
+  }
+  getPromoProductIngetPromoOfCategory(path: string): Product[] {
     const arrayProduct: Product[] = [];
-    this.http.get(this.URL_API + path).subscribe((data: any)=>{
+    this.http.get(this.URL_API + path).subscribe((data: any) => {
       data.products.forEach((dataProduct: any, i: number) => {
-        const imgs = this.extractUrlOfData(data.products, i)
+        const imgs = this.extractUrlOfData(data.products, i);
         const product: Product = {
           id: dataProduct._id,
           img: imgs,
@@ -135,14 +156,14 @@ export class CategoryService {
           vendeur: dataProduct.vendeur,
           description: '',
           FNSKU: dataProduct.FNSKU,
-          avis: dataProduct.avis
-        }
-        arrayProduct.push(product)
-       });
-    })
+          avis: dataProduct.avis,
+        };
+        arrayProduct.push(product);
+      });
+    });
 
-     return arrayProduct
-    }
+    return arrayProduct;
+  }
 
   extractUrlOfData(data: any[] | any, index: number | null): string[] {
     const result: any[] = [];

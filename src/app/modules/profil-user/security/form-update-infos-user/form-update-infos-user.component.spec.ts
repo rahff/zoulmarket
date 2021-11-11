@@ -11,7 +11,7 @@ import { SubjectResolver } from '../../resolvers/subject-update-form.resolver';
 
 import { FormUpdateInfosUserComponent } from './form-update-infos-user.component';
 
-fdescribe('FormUpdateInfosUserComponent', () => {
+describe('FormUpdateInfosUserComponent', () => {
   let component: FormUpdateInfosUserComponent;
   let fixture: ComponentFixture<FormUpdateInfosUserComponent>;
   let el:any;

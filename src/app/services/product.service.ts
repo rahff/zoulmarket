@@ -6,14 +6,12 @@ import { map } from 'rxjs/operators';
 import { Product } from '../shared/models/product';
 import { Variation } from '../shared/models/variation.model';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private API_URL = environment.URL_API;
-  public PromoSubject = new BehaviorSubject<Product[] | null>(null)
+  public PromoSubject = new BehaviorSubject<Product[] | null>(null);
   constructor(private http: HttpClient) {}
 
   getProductPromo(): Observable<Product[]> {
@@ -33,22 +31,22 @@ export class ProductService {
             price: data[i].price,
             vendeur: data[i].vendeur,
             FNSKU: data[i].FNSKU,
-            avis: data[i].avis
+            avis: data[i].avis,
           };
           arrayProducts.push(product);
         }
-        this.PromoSubject.next(arrayProducts)
+        this.PromoSubject.next(arrayProducts);
         console.log(arrayProducts);
-        
+
         return arrayProducts;
       })
     );
   }
   getProductById(id: string | null): Observable<Product> {
     return this.http.get<any>(this.API_URL + 'products/' + id).pipe(
-      map((data: any) => {    
+      map((data: any) => {
         const imgs: any[] = this.extractUrlOfData(data, null);
-        const variations = this.extractVariations(data.dataProduct.variations);      
+        const variations = this.extractVariations(data.dataProduct.variations);
         const product: Product = {
           name: data.name,
           price: data.price,
@@ -57,18 +55,26 @@ export class ProductService {
           description: data.description,
           id: data._id,
           store: data.store._id,
-          characteristics: data.dataProduct.characteristics,
-          pointures: data.dataProduct.pointures,
+          characteristics: this.sanitizeData(data.dataProduct.characteristics),
+          pointures: this.sanitizeData(data.dataProduct.pointures),
           variations: variations,
-          sizes: data.dataProduct.sizes,
-          sizes_XXS_TO_XXXL: data.dataProduct.sizes_XXS_TO_XXXL,
+          sizes: this.sanitizeData(data.dataProduct.sizes),
+          sizes_XXS_TO_XXXL: this.sanitizeData(data.dataProduct.sizes_XXS_TO_XXXL),
           stock: data.stock,
           FNSKU: data.FNSKU,
-          avis: data.avis 
-                };
+          avis: data.avis,
+        };
         return product;
       })
     );
+  }
+  sanitizeData(data: any): any {
+    if(data){
+      delete data['id'];
+      delete data['_id'];
+      delete data['__v'];
+    }
+    return data
   }
   extractVariations(data: any[]): Variation[] {
     const result: Variation[] = [];
@@ -80,19 +86,19 @@ export class ProductService {
         price: data[i].price,
         id: data[i]._id,
         stock: data[i].stock,
-        FNSKU: data[i].FNSKU
+        FNSKU: data[i].FNSKU,
       };
       result.push(variation);
     }
     return result;
   }
-  addRatingComponentOnProduct(id: string, body: Product): Observable<boolean>{
-    return this.http.put(this.API_URL + "products/" + id, body).pipe(
-      map((response: any)=>{
+  addRatingComponentOnProduct(body: any): Observable<boolean> {
+    return this.http.post(this.API_URL + 'avis', body).pipe(
+      map((response: any) => {
         console.log(response);
-          return true
+        return true;
       })
-    )
+    );
   }
   extractUrlOfData(data: any[] | any, index: number | null): any[] {
     const result: any[] = [];

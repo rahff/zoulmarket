@@ -58,4 +58,13 @@ header h1{
     .description{
         padding: 5px;
     }
+    .wrapper{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .avis{
+        width: 95%;
+        margin: 10px auto;
+    }
 }

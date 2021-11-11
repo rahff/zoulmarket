@@ -3,10 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
 
-export function defineSizeOfProduct(product: Product): {
+export function defineSizeOfProduct(product: Product | null): {
   sizeMode: 'Taille' | 'Pointure' | null;
   currentSize: any[] | null;
 } {
+  if(product){
   let sizeMode: 'Taille' | 'Pointure' | null = null;
   let currentSize: any[] | null = null;
   if (product.pointures) {
@@ -26,6 +27,9 @@ export function defineSizeOfProduct(product: Product): {
     (sizeMode = null), (currentSize = null);
   }
   return { currentSize, sizeMode };
+}else{
+  return { sizeMode: null, currentSize: null}
+}
 }
 export function isVariable(product: Product): boolean {
   if (!product.variations) {

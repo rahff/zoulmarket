@@ -22,9 +22,13 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
   @Input('onMobile') public onMobile: boolean = false;
   public characteristics: string[] = [];
   public quantity: number = 1;
+  public rating: string[] = [];
   public isMissedChooseSize: boolean = false;
   public currentFNSKU!: string;
+  public showAvis: boolean = false
   @Output() private EmmitItemForCart: EventEmitter<any> =
+    new EventEmitter<any>();
+  @Output() private EmitterAvisEvent: EventEmitter<boolean> =
     new EventEmitter<any>();
   constructor(private variationService: VariationService) {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,9 +57,41 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
         this.currentFNSKU = variation?.variation.FNSKU;
       }
     });
+    this.rating = this.calculRatingProduct();
+    console.log(this.rating);
+    
   }
 
   ngAfterViewInit(): void {}
+  calculRatingProduct(): string[] {
+    let total: number = 0;
+    console.log(total);
+    this.product.avis.forEach((el)=>{
+      total += el.rating;
+      console.log(total);
+    })
+    const array:string[] = []
+    if(total > 0){
+      const result = total / this.product.avis.length;
+      for (let i = 0; i < 5; i++) {
+       if(result > i){
+         array.push("star")
+      }else{
+        array.push("star_outline")
+      }
+     }
+    }
+  return array
+}
+nbrOfStarForAvis(rating: number): any[]{
+  const array: number[] = []
+  for (let i = 0; i < rating; i++) {
+    array.push(i)
+  }
+  console.log(array);
+  
+  return array
+}
   updateQuantity(quantity: number): void {
     this.quantity = quantity;
   }
@@ -72,6 +108,15 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
       this.isMissedChooseSize = true;
     }
   }
+  emitAvisEvent(): void {
+    if(this.onMobile){
+      this.showAvis = true;
+      setTimeout(() => {
+        document.getElementById('avis')?.scrollIntoView({behavior: "smooth"})
+      }, 100);
+    }
+    this.EmitterAvisEvent.emit(true);
+  }
   extractCharacteristicsOfProduct(data: any): string[] {
     const arrayCharacteristics = [];
     for (const key in data) {
@@ -81,5 +126,14 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
       }
     }
     return arrayCharacteristics;
+  }
+  setFace(rating: number): string{
+    if(rating >= 4){
+      return "sentiment_satisfied_alt";
+    }else if(rating = 3){
+      return "sentiment_neutral";
+    }else{
+      return "sentiment_dissatisfied" 
+    }
   }
 }
