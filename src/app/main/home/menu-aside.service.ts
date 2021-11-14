@@ -10,5 +10,4 @@ export class MenuAsideService {
     toggleMenuAside(event: Event): void {
         this.toggleAside.next(event)
     }
-
 }

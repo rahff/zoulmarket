@@ -6,9 +6,7 @@ nav{
     height: 60px;
     color: #fff;
 }
-.navbar-mobile{
-    display: none;
-}
+
 .logo-nav{
     width: 1fr;
     display: flex;
@@ -127,9 +125,7 @@ form{
         padding: 3px 0px;
         position: relative;
     }
-    .navbar-nav{
-        display: none;
-    }
+   
     .brand{
         display: none;
     }

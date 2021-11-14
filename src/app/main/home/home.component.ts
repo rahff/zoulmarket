@@ -1,17 +1,7 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   Component,
-  ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -23,7 +13,6 @@ import { Category } from 'src/app/shared/models/category.model';
 import { Product } from 'src/app/shared/models/product';
 import { Store } from 'src/app/shared/models/store';
 import { User } from 'src/app/shared/models/user.model';
-import { MatSpinner } from '@angular/material/progress-spinner';
 import { MakeAlert } from 'src/app/shared/functions';
 
 @Component({

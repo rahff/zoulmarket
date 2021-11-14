@@ -3,7 +3,7 @@
     <img class="img-logo" src="../../../assets/navbar/logo.png" alt="logo" />
    <span class="brand">ZoulMarket.fr</span> 
   </div>
-  <div class="navbar-nav">
+  <div class="navbar-nav" *ngIf="!onMobile">
     <ul class="navbar">
       <li class="nav-item">Item 1</li>
       <form class="search">
@@ -48,7 +48,7 @@
       <!-- <li title="panier vide" (click)="connectionAlert()" *ngIf="!cartLength || cartLength && !username" class="nav-item"><span class="bulle">{{cartLength}}</span>  <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li> -->
     </ul>
   </div>
-  <div class="navbar-mobile">
+  <div class="navbar-mobile" *ngIf="onMobile">
  
     <ul [@ulMobile]="stateUlMobile" class="mobile">
       <li *ngIf="!username" class="nav-item-mobile" (click)="openMenu()" [routerLink]="['connexion']">

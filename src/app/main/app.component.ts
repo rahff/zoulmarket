@@ -45,8 +45,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mobileDetect.getOS()
-    if(window.innerWidth < 600){
-      this.mobile = true;
+    this.getPlatform()
+    if(this.mobile){
       this.subscription.add(
         this.categoryService.getCategories().subscribe((data: Category[]) => {
           if (data) {
@@ -61,6 +61,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.menuAside.toggleAside.subscribe((event: Event)=>{
       this.toggleMenu(event)
     })
+  }
+  getPlatform(): void {
+    this.subscription.add(this.mobileDetect.UserPlatform.subscribe((obj)=>{
+      this.mobile = obj.mobile;
+    }))
   }
   toggleMenu(ev: Event): void {
     ev.stopPropagation();

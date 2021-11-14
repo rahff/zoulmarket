@@ -19,7 +19,7 @@ import { LoadingComponent } from 'src/app/shared/loading/loading/loading.compone
 
 
 
-fdescribe('ProductPageComponent', () => {
+describe('ProductPageComponent', () => {
   let component: ProductPageComponent;
   let fixture: ComponentFixture<ProductPageComponent>;
   let activatedRoute: ActivatedRoute;

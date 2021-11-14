@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ItemCart } from '../shared/models/item-cart.model';
 
 
@@ -19,6 +19,9 @@ export class CartService {
         this.cartLength$.next(itemCart.length)
       }
     }
+   }
+   getCartLength(): Observable<number>{
+     return this.cartLength$.asObservable()
    }
    updateQuantity(qty: number, index: number): void {
        if(this.cart$.value[index]){

@@ -14,10 +14,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { PlatformDetector } from 'src/app/services/platform-detection.service';
 import { UserService } from 'src/app/services/user.service';
 import { MakeAlert } from 'src/app/shared/functions';
 import { Category } from 'src/app/shared/models/category.model';
@@ -42,6 +43,7 @@ import { User } from 'src/app/shared/models/user.model';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   public toggleOption: boolean = true;
+  public onMobile: boolean = false;
   public categories: Category[] = [];
   public cartLength: number = 0;
   public username!: string | null;
@@ -65,7 +67,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private userService: UserService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private platformService: PlatformDetector
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +81,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
       })
     );
+    this.subscription.add(this.platformService.UserPlatform.subscribe((obj)=>{
+      this.onMobile = obj.mobile
+    }))
     this.subscription.add(
       this.categoryService.getCategories().subscribe((data: Category[]) => {
         if (data) {
@@ -88,7 +94,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       })
     );
     this.subscription.add(
-      this.cartService.cartLength$.subscribe((length: number) => {
+      this.cartService.getCartLength().subscribe((length: number) => {
         this.cartLength = length;
       })
     );
@@ -112,8 +118,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   showOptions(event: MouseEvent): void {
     if (event.type === 'mouseenter') {
-      console.log('enter in li');
-
       this.onProfil.nativeElement.style.display = 'flex';
     } else if (event.type === 'click') {
       if (this.onProfil) {
