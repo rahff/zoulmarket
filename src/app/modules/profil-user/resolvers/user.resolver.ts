@@ -9,7 +9,7 @@ import { User } from "src/app/shared/models/user.model";
 export class UserResolver implements Resolve<User | null> {
     constructor(private user: UserService){}
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User | null>{
-        return this.user.user$.pipe(
+        return this.user.user$().pipe(
             first()
         )
     }

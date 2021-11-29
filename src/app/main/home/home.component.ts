@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (window.innerWidth < 600) {
       this.mobile = true;
       this.subscription.add(
-        this.userService.user$.subscribe((user: User | null) => {
+        this.userService.user$().subscribe((user: User | null) => {
           if (user) {
             this.userId = user.id;
           } else {

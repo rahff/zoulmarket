@@ -29,7 +29,7 @@ export class ContactComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.userService.user$.subscribe((user)=>{
+    this.userService.user$().subscribe((user)=>{
       if(user){
         this.user = user
       }else{

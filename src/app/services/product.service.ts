@@ -36,8 +36,6 @@ export class ProductService {
           arrayProducts.push(product);
         }
         this.PromoSubject.next(arrayProducts);
-        console.log(arrayProducts);
-
         return arrayProducts;
       })
     );

@@ -34,7 +34,7 @@ export class ListComponent implements OnInit {
     if(window.innerWidth < 600){
       this.diameter = 200;
     }
-    this.userService.user$.subscribe((user) => {
+    this.userService.user$().subscribe((user) => {
       if(user){
         this.user = user;
         this.purchases = user.orders

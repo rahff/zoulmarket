@@ -48,6 +48,16 @@ export class ProductPageComponent implements OnInit, OnDestroy {
           if (obj) {
             this.variations[obj.index] = obj.variation;
             if (this.product) {
+              if(this.product.variations){
+                this.product.variations[obj.index] = {
+                  FNSKU: this.product.FNSKU,
+                  description: this.product.description,
+                  id: this.product.id,
+                  img: this.product.img,
+                  name: this.product.name,
+                  price: this.product.price
+                }
+              }
               this.product = {
                 ...this.product,
                 description: obj.variation.description,
@@ -75,10 +85,9 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     }
   }
   initValue(): void {
-    this.product = this.activatedRoute.snapshot.data['product'];
-    console.log(this.product);
-    
+    this.product = this.activatedRoute.snapshot.data['product'];    
     if(this.product){
+      console.log(this.product)
       this.nameOfProduct = this.product.name;
       if (isVariable(this.product)) {
         this.variations = this.product.variations;
@@ -101,13 +110,14 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     this.cartService.addItemToCart(itemForCart);
   }
   showAvisAndScroll(event: boolean): void {
-    console.log('recept', event);
     this.showAvis = event;
     setTimeout(() => {
       document.getElementById('avis')?.scrollIntoView({behavior: "smooth"})
     }, 100);
   }
   nbrOfStarForAvis(rating: number): any[] {
+    console.log(rating);
+    
     const array: number[] = [];
     for (let i = 0; i < rating; i++) {
       array.push(i);

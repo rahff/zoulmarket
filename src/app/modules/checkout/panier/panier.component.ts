@@ -3,7 +3,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { ItemCart } from 'src/app/shared/models/item-cart.model';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/shared/models/user.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/shared/models/product';
 import { Observable, Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
@@ -86,7 +86,7 @@ export class PanierComponent implements OnInit, OnDestroy {
     if (!this.promo$._isScalar) {
       this.promo$ = this.productService.getProductPromo().pipe();
     }
-    this.subscription.add(this.userServive.user$.subscribe((user) => {
+    this.subscription.add(this.userServive.user$().subscribe((user) => {
       if (user) {
         this.user = user;
       }
@@ -161,7 +161,7 @@ export class PanierComponent implements OnInit, OnDestroy {
         city: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         tel: ['', Validators.required],
-      });
+      });   
     } else {
       this.formUser = this.fb.group({
         name: [this.user?.name, Validators.required],
@@ -173,6 +173,7 @@ export class PanierComponent implements OnInit, OnDestroy {
         email: [this.user?.email, [Validators.required, Validators.email]],
         tel: [this.user?.tel, Validators.required],
       });
+      this.formUser.disable()
     }
   }
   updateQuantity(obj: number, index: number): void {

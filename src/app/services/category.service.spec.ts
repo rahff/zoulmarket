@@ -49,7 +49,7 @@ describe('CategoryService', () => {
     flush()
   }));
   it('getSubCategoryOfCategory():should get an array of subCategory',fakeAsync(()=>{
-    const id = oneFakeCategoryById._id
+    const id = oneFakeCategoryById.id
     service.getSubCategoryOfCategory(id).pipe(map((data)=>{
       const returnedData = service.getSubCategoriesByIds(data)
       const req = httpTesingController.expectOne("http://localhost:1337/sous-categories/611b0d4341ea2b39bd0a1844")
@@ -78,7 +78,7 @@ describe('CategoryService', () => {
     req.flush(subCategory)
   }));
   it('getPromoOfCategory(): should get an array of product for current category', fakeAsync(()=>{
-    const id = oneFakeCategoryById._id
+    const id = oneFakeCategoryById.id
     service.getPromoOfCategory(id).pipe(map((data: any)=>{
       const returnedData = service.getPromoProductIngetPromoOfCategory(data.promo)
       const req = httpTesingController.expectOne(URL_API + oneFakeCategoryById.promo)

@@ -16,8 +16,8 @@ export class CarouselComponent implements OnInit, OnDestroy {
   public data: CarouselData[] = [];
   public currentIndex = 0;
   public URL_IMG = environment.URL_IMG;
-  private nbrOfItemInCarousel!: number;
-  private timer: Subscription = new Subscription();
+  public nbrOfItemInCarousel!: number;
+  public timer: Subscription = new Subscription();
   constructor(private storeService: StoreService) {}
 
   ngOnInit(): void {

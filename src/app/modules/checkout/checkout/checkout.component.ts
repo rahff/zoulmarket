@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.diameter = 200;
     }
     this.onScreen = true;
-    this.Subscription.add(this.userService.user$.subscribe((user) => {
+    this.Subscription.add(this.userService.user$().subscribe((user) => {
       if (user) {
         this.userId = user.id;
         this.orderOfUser = this.extractId(user.orders)

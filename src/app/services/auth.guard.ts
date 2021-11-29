@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate, CanLoad {
                 private detectPlatform: PlatformDetector){}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
          let isLoggedIn = false
-         this.userService.user$.subscribe((user: User | null)=>{
+         this.userService.user$().subscribe((user: User | null)=>{
              if(user && user.confirmed){
                  isLoggedIn =  !!user
              }else if(user && !user.confirmed){
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     }
     canLoad(route: Route, segment: UrlSegment[]): Observable<boolean>{
         let isLoggedIn = false
-        this.userService.user$.subscribe((user: User | null)=>{
+        this.userService.user$().subscribe((user: User | null)=>{
             if(user && user.confirmed){
                 isLoggedIn =  !!user
             }else if(user && !user.confirmed){

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -7,22 +7,29 @@ import {
   RouteConfigLoadStart,
   Router,
 } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { LoadingService } from 'src/app/services/loading.service';
+import { PlatformDetector } from 'src/app/services/platform-detection.service';
 
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',
   styleUrls: ['./loading.component.css'],
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent implements OnInit, OnDestroy {
   @Input() detectRoutingOnGoing = false;
   public diameter = 400;
-  constructor(private router: Router, public loadingService: LoadingService) {}
+  public subscription: Subscription = new Subscription()
+  constructor(private router: Router, 
+              public loadingService: LoadingService,
+              private platformService: PlatformDetector) {}
 
   ngOnInit(): void {
-    if (window.innerWidth < 500) {
-      this.diameter = 250;
-    }
+    this.subscription.add(this.platformService.UserPlatform.subscribe((obj: any)=>{
+      if(obj.mobile){
+        this.diameter = 250;
+      }
+    }))
     if (this.detectRoutingOnGoing) {
       this.router.events.subscribe((event) => {
         if (
@@ -39,5 +46,8 @@ export class LoadingComponent implements OnInit {
         }
       });
     }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }

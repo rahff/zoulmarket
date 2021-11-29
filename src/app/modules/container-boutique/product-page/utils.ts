@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Product } from 'src/app/shared/models/product';
 import { Variation } from 'src/app/shared/models/variation.model';
 
@@ -42,13 +42,13 @@ export function isVariable(product: Product): boolean {
   providedIn: 'root',
 })
 export class VariationService {
-  public variation$: BehaviorSubject<{
+  public variation$: Subject<{
     variation: Variation;
     index: number;
-  } | null> = new BehaviorSubject<{
+  } | null> = new Subject<{
     variation: Variation;
     index: number;
-  } | null>(null);
+  } | null>();
   public size$: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor() {}
   changeVariationData(obj: { variation: Variation; index: number }): void {

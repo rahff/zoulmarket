@@ -6,8 +6,8 @@
         <span class="butt"></span>
         <span class="butt"></span>
       </div>
-      <span *ngIf="mobile">CATEGORIES</span>
-      <span *ngIf="!mobile">MENU</span>
+      <span data-test *ngIf="mobile">CATEGORIES</span>
+      <span data-test *ngIf="!mobile">MENU</span>
     </button>
     <span *ngIf="mobile && userId" class="icon-account" [routerLink]="['/profil', userId]">
       <img

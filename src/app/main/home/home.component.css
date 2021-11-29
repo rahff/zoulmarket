@@ -15,7 +15,7 @@
 .container-fixed{
     padding: 10px 30px;
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     flex-wrap: wrap;
     background: linear-gradient( -180deg,var(--background), #fff );
 }
@@ -35,7 +35,6 @@
         box-shadow: none;
     }
     .container-fixed{
-       
         display: flex;
         padding: 10px 5px;
         flex-wrap: wrap;

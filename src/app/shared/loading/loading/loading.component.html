@@ -1,3 +1,3 @@
 <div class="overlay" *ngIf="loadingService.loading$ | async">
-    <mat-spinner mode="indeterminate" color="primary" diameter="400"></mat-spinner>
+    <mat-spinner mode="indeterminate" color="primary" [diameter]="diameter"></mat-spinner>
 </div>

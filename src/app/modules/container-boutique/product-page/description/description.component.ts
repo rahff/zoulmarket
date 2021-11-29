@@ -57,18 +57,14 @@ export class DescriptionComponent implements OnInit, OnChanges, AfterViewInit {
         this.currentFNSKU = variation?.variation.FNSKU;
       }
     });
-    this.rating = this.calculRatingProduct();
-    console.log(this.rating);
-    
+    this.rating = this.calculRatingProduct();    
   }
 
   ngAfterViewInit(): void {}
   calculRatingProduct(): string[] {
     let total: number = 0;
-    console.log(total);
     this.product.avis.forEach((el)=>{
       total += el.rating;
-      console.log(total);
     })
     const array:string[] = []
     if(total > 0){

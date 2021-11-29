@@ -30,8 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
   onScreen: boolean = false;
   public stateMenu = 'close';
   public subscription: Subscription = new Subscription()
-  @HostListener('window:click', ['$event']) private closeMenu(ev: Event) {
+  @HostListener('window:click', ['$event']) private closeMenu(ev: MouseEvent) {
     ev.stopImmediatePropagation();
+    this.menuAside.toggleMenuNavBar(ev)
+    this.menuAside.toggleOptionListMenu(ev, "window")
     if (this.stateMenu === 'open') {
       this.stateMenu = 'close';
     } else {
@@ -45,7 +47,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mobileDetect.getOS()
-    this.getPlatform()
+    this.subscription.add(this.mobileDetect.getPlatform().subscribe((obj)=>{
+      this.mobile = obj.mobile;
+    }))
     if(this.mobile){
       this.subscription.add(
         this.categoryService.getCategories().subscribe((data: Category[]) => {
@@ -58,14 +62,11 @@ export class AppComponent implements OnInit, OnDestroy {
       );
     }
     this.onScreen = true;
-    this.menuAside.toggleAside.subscribe((event: Event)=>{
-      this.toggleMenu(event)
+    this.menuAside.observeMenuState().subscribe((event: Event)=>{
+      if(event){
+        this.toggleMenu(event)
+      }
     })
-  }
-  getPlatform(): void {
-    this.subscription.add(this.mobileDetect.UserPlatform.subscribe((obj)=>{
-      this.mobile = obj.mobile;
-    }))
   }
   toggleMenu(ev: Event): void {
     ev.stopPropagation();

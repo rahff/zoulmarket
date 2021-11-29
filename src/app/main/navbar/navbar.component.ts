@@ -8,7 +8,6 @@ import {
 import {
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -23,6 +22,7 @@ import { UserService } from 'src/app/services/user.service';
 import { MakeAlert } from 'src/app/shared/functions';
 import { Category } from 'src/app/shared/models/category.model';
 import { User } from 'src/app/shared/models/user.model';
+import { MenuAsideService } from '../home/menu-aside.service';
 
 @Component({
   selector: 'app-navbar',
@@ -42,7 +42,7 @@ import { User } from 'src/app/shared/models/user.model';
   ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  public toggleOption: boolean = true;
+  public toggleOption: boolean = false;
   public onMobile: boolean = false;
   public categories: Category[] = [];
   public cartLength: number = 0;
@@ -53,27 +53,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   @ViewChild('ulOption') public ulOption!: ElementRef<HTMLUListElement>;
   @ViewChild('onProfil') public onProfil!: ElementRef<HTMLUListElement>;
-  @HostListener('window:click', ['$event']) private toggleListCategory(
-    ev: MouseEvent
-  ): void {
-    ev.stopPropagation();
-    if (!this.toggleOption) {
-      this.showListCategory(ev);
-    }
-    this.showOptions(ev);
-  }
   constructor(
     private categoryService: CategoryService,
     private cartService: CartService,
     private userService: UserService,
     private auth: AuthService,
     private router: Router,
-    private platformService: PlatformDetector
+    private platformService: PlatformDetector,
+    private menuService: MenuAsideService
   ) {}
 
   ngOnInit(): void {
+    this.subscription.add(this.menuService.toggleNavbar.subscribe((toggle: MouseEvent)=>{
+      if(this.stateUlMobile === "open"){
+        this.openMenu(toggle)
+      }
+    }))
+    this.subscription.add(this.menuService.toggleOptionList.subscribe((obj: {toggle: MouseEvent, location: string})=>{
+      this.showListCategory(obj.toggle, obj.location)
+    }))
     this.subscription.add(
-      this.userService.user$.subscribe((user: User | null) => {
+      this.userService.user$().subscribe((user: User | null) => {
         if (user) {
           this.userId = user.id;
           this.username = user.firstname;
@@ -81,7 +81,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.subscription.add(this.platformService.UserPlatform.subscribe((obj)=>{
+    this.subscription.add(this.platformService.getPlatform().subscribe((obj)=>{
       this.onMobile = obj.mobile
     }))
     this.subscription.add(
@@ -99,21 +99,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
       })
     );
   }
-  openMenu(): void {
+  openMenu(event: MouseEvent): void {
+    event.stopImmediatePropagation()
     if (this.stateUlMobile === 'close') {
       this.stateUlMobile = 'open';
     } else {
       this.stateUlMobile = 'close';
     }
   }
-  showListCategory(ev: Event): void {
+  showListCategory(ev: MouseEvent, location: string): void {
     ev.stopPropagation();
-    if (this.toggleOption) {
-      this.toggleOption = !this.toggleOption;
-      this.ulOption.nativeElement.style.display = 'flex';
-    } else {
-      this.toggleOption = !this.toggleOption;
-      this.ulOption.nativeElement.style.display = 'none';
+    if(location === "window"){
+      if(!this.toggleOption){
+        return
+      }else{
+        this.toggleOption = !this.toggleOption;
+        this.ulOption.nativeElement.style.display = 'none';
+      }
+    }else{
+      if (!this.toggleOption) {
+        this.toggleOption = !this.toggleOption;
+        this.ulOption.nativeElement.style.display = 'flex';
+      } else {
+        this.toggleOption = !this.toggleOption;
+        this.ulOption.nativeElement.style.display = 'none';
+      }
     }
   }
   showOptions(event: MouseEvent): void {

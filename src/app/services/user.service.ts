@@ -12,10 +12,13 @@ export class UserService {
   public subjectUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
   );
-  public user$ = this.subjectUser$.asObservable().pipe()
+  
   private URL_API = environment.URL_API;
   constructor(private http: HttpClient) { }
 
+  user$(): Observable<User | null>{
+    return this.subjectUser$.asObservable().pipe()
+  }
   getDataMenuProfilUser(): Observable<DataMenuProfilUser[]>{
     return this.http.get<any>(this.URL_API + "profil-user-menu").pipe(
       map((data)=>{
