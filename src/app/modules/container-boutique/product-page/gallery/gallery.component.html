@@ -1,8 +1,0 @@
-<div class="gallery flex" *ngIf="imgs">
-    <div class="mini col">
-        <img (click)="changeImg(imgs[i], i)" class="small" *ngFor="let img of imgs; let i=index" [src]="URL_IMG + img.img_mini" [alt]="alt">
-    </div>
-    <div class="img-main">
-        <img class="main-img" [src]="URL_IMG + imgs[0].img_big" [alt]="alt">
-    </div>
-</div>

@@ -1,46 +1,127 @@
-
-<main class="flex" *ngIf="product && !onMobile">
-    <div class="w-50">
-  <app-gallery *ngIf="nameOfProduct && product" [alt]="nameOfProduct" [imgs]="product.img"></app-gallery>
-</div>
-<div class="w-40">
-  <app-description [enableAddToCart]="enableAddToCart" [product]="product" (EmitterAvisEvent)="showAvisAndScroll($event)" (EmmitItemForCart)="sendProductToCart($event)" [onMobile]="onMobile" ></app-description>
-  <app-variation  [product]="product"></app-variation>
-</div>
-<div class="w-10">
-  <div class="variation col">
-  </div>
-</div>
-</main>
-<div id="avis" class="wrapper" *ngIf="!onMobile && showAvis">
-  <h1>Ce qu'en pensent les autres...</h1>
-  <mat-card class="avis">
-    <div>
-      <article class="flex col" *ngFor="let avis of product?.avis">
-        <div class="flex">
-          <mat-icon class="smile">{{setFace(avis.rating)}} </mat-icon ><span> {{avis.username}}</span>
+<section class="hero bg-light pt-5" *ngIf="product">
+  <div class="container-fluid">
+    <div class="row gutter-2 gutter-md-4 justify-content-between">
+      <div class="col-lg-7">
+        <div class="row gutter-1 justify-content-between">
+          <div class="col-lg-10 order-lg-2 d-flex">
+            <div
+              class="owl-carousel gallery owl-loaded owl-drag col-10">
+            <img class="w-100" [src]="currentImg" [alt]="product.name" />
+          </div>
+          <div class="col-lg-2 text-center text-lg-left order-lg-1">
+            <div class="d-flex flex-column justify-content-between align-items-center">
+              <span (click)="changeImg(i)" class="owl-thumb-item active" *ngFor="let img of arraySmallImg;let i=index"
+                ><img class="thumbnail" [src]="img" [alt]="product.name"
+              />
+            </span>
+            </div>
+          </div>
         </div>
-        <mat-divider></mat-divider>
-        <div class="flex">
-          <mat-icon *ngFor="let star of nbrOfStarForAvis(avis.rating)">star </mat-icon >
+      </div>
+      </div>
+      <div class="col-lg-5 mb-5 mb-lg-0">
+        <div class="row">
+          <div class="col-12">
+            <span class="item-brand">{{product.vendeur}}</span>
+            <h1 class="item-title">{{product.name}}</h1>
+            <span class="item-price">{{product.price}}</span>
+          </div>
         </div>
-        <mat-divider></mat-divider>
-        <div class="flex">
-          <span class="smile"> comenté le {{avis.createdAt | date: "dd/MM/yy"}} </span>
+        <div class="row">
+          <div class="col-12">
+            <p>
+             {{product.description}}
+            </p>
+          </div>
         </div>
-        <mat-divider></mat-divider>
-        <div class="flex">
-          <span>{{avis.commentaire}}</span>
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Color</label>
+              <div
+                class="btn-group-toggle btn-group-square btn-group-colors"
+                data-toggle="buttons"
+              >
+                <label class="btn text-red">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="option1-2"
+                    checked=""
+                  />
+                </label>
+                <label class="btn text-blue">
+                  <input type="radio" name="options" id="option2-2" />
+                </label>
+                <label class="btn text-yellow">
+                  <input type="radio" name="options" id="option3-2" />
+                </label>
+                <label class="btn text-green active">
+                  <input type="radio" name="options" id="option4-2" />
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of characteristics">
+              {{item}}
+            </li>
+          </ul>
         </div>
-      </article>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <a href="#!" class="btn btn-block btn-lg btn-primary"
+              >Add to Cart</a
+            >
+          </div>
+          <div class="col-12 mt-1">
+            <ul class="nav nav-actions">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Add to wishlist</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  data-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  >Share this product</a
+                >
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="#">Facebook</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Twitter</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-  </mat-card>
-</div>
-<!-- //MOBILE DEVICE// -->
-<main class="flex col" *ngIf="product && onMobile">
-  <div class="w-100">
-    <app-description [onMobile]="onMobile" [enableAddToCart]="enableAddToCart" [product]="product" (EmitterAvisEvent)="showAvisAndScroll($event)" (EmmitItemForCart)="sendProductToCart($event)" ></app-description>
   </div>
- 
-</main>
+</section>
+<div class="container" *ngIf='!product'>
+  <app-loader></app-loader>
+</div>
+<div class="container my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-0">Avis</h6>
+  <div class="d-flex text-muted pt-3 col-sm">
+    <div class="d-flex justify-content-center align-items-center me-5">
+      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+    </div>
 
+    <div class="pb-3 mb-0 small lh-sm border-bottom flex-fill">
+      <div class="d-flex justify-content-between">
+        <strong class="text-gray-dark">Full Name</strong>
+      </div>
+      <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam soluta natus aliquam corporis dignissimos. Corporis alias magnam, commodi eveniet, minima repudiandae cumque quis enim, perspiciatis a consequatur aspernatur esse eaque! </span>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,7 @@
-
-<app-sub-nav></app-sub-nav>
 <section>
     <app-carousel></app-carousel>
 </section>
-<div class="container-fixed first-child" *ngIf="promo" >
+<!-- <div class="container-fixed first-child" *ngIf="promo" >
     <div class="fr" *ngFor="let product of promo; let i=index">
         <app-card-product [routerLink]="['boutique','product', product.id]" [product]="product"></app-card-product>
     </div>
@@ -18,6 +16,29 @@
         <app-card-product [routerLink]="['boutiques',store.id]" [store]="store"></app-card-product>
     </div>
 </div>
-
-
-<app-loading [detectRoutingOnGoing]="onScreen"></app-loading>
+ -->
+ <div class="container">
+     <h1 class="text-center masthead-heading">Produits à la une</h1>
+     <div class="divider-custom divider-light mb-5">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon"><i class="bi bi-star-fill"></i></div>
+        <div class="divider-custom-line"></div>
+    </div>
+ <div class="row my-2">
+    <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center" *ngFor="let product of promo; let i=index">
+      <app-circle-container [link]="['boutique','product', product.id]" [product]="product"></app-circle-container>
+    </div><!-- /.col-lg-4 -->
+</div>
+</div>
+  <hr class="featurette-divider">
+  <div class="container" *ngIf="stores">
+    <h1 class="text-center">Boutiques à la une</h1>
+    <div class="divider-custom divider-light mb-5">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon"><i class="bi bi-star-fill"></i></div>
+        <div class="divider-custom-line"></div>
+    </div>
+<div class="row featurette" *ngFor="let store of stores odd as odd">
+   <app-featurette [link]="['boutiques',store.id]" [order]="odd" [store]="store"></app-featurette>
+</div>
+</div>

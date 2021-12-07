@@ -1,0 +1,21 @@
+<div class="row featurette" *ngIf="store && !odd">
+    <div class="col-md-7">
+      <h2 class="featurette-heading"> {{store?.name}} <span class="text-muted">It’ll blow your mind.</span></h2>
+      <p class="lead">{{ odd }}</p>
+    </div>
+    <div class="col-md-5" *ngIf="store">
+      <img [routerLink]="link" [src]="BASE_URL + store.img" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto cursor" width="500" height="500" role="img">
+    </div>
+</div>
+
+<div class="row featurette" *ngIf="store && odd">
+    <div class="col-md-7 order-md-2">
+      <h2 class="featurette-heading"> {{store?.name}} <span class="text-muted">It’ll blow your mind.</span></h2>
+      <p class="lead">{{ odd }}</p>
+    </div>
+    <div class="col-md-5 order-md-1" *ngIf="store">
+      <img [routerLink]="link" [src]="BASE_URL + store.img" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto cursor" width="500" height="500" role="img">
+    </div>
+</div>
+   
+  <hr class="featurette-divider">

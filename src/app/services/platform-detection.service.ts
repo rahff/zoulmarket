@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as MobileDetect from 'mobile-detect';
+import { CoreModule } from '../core/core.module';
 @Injectable({
-  providedIn: 'root',
+  providedIn: CoreModule,
 })
 export class PlatformDetector {
   public UserPlatform = new BehaviorSubject<{ mobile: boolean; os: string, email: string | undefined }>({

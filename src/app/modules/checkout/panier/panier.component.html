@@ -1,5 +1,5 @@
 <app-sub-nav></app-sub-nav>
-<div class="wrapper" *ngIf="loaded">
+<!-- <div class="wrapper" *ngIf="loaded">
   <div class="container-cart">
     <h1>Votre panier</h1>
     <hr />
@@ -114,7 +114,7 @@
           />
         </button>
       </div>
-      <!-- //COMPOSANT STRIPE BTN // -->
+     //COMPOSANT STRIPE BTN // 
       <button (click)="initCheckout()" [disabled]="checkoutInit" class="btn-action" *ngIf="user">
           PASSER COMMANDE {{total | number}} €
       </button>
@@ -139,6 +139,5 @@
     mode="indeterminate"
     [diameter]="diameter"
   ></mat-spinner>
-</div>
+</div> -->
 
-<app-loading [detectRoutingOnGoing]="onScreen"></app-loading>

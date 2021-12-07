@@ -1,10 +1,10 @@
-
+<!-- 
 <main *ngIf="!loading">
 <div class="wrapper" *ngFor="let purchase of purchases; let i=index">
     <div class="status">
         <mat-icon>place</mat-icon>
         <span *ngIf="purchase.livraison">livré chez {{purchase.dataUser.name}} à {{purchase.dataUser.city}} </span>
-        <!-- || -->
+     
         <span *ngIf="!purchase.livraison">Bientôt livré chez {{purchase.dataUser.name}} à {{purchase.dataUser.city}}</span>
     </div>
     <div *ngFor="let item of purchase.subject">
@@ -44,4 +44,4 @@
     ></mat-spinner>
   </div>
   
-<!-- <pre>{{purchases | json}}</pre> -->
+<pre>{{purchases | json}}</pre> -->

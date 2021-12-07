@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { CoreModule } from '../core/core.module';
 import { Product } from '../shared/models/product';
 import { CarouselData, Store } from '../shared/models/store';
 import { SubCategory } from '../shared/models/sub-category.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: CoreModule,
 })
 export class StoreService {
   private URL_API = environment.URL_API;

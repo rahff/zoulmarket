@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { CoreModule } from '../core/core.module';
 
 import { CheckoutSession, OrderItem } from '../shared/models/order.model';
 import { User } from '../shared/models/user.model';
 declare const Stripe: any
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class OrderService {
 

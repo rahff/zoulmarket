@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, first, map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { CoreModule } from '../core/core.module';
 import { BodyMail, DataMenuProfilUser, User } from '../shared/models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class UserService {
   public subjectUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(

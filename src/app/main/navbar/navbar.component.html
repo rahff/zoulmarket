@@ -1,74 +1,43 @@
-<nav class="nav">
-  <div class="logo-nav" routerLink='/'>
-    <img class="img-logo" src="../../../assets/navbar/logo.png" alt="logo" />
-   <span class="brand">ZoulMarket.fr</span> 
-  </div>
-  <div class="navbar-nav" *ngIf="!onMobile">
-    <ul class="navbar">
-      <li class="nav-item">Item 1</li>
-      <form class="search">
-          <div class="col">
-        <button (click)="showListCategory($event, 'button')" type="button" id="select">Toutes les catégories <svg width=10 height=10 viewBox="134.096 153.333 131 119.259" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
-            <path d="M 244.445 166.655 L 305.397 272.228 L 183.492 272.228 L 244.445 166.655 Z" transform="matrix(-0.999982, -0.005991, 0.005991, -0.999982, 444.501495, 432.571259)" 
-            bx:shape="triangle 183.492 166.655 121.905 105.573 0.5 0 1@3e4d20fc"/>
-            <path d="M 100.371 100 L 100.741 100.741 L 100 100.741 L 100.371 100 Z" style="fill: rgb(216, 216, 216);" bx:shape="triangle 100 100 0.741 0.741 0.5 0 1@b8a37f7f"/>
-          </svg></button>
-        <ul #ulOption class="option" title="Catégories">
-          <li class="select-item"
-            *ngFor="let option of categories; let i = index" [routerLink]="['/boutique', 'products', option.id]">
-            {{ option.name }}
-          </li>
-        </ul>
-    </div>
-        <input class="input-nav" type="search" />
-        <button class="btn-search" type="button">
-          <img
-            class="mini-logo"
-            src="../../../assets/navbar/search-icon.png"
-            alt="rechercher"
-          />
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <span routerLink="/" class="navbar-brand" ><img width="65" height="65" src="../../../assets/navbar/ecommerce.logo_.png" alt="logo"></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-      </form>
-      <li class="nav-item">Item 2</li>
-      <li data-test="connexion" *ngIf="!username" [routerLink]="['connexion']" class="nav-item">
-         <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Connection">
-         Se connecter
-      </li>
-      <li (mouseenter)="showOptions($event)" *ngIf="username"  class="nav-item flex col rel"> {{username}}
-        <span  (mouseenter)="keepShowingElement($event)" (mouseleave)="keepShowingElement($event)" #onProfil class="onProfil">
-          <ul class="flex-center col w-100">
-            <li class="p-1" (click)="navigateOnProfil()">Votre Profil</li> 
-           <li (click)="deconnection()" class="p-1">Se déconnecter</li>
+        <div #collapse class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav padding mb-2 mb-md-0 flex-nav flex-fill">
+            <li (click)="closeMenu()" routerLink="/" class="nav-item cursor mr">
+              <span class="nav-link active" aria-current="page" >Accueil <i class="bi bi-house-fill"></i></span>
+            </li>
+            <li class="nav-item cursor position-relative mr">
+              <span  class="nav-link dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                Catégories
+                <i class="bi bi-card-list"></i>
+              </span>
+              <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" *ngIf="(categories | async) as array">
+                <li (click)="closeMenu()" [routerLink]="['/boutique','products',category.id]" *ngFor="let category of array">
+                  <span class="dropdown-item"> {{category.name}} </span></li>
+              </ul>
+            </li>
+            <li (click)="navigateOnProfil();closeMenu()" class="nav-item cursor mr" *ngIf="userId">
+              <span class="nav-link">Votre compte <i class="bi bi-person-circle"></i></span>
+            </li>
+            <li (click)="closeMenu()" [routerLink]="['connexion']" class="nav-item cursor" *ngIf="!userId">
+              <span class="nav-link">Se connecter/S'inscrire <i class="bi bi-person-badge"></i></span>
+            </li>
+            <li (click)="deconnection();closeMenu()" class="nav-item cursor mr" *ngIf="userId">
+              <span class="nav-link">Deconnexion <i class="bi bi-box-arrow-left"></i></span>
+            </li>
+            <li (click)="closeMenu()" routerLink="/panier" class="nav-item cursor mr" *ngIf="userId">
+              <span class="nav-link">Mon panier<i class="bi bi-cart2"></i> {{cartLength}}</span>
+            </li>
           </ul>
-        </span> 
-        <span class="bulle-vert"></span>
-        <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="connexion">
-      </li>
-      <li title="votre panier" routerLink="/panier" class="nav-item"> <span *ngIf="cartLength" class="bulle">{{cartLength}}</span> <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li>
-      <!-- <li title="panier vide" (click)="connectionAlert()" *ngIf="!cartLength || cartLength && !username" class="nav-item"><span class="bulle">{{cartLength}}</span>  <img src="../../../assets/navbar/shopping_cart_black_24dp.svg" alt="voir_le_panier"></li> -->
-    </ul>
-  </div>
-  <div class="navbar-mobile" *ngIf="onMobile">
- 
-    <ul [@ulMobile]="stateUlMobile" class="mobile">
-      <li *ngIf="!username" class="nav-item-mobile" (click)="openMenu($event)" [routerLink]="['connexion']">
-        <img src="../../../assets/navbar/account_circle_black_24dp.svg" alt="Se connecter">
-        <span class="li-item-mobile">Se connecter</span>
-      </li>
-      <li *ngIf="username" class="p-1"  (click)="openMenu($event)" [routerLink]="['profil', userId]">Votre Profil</li> 
-      <li *ngIf="username" (click)="deconnection()" class="p-1">Se déconnecter</li>
-      <li class="nav-item-mobile" (click)="openMenu($event)">Menu Item</li>
-      <li class="nav-item-mobile" (click)="openMenu($event)">Menu Item</li>
-      <li class="nav-item-mobile" (click)="openMenu($event)">Menu Item</li>
-    </ul>
-    <button (click)="openMenu($event)" class="btn-menu" type="button">
-      MENU
-      <div class="col">
-        <span class="bar-menu"></span>
-        <span class="bar-menu"></span>
-        <span class="bar-menu"></span>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
       </div>
-     
-    </button>
-  </div>
-</nav>
+    </nav>
+  </header>

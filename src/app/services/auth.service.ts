@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, first, map, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { CoreModule } from '../core/core.module';
 import { User, NewUser, UserLog, MailToUser } from '../shared/models/user.model';
 import { UserService } from './user.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: CoreModule,
 })
 export class AuthService {
   private URL_API_REGISTER = environment.URL_API + 'auth/local/register';
@@ -141,11 +142,19 @@ export class AuthService {
       return of(null)
     }
   }
+  expireAllCookies(name: string, paths: string[]) {
+    const expires = new Date(0).toUTCString();
+    // expire null-path cookies as well
+    for (var i = 0, l = paths.length; i < l; i++) {
+        document.cookie = name + '=; path=' + paths[i] + '; expires=' + expires;
+    }
+}
   logOut(): void {
+    this.jwtToken = null;
     this.userService.subjectUser$.next(null);
-    document.cookie=`user=;expires=152`;
-    document.cookie= `authzm=;expires=152}`;
-    document.cookie= `iduserzm=;expires=152}`;
+    this.expireAllCookies('user', ['/', '/profil']);
+    this.expireAllCookies('iduserzm', ['/', '/profil']);
+    this.expireAllCookies('authzm', ['/', '/profil']);
   }
   resetPasswordProcess(body:any): Observable<boolean>{
     return this.http.post('http://localhost:1337/auth/reset-password', body).pipe(

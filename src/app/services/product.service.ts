@@ -5,9 +5,10 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Product } from '../shared/models/product';
 import { Variation } from '../shared/models/variation.model';
+import { CoreModule } from '../core/core.module';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: CoreModule,
 })
 export class ProductService {
   private API_URL = environment.URL_API;

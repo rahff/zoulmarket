@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CoreModule } from '../core/core.module';
 import { ItemCart } from '../shared/models/item-cart.model';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class CartService {
 

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { CoreModule } from '../core/core.module';
 import { Category } from '../shared/models/category.model';
 import { Product } from '../shared/models/product';
 import { SubCategory } from '../shared/models/sub-category.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: CoreModule,
 })
 export class CategoryService {
   private URL_API = environment.URL_API;

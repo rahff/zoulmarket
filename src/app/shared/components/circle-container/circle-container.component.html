@@ -1,4 +1,4 @@
-<div class="container" *ngIf="data">
+<!-- <div class="container" *ngIf="data">
     <img class="thumbnail" [src]="URL_API_IMG + data.img " alt="data.name">
     <p> {{data.name}} </p>
 </div>
@@ -10,4 +10,9 @@
         <h2> {{cardMenu.title}} </h2>
         <p class="text"> {{cardMenu.text}} </p>
     </div>
+</div> -->
+<div class="d-flex flex-column align-items-center" *ngIf="product">
+    <img class="bd-placeholder-img rounded-4 shadow-sm bg-body rounded" [src]="URL_API_IMG + product.img[0].img_mini" width="140" height="140" role="img">
+    <h2>{{product.name}}</h2>
+    <p><a class="btn btn-secondary" [routerLink]="link">Voir le detail &raquo;</a></p>
 </div>
