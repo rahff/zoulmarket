@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   public onScreen: boolean = false;
   public promo!: Product[];
   public userId: string | null = null;
-  public categories: Category[] = [];
   public stores!: Store[];
   public Promocategories!: Category[];
   public subscription: Subscription = new Subscription();

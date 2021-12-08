@@ -5,8 +5,8 @@
         <div class="row gutter-1 justify-content-between">
           <div class="col-lg-10 order-lg-2 d-flex">
             <div
-              class="owl-carousel gallery owl-loaded owl-drag col-10">
-            <img class="w-100" [src]="currentImg" [alt]="product.name" />
+              class="owl-carousel gallery owl-loaded owl-drag col-12">
+            <img class="w-100 square" [src]="currentImg" [alt]="product.name" />
           </div>
           <div class="col-lg-2 text-center text-lg-left order-lg-1">
             <div class="d-flex flex-column justify-content-between align-items-center">
@@ -38,26 +38,9 @@
           <div class="col-12">
             <div class="form-group">
               <label>Color</label>
-              <div
-                class="btn-group-toggle btn-group-square btn-group-colors"
-                data-toggle="buttons"
-              >
-                <label class="btn text-red">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option1-2"
-                    checked=""
-                  />
-                </label>
-                <label class="btn text-blue">
-                  <input type="radio" name="options" id="option2-2" />
-                </label>
-                <label class="btn text-yellow">
-                  <input type="radio" name="options" id="option3-2" />
-                </label>
-                <label class="btn text-green active">
-                  <input type="radio" name="options" id="option4-2" />
+              <div class="btn-group-toggle btn-group-square btn-group-colors">
+                <label class="btn" *ngFor="let variation of product.variations">
+                  <img class="w-100" [routerLink]="['/boutique','product', variation.linkId]" [src]="BASE_URL_IMG + variation.img" />
                 </label>
               </div>
             </div>

@@ -16,10 +16,7 @@ const routes: Routes = [
     {
         path:"", component: WrapperShopComponent, children: [
             {
-                path: "product/:id", component: ProductPageComponent,
-                resolve:{
-                    product: ProductResolver
-                }
+                path: "product/:id", component: ProductPageComponent
             },
             {
                 path: "products/:category", component: MenuCategoryComponent, resolve: {

@@ -12,7 +12,6 @@ const routes: Routes = [
     {
         path: "", component: HomeComponent, resolve: {
             products: HomeProductsResolver,
-            categories: HomeCategoriesResolver,
             stores: HomeStoresResolver
           }
     },
@@ -26,5 +25,5 @@ const routes: Routes = [
 })
 export class HomeRoutingModule { 
     static component = [HomeComponent]
-    static resolver = [HomeStoresResolver, HomeCategoriesResolver, HomeProductsResolver]
+    static resolver = [HomeStoresResolver, HomeProductsResolver]
 }

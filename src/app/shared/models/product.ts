@@ -9,10 +9,7 @@ export interface Product {
   price: number;
   id: string;
   store?: string;
-  characteristics?: any;
-  pointures?: any | null;
-  sizes_XXS_TO_XXXL?: string[] | null;
-  sizes?: number[] | null;
+  characteristics?: string[];
   stock?: boolean;
   variations?: Variation[] | null;
   FNSKU: string;

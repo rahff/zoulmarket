@@ -44,24 +44,23 @@ export class ProductService {
   getProductById(id: string | null): Observable<Product> {
     return this.http.get<any>(this.API_URL + 'products/' + id).pipe(
       map((data: any) => {
+        console.log(data);
         const imgs: any[] = this.extractUrlOfData(data, null);
-        const variations = this.extractVariations(data.dataProduct.variations);
+        const variations = this.extractVariations(data.variations);
+        const characteristics: string[] =  this.extractCharacteristics(data.caracteristiques);
         const product: Product = {
           name: data.name,
-          price: data.price,
-          vendeur: data.vendeur,
-          img: imgs,
-          description: data.description,
-          id: data._id,
-          store: data.store._id,
-          characteristics: this.sanitizeData(data.dataProduct.characteristics),
-          pointures: this.sanitizeData(data.dataProduct.pointures),
-          variations: variations,
-          sizes: this.sanitizeData(data.dataProduct.sizes),
-          sizes_XXS_TO_XXXL: this.sanitizeData(data.dataProduct.sizes_XXS_TO_XXXL),
-          stock: data.stock,
           FNSKU: data.FNSKU,
           avis: data.avis,
+          description: data.description,
+          id: data._id,
+          img: imgs,
+          price: data.price,
+          vendeur: data.venduer,
+          characteristics: characteristics,
+          stock: data.stock,
+          store: data.store.id,
+          variations: variations
         };
         return product;
       })
@@ -75,20 +74,29 @@ export class ProductService {
     }
     return data
   }
+  extractCharacteristics(data: any): string[]{
+    const regex = /item[1-5]/;
+    const result: string[] = []
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if(key.match(regex)){
+          result.push(data[key])
+        }
+      }
+    }
+    return result;
+  }
   extractVariations(data: any[]): Variation[] {
     const result: Variation[] = [];
     for (let i = 0; i < data.length; i++) {
       const variation: Variation = {
-        name: data[i].name,
-        description: data[i].description,
-        img: this.extractUrlOfData(data, i),
-        price: data[i].price,
-        id: data[i]._id,
-        stock: data[i].stock,
-        FNSKU: data[i].FNSKU,
+        img: data[i].img.formats.thumbnail.url,
+        linkId: data[i].product._id
       };
       result.push(variation);
     }
+    console.log(result);
+    
     return result;
   }
   addRatingComponentOnProduct(body: any): Observable<boolean> {
