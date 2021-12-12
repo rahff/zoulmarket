@@ -10,8 +10,8 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { CoreModule } from '../core/core.module';
-import { MakeAlert, CheckYourMails } from '../shared/functions';
 import { User } from '../shared/models/user.model';
+import { AlertService } from './alert.service';
 import { PlatformDetector } from './platform-detection.service';
 import { UserService } from './user.service';
 
@@ -21,7 +21,7 @@ import { UserService } from './user.service';
 export class AuthGuard implements CanActivate, CanLoad {
   constructor(
     private userService: UserService,
-    private router: Router,
+    private alertService: AlertService,
     private detectPlatform: PlatformDetector
   ) {}
   canActivate(
@@ -34,8 +34,8 @@ export class AuthGuard implements CanActivate, CanLoad {
         isLoggedIn = !!user;
       } else if (user && !user.confirmed) {
         isLoggedIn = false;
-        MakeAlert('Vous devez valider votre compte', 'error', 2000).then(() => {
-          CheckYourMails(this.detectPlatform.UserPlatform.value);
+        this.alertService.MakeAlert('Vous devez valider votre compte', 'error', 2000).then(() => {
+          this.alertService.CheckYourMails(this.detectPlatform.UserPlatform.value);
         });
       }
     });
@@ -52,8 +52,8 @@ export class AuthGuard implements CanActivate, CanLoad {
         isLoggedIn = !!user;
       } else if (user && !user.confirmed) {
         isLoggedIn = false;
-        MakeAlert('Vous devez valider votre compte', 'error', 2000).then(() => {
-          CheckYourMails(this.detectPlatform.UserPlatform.value);
+        this.alertService.MakeAlert('Vous devez valider votre compte', 'error', 2000).then(() => {
+          this.alertService.CheckYourMails(this.detectPlatform.UserPlatform.value);
         });
       }
     });
@@ -79,7 +79,7 @@ function extractUserOfCookie(): Observable<boolean> {
   if (allCookieInObject.authzm && allCookieInObject.iduserzm) {
     return of(true);
   } else {
-    MakeAlert('Veuillez vous connectez', 'error', 1500).then(() => {
+    AlertService.prototype.MakeAlert('Veuillez vous connectez', 'error', 1500).then(() => {
       window.location.assign('/connexion');
     });
     return of(false);

@@ -1,14 +1,41 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { of } from 'rxjs';
+import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
-
-describe('HomeComponent', () => {
+class MockActivatedRoute {
+  queryParamMap(){
+    return of('ok')
+  }
+  constructor(){}
+}
+fdescribe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-
+  let activatedRouteSpy: any;
+  let routerSpy: any;
   beforeEach(async () => {
+    routerSpy = jasmine.createSpyObj("Router", ['navigate'])
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      imports: [HomeRoutingModule],
+      declarations: [ HomeComponent ],
+      providers: [
+        {
+          provide: ActivatedRoute, useValue: {
+            snapshot: {
+            queryParamMap:
+            {
+              get: ()=> "someValue as string"
+            },
+            data:{}
+          }
+          }, 
+        },
+        {
+          provide: Router, useValue: routerSpy 
+        }
+      ]
     })
     .compileComponents();
   });

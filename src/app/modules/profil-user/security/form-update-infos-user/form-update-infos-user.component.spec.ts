@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfilUserModule } from '../../profil-user.module';
-import { PROFIL_ROUTES } from '../../profil.routes';
 import { SubjectResolver } from '../../resolvers/subject-update-form.resolver';
 
 import { FormUpdateInfosUserComponent } from './form-update-infos-user.component';
@@ -23,7 +22,6 @@ describe('FormUpdateInfosUserComponent', () => {
       declarations: [FormUpdateInfosUserComponent],
       schemas: [ NO_ERRORS_SCHEMA ],
       imports: [
-        RouterTestingModule.withRoutes([...PROFIL_ROUTES]),
         ProfilUserModule,
         SharedModule
       ],

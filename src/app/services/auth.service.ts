@@ -94,8 +94,6 @@ export class AuthService {
     if(this.jwtToken && this.idOfCurrentUser){
       this.getUserInfo(this.idOfCurrentUser).subscribe((user: User | null)=>{
         if(user){
-          console.log(user);
-          
           this.userService.subjectUser$.next(user)
         }
       })

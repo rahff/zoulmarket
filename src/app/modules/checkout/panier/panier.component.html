@@ -1,143 +1,60 @@
-<app-sub-nav></app-sub-nav>
-<!-- <div class="wrapper" *ngIf="loaded">
-  <div class="container-cart">
-    <h1>Votre panier</h1>
-    <hr />
-    <ul
-      class="item-cart"
-      *ngFor="let item of itemsCartForTemplate; let i = index"
-    >
-      <div class="row">
-        <div class="img">
-          <img
-            [src]="URL_IMG + item.product.img[0].img_mini"
-            [alt]="item.product.name"
-          />
-        </div>
-        <div class="info-item">
-            <ul class="flex col">
-          <li class="item">
-            {{ item.product.name }}
-          </li>
-          <li class="item" *ngIf="item.size">
-             taille: {{item.size}}
-          </li>
-          <li class="item">
-            {{ item.product.description }}
-          </li>
-          <li class="item">Prix unitaire : {{ item.product.price }} €</li>
-        </ul>
-          <div class="flex center">
-            <li class="item">Quantité : {{ item.quantity }}</li>
-            <app-change-quantity
-              (emitNewQuantity)="updateQuantity($event, i)"
-              [quantity]="item.quantity"
-            ></app-change-quantity>
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <div class="lh-1 w-100">
+    <h1 class="mb-0 text-dark lh-1 text-center">Votre Panier <i style="font-size: 35px;" class="bi bi-cart2 text-dark"></i> <br> Total: {{total}} €</h1>
+    </div>
+  </div>
+  <section *ngIf="!loading;else loader">
+  <div class="container my-3 p-3 bg-body rounded shadow-sm " *ngFor="let item of itemsCartForTemplate; let i=index">
+    <h6 class="border-bottom pb-2 mb-0">{{item.product.name}}</h6>
+    <div class="d-flex text-muted pt-3 colum-sm">
+      <img class="bd-placeholder-img flex-shrink-0 me-2 img rounded"[src]="URL_IMG + item.product.img[0].img_mini" role="img">
+      <strong class="d-block text-gray-dark">{{item.product.vendeur}}</strong>
+      <div class="d-flex flex-fill">
+          <div class="col-4 d-flex flex-column p-2 justify-content-around align-items-center">
+            <span class="text-center p-2">Quantité</span>
+            <span class="text-center p-2">{{item.quantity}}</span>
           </div>
-          <li class="item">total: {{ item.cost }} €</li>
-        </div>
-        <div (click)="deleteItem(i)" class="abs-right-bottom">
-          <span class="suppr">supprimer</span>
-        </div>
+          <div class="col-4 d-flex flex-column p-2 justify-content-around align-items-center">
+            <span class="text-center p-2">Taille</span>
+            <span class="text-center p-2">{{item.size}}</span>
+          </div>
+          <div class="col-4 d-flex flex-column p-2 justify-content-around align-items-center">
+            <span class="text-center p-2">Total</span>
+            <span class="text-center p-2">{{item.cost}} €</span>
+          </div>
       </div>
-      <div class="hr">
-        <hr />
-      </div>
-    </ul>
-    <div class="userInfo-container">
-      <h1>Livraison à Vesoul et périphérie</h1>
-      <form class="form" [formGroup]="formUser">
-        <div class="group">
-          <h3>Coordonnées</h3>
-          <mat-form-field appearance="fill">
-            <mat-label>Nom</mat-label>
-            <input type="text" matInput formControlName="name" />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Prénom</mat-label>
-            <input type="text" matInput formControlName="firstname" />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Téléphone</mat-label>
-            <input type="tel" matInput formControlName="tel" />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput formControlName="email" />
-          </mat-form-field>
-        </div>
-        <div class="form-array">
-          <h3>Adresse</h3>
-          <mat-form-field appearance="fill">
-            <mat-label>N°</mat-label>
-            <input type="text" matInput formControlName="numero" />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Rue</mat-label>
-            <input type="text" matInput formControlName="street" />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Commune</mat-label>
-            <mat-select formControlName="city">
-              <mat-option *ngFor="let city of cities" [value]="city">
-                {{ city }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Code postal</mat-label>
-            <input type="number" matInput formControlName="postal" />
-          </mat-form-field>
-        </div>
-      </form>
     </div>
+    <small class="d-block text-end mt-3">
+       <span class="text-decoration-underline text-blue cursor" (click)="deleteItem(i)" >Supprimer</span>
+    </small>
   </div>
-  <div class="sidebar">
-    <div class="actions">
-      <div class="infos">
-        Total de la commande: <br />
-        {{ total.toFixed(2) }} €
+</section>
+<ng-template #loader>
+  <section class="d-flex justify-content-center align-items-center">
+    <mat-spinner mode="indeterminate" [diameter]="diameter"></mat-spinner>
+  </section>
+</ng-template>
+  <section class="payements">
+    <div class="container">
+    <aside class="bg-dark bg-gradient rounded-3 p-4 p-sm-5 mt-5">
+      <div class="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
+          <div class="mb-4 mb-xl-0">
+              <div class="fs-3 fw-bold text-white">New products, delivered to you.</div>
+              <div class="text-white-50">Sign up for our newsletter for the latest updates.</div>
+          </div>
+          <div class="ms-xl-4">
+              <div class="input-group mb-2">
+                  <button class="btn btn-outline-light fs-3" (click)="initCheckout()" type="button">Continuer et payer</button>
+              </div>
+              <div class="small text-white-50">We care about privacy, and will never share your data.</div>
+          </div>
       </div>
-      <div *ngIf="!user">
-        <button
-          routerLink="/connection"
-          [queryParams]="{ origin: cart }"
-          class="btn-action"
-        >
-          Se connecter
-          <img
-            class="abs"
-            width="40px"
-            height="40px"
-            src="../../../../assets/navbar/logo.png"
-            alt="logo"
-          />
-        </button>
-      </div>
-     //COMPOSANT STRIPE BTN // 
-      <button (click)="initCheckout()" [disabled]="checkoutInit" class="btn-action" *ngIf="user">
-          PASSER COMMANDE {{total | number}} €
-      </button>
-    </div>
-    <h3 *ngIf="!onMobile">Plus d'articles</h3>
-    <div class="suggestions" *ngIf="!onMobile && (promo$ | async) as products">
-      <div class="promo" *ngFor="let product of products">
-        <app-card-product [product]="product"></app-card-product>
-      </div>
-    </div>
-  </div>
+  </aside>
 </div>
-<h3 *ngIf="onMobile">Plus d'articles</h3>
-<div class="suggestions" *ngIf="onMobile && (promo$ | async) as products">
-  <div class="promo" *ngFor="let product of products">
-    <app-card-product [product]="product"></app-card-product>
+  </section>
+<section class="product-similar">
+  <h1 class="display-3 mb-5 text-center">Qui pourrai vous intéresser...</h1>
+  <div class="container d-flex colum-sm justify-content-around align-items-center">
+    <app-card-product [product]="product" *ngFor="let product of promo$ | async"></app-card-product>
   </div>
-</div>
-<div *ngIf="loading" class="flex-center w-100 vh-80">
-  <mat-spinner
-    color="primary"
-    mode="indeterminate"
-    [diameter]="diameter"
-  ></mat-spinner>
-</div> -->
-
+</section>

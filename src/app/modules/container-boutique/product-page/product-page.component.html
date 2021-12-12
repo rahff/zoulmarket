@@ -4,60 +4,100 @@
       <div class="col-lg-7">
         <div class="row gutter-1 justify-content-between">
           <div class="col-lg-10 order-lg-2 d-flex">
-            <div
-              class="owl-carousel gallery owl-loaded owl-drag col-12">
-            <img class="w-100 square" [src]="currentImg" [alt]="product.name" />
-          </div>
-          <div class="col-lg-2 text-center text-lg-left order-lg-1">
-            <div class="d-flex flex-column justify-content-between align-items-center">
-              <span (click)="changeImg(i)" class="owl-thumb-item active" *ngFor="let img of arraySmallImg;let i=index"
-                ><img class="thumbnail" [src]="img" [alt]="product.name"
+            <div class="owl-carousel gallery owl-loaded owl-drag col-12">
+              <img
+                class="w-100 square"
+                [src]="currentImg"
+                [alt]="product.name"
               />
-            </span>
+            </div>
+            <div class="col-lg-2 text-center text-lg-left order-lg-1">
+              <div
+                class="d-flex flex-column justify-content-between align-items-center">
+                <span
+                  (click)="changeImg(i)"
+                  class="owl-thumb-item active"
+                  *ngFor="let img of arraySmallImg; let i = index"
+                  ><img class="thumbnail" [src]="img" [alt]="product.name" />
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
       <div class="col-lg-5 mb-5 mb-lg-0">
         <div class="row">
           <div class="col-12">
-            <span class="item-brand">{{product.vendeur}}</span>
-            <h1 class="item-title">{{product.name}}</h1>
-            <span class="item-price">{{product.price}}</span>
+            <span class="item-brand">{{ product.vendeur }}</span>
+            <h1 class="item-title">{{ product.name }}</h1>
+            <span class="item-price">{{ product.price }} €</span>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
             <p>
-             {{product.description}}
+              {{ product.description }}
             </p>
           </div>
         </div>
         <div class="row mb-4">
           <div class="col-12">
             <div class="form-group">
-              <label>Color</label>
+              <label>Variantes</label>
               <div class="btn-group-toggle btn-group-square btn-group-colors">
                 <label class="btn" *ngFor="let variation of product.variations">
-                  <img class="w-100" [routerLink]="['/boutique','product', variation.linkId]" [src]="BASE_URL_IMG + variation.img" />
+                  <img
+                    class="w-100"
+                    [routerLink]="['/boutique', 'product', variation.linkId]"
+                    [src]="BASE_URL_IMG + variation.img"
+                  />
                 </label>
               </div>
             </div>
           </div>
+          <!-- // -->
+          <div class="col-12" *ngIf="sizes">
+            <div class="form-group">
+              <label>Tailles/pointures</label>
+              <div data-test="sizes"
+                class="btn-group-toggle btn-group-square btn-group-colors" *ngFor="let taille of sizes; let i = index">
+                <label #sizeBtns (click)="setSize(taille, i)" class="btn">
+                  {{ taille }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- // -->
+
+          <!-- // -->
           <div class="col-12">
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let item of characteristics">
-              {{item}}
-            </li>
-          </ul>
-        </div>
+            <div class="form-group">
+              <label>Quantité</label>
+              <div data-test="qty"
+                class="btn-group-toggle btn-group-square btn-group-colors" *ngFor="let qty of arrayQuantity; let i = index">
+                <label #qtyBtns (click)="setQuantity(qty, i)" class="btn">
+                  {{ qty }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- // -->
+          <div class="col-12">
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let item of characteristics">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-8">
-            <a href="#!" class="btn btn-block btn-lg btn-primary"
-              >Add to Cart</a
-            >
+            <button
+              (click)="addToCart()"
+              type="button"
+              class="btn btn-block btn-lg btn-primary">
+              Add to Cart
+            </button>
           </div>
           <div class="col-12 mt-1">
             <ul class="nav nav-actions">
@@ -90,21 +130,35 @@
     </div>
   </div>
 </section>
-<div class="container" *ngIf='!product'>
+<div class="container" *ngIf="!product">
   <app-loader></app-loader>
 </div>
-<div class="container my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0">Avis</h6>
-  <div class="d-flex text-muted pt-3 col-sm">
+<div
+  class="container my-3 p-3 bg-body rounded shadow-sm"
+  *ngIf="product && product.avis.length; else noAvis"
+>
+  <h2 class="border-bottom pb-2 mb-0 text-center">
+    Les avis concernant le produit
+  </h2>
+  <div class="d-flex text-muted pt-3 col-sm" *ngFor="let avis of product.avis">
     <div class="d-flex justify-content-center align-items-center me-5">
-      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
+      ><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i
+      ><i class="bi bi-star"></i>
     </div>
 
     <div class="pb-3 mb-0 small lh-sm border-bottom flex-fill">
       <div class="d-flex justify-content-between">
-        <strong class="text-gray-dark">Full Name</strong>
+        <strong class="text-gray-dark">{{ avis.username }}</strong>
       </div>
-      <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam soluta natus aliquam corporis dignissimos. Corporis alias magnam, commodi eveniet, minima repudiandae cumque quis enim, perspiciatis a consequatur aspernatur esse eaque! </span>
+      <span> {{ avis.commentaire }} </span>
     </div>
   </div>
 </div>
+<ng-template #noAvis>
+  <div class="container my-3 p-3 bg-body rounded shadow-sm mt-5">
+    <h2 class="border-bottom pb-2 mb-0 text-center">
+      Aucun avis sur ce produit
+    </h2>
+  </div>
+</ng-template>

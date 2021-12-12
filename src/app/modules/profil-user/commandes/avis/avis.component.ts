@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 import { ProductService } from 'src/app/services/product.service';
-import { MakeAlert, myValidators } from 'src/app/shared/functions';
+import { myValidators } from 'src/app/shared/functions';
 import { Product } from 'src/app/shared/models/product';
 import { Avis } from 'src/app/shared/models/user.model';
 import { environment } from 'src/environments/environment';
@@ -35,7 +36,8 @@ export class AvisComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
               private fb: FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.comment = this.fb.group({
@@ -95,12 +97,12 @@ export class AvisComponent implements OnInit {
         console.log(this.product);
         
         this.productService.addRatingComponentOnProduct(body).subscribe(()=>{
-          MakeAlert('Votre commentaire à été ajouté avec succès', "success", 1500).then(()=>{
+          this.alertService.MakeAlert('Votre commentaire à été ajouté avec succès', "success", 1500).then(()=>{
             this.router.navigate(['..']);
           })
         },
         (error)=>{
-          MakeAlert('Une erreur c\'est produite...', "error", 1500).then(()=>{
+          this.alertService.MakeAlert('Une erreur c\'est produite...', "error", 1500).then(()=>{
             this.router.navigate([".."]);
           })
         })

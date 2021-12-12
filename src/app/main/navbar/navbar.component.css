@@ -7,6 +7,11 @@
 .padding{
     padding-left: 3rem;
 }
+.p-px{
+    padding: 1px 2px;
+    margin-left: 2px;
+    font-weight: bold;
+}
 @media screen and (max-width: 1024px) {
     .mr{
         margin-right: 10px;

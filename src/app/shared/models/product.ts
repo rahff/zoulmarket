@@ -13,5 +13,6 @@ export interface Product {
   stock?: boolean;
   variations?: Variation[] | null;
   FNSKU: string;
+  tailles: string[] | null;
   avis: Avis[];
 }

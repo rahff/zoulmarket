@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Product } from '../shared/models/product';
@@ -33,6 +33,7 @@ export class ProductService {
             vendeur: data[i].vendeur,
             FNSKU: data[i].FNSKU,
             avis: data[i].avis,
+            tailles: null
           };
           arrayProducts.push(product);
         }
@@ -48,6 +49,11 @@ export class ProductService {
         const imgs: any[] = this.extractUrlOfData(data, null);
         const variations = this.extractVariations(data.variations);
         const characteristics: string[] =  this.extractCharacteristics(data.caracteristiques);
+        let tailles = null;
+        if(data.Tailles){
+          tailles = this.sanitizeData(data.Tailles);
+          tailles = this.extractTaillesOfProduct(data.Tailles);
+        }
         const product: Product = {
           name: data.name,
           FNSKU: data.FNSKU,
@@ -56,11 +62,12 @@ export class ProductService {
           id: data._id,
           img: imgs,
           price: data.price,
-          vendeur: data.venduer,
+          vendeur: data.vendeur,
           characteristics: characteristics,
           stock: data.stock,
-          store: data.store.id,
-          variations: variations
+          store: data.store.id ? data.store.id : "no store",
+          variations: variations,
+          tailles: tailles,
         };
         return product;
       })
@@ -73,6 +80,18 @@ export class ProductService {
       delete data['__v'];
     }
     return data
+  }
+  extractTaillesOfProduct(data: any): string[]{
+    const result: string[] = [];
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if(data[key]){
+          const size = data[key];
+          result.push(size)
+        }
+      }
+    }
+    return result;
   }
   extractCharacteristics(data: any): string[]{
     const regex = /item[1-5]/;
@@ -95,8 +114,6 @@ export class ProductService {
       };
       result.push(variation);
     }
-    console.log(result);
-    
     return result;
   }
   addRatingComponentOnProduct(body: any): Observable<boolean> {

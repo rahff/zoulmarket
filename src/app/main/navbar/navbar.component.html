@@ -30,12 +30,12 @@
               <span class="nav-link">Deconnexion <i class="bi bi-box-arrow-left"></i></span>
             </li>
             <li (click)="closeMenu()" routerLink="/panier" class="nav-item cursor mr" *ngIf="userId">
-              <span class="nav-link">Mon panier<i class="bi bi-cart2"></i> {{cartLength}}</span>
+              <span class="nav-link">Mon panier<i class="bi bi-cart2"></i> <span *ngIf="cartLength" class="p-px bg-light rounded-circle text-dark">{{cartLength}}</span></span>
             </li>
           </ul>
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="button">Search</button>
           </form>
         </div>
       </div>

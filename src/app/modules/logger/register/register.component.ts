@@ -9,10 +9,11 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { myValidators, MakeAlert } from '../../../shared/functions';
+import { myValidators } from '../../../shared/functions';
 
 import { MailToUser, NewUser, User } from 'src/app/shared/models/user.model';
 import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -48,7 +49,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -116,9 +118,9 @@ export class RegisterComponent implements OnInit {
             console.log('response in component');
             this.loading = true;
             this.loaded = false;
-            MakeAlert('Votre compte à été crée avec succès', 'success').then(
+            this.alertService.MakeAlert('Votre compte à été crée avec succès', 'success').then(
               () => {
-                MakeAlert(
+                this.alertService.MakeAlert(
                   'Un email vous a été envoyé pour confirmer la validation de votre compte',
                   'info',
                   3000
@@ -134,7 +136,7 @@ export class RegisterComponent implements OnInit {
         (error: any) => {
           this.loading = false;
           this.loaded = true;
-          MakeAlert(
+          this.alertService.MakeAlert(
             'Un compte a déjà été enresgistrer avec cet email',
             'error'
           );

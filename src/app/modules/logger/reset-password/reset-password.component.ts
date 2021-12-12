@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { MakeAlert, myValidators } from 'src/app/shared/functions';
+import { myValidators } from 'src/app/shared/functions';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -18,7 +19,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private activatedRoute: ActivatedRoute,
               private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
     if(window.innerWidth < 600){
@@ -42,7 +44,7 @@ export class ResetPasswordComponent implements OnInit {
         code: this.code
       }
       this.authService.resetPasswordProcess(body).subscribe((res: boolean)=>{
-        MakeAlert('Votre motde passe à été modifié', "success", 2000).then(()=>{
+        this.alertService.MakeAlert('Votre motde passe à été modifié', "success", 2000).then(()=>{
           this.router.navigate(['/connexion'])
         })
       })

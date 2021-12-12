@@ -1,39 +1,17 @@
-<!-- <mat-card class="w-30" *ngIf="product">
-    <mat-card-title id="data-test1"> {{product.name}} </mat-card-title>
-    <img class="img-card" [src]="URL_IMG+product.img[0]['img_md']" mat-card-image>
-    <mat-card-content>
-        <div class="flex col">
-            <span>{{product.vendeur}}</span>
-            <span>{{product.price}} €</span>
-        </div>
-    </mat-card-content>
-</mat-card>
-<mat-card class="w-30" *ngIf="suggestion">
-    <mat-card-title id="data-test2"> {{suggestion.name}} </mat-card-title>
-    <img class="img-card" [src]="URL_IMG+suggestion.icon" mat-card-image>
-    <mat-card-content></mat-card-content>
-</mat-card>
-<mat-card class="w-30" *ngIf="store">
-    <mat-card-title id="data-test3"> {{store.name}} </mat-card-title>
-    <img class="img-card" [src]="URL_IMG+store.img" mat-card-image>
-    <mat-card-content></mat-card-content>
-</mat-card> -->
-<div class="col mb-5">
+
+<div style="width: 250px; height: 368px;" class="col mb-5" *ngIf="product">
     <div class="card h-100">
-        <!-- Product image-->
-        <img class="card-img-top" src="" alt="..." />
-        <!-- Product details-->
-        <div class="card-body p-4">
-            <div class="text-center">
-                <!-- Product name-->
-                <h5 class="fw-bolder">Fancy Product</h5>
-                <!-- Product price-->
-                $40.00 - $80.00
+        <img class="card-img-top img" [src]="URL_IMG + product.img[0].img_md" [alt]="product.name">
+        <div class="card-body p-2">
+            <div class="text-center w-100">
+                <h5 class="fw-bolder w-100"> {{product.name}} </h5>
+               {{product.price}} €
             </div>
         </div>
-        <!-- Product actions-->
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+            <div class="text-center">
+                <span [routerLink]="['/boutique', 'product', product.id]" class="btn btn-outline-dark mt-auto">Voir détails</span>
+            </div>
         </div>
     </div>
 </div>

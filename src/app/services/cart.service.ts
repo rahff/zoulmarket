@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CoreModule } from '../core/core.module';
 import { ItemCart } from '../shared/models/item-cart.model';
+import { Product } from '../shared/models/product';
 
 
 @Injectable({
@@ -34,10 +35,30 @@ export class CartService {
 
   addItemToCart(item: ItemCart): void {
     console.log(this.cart$.value);
-    
-    this.cart$.next([...this.cart$.value, item]);
+    let update = false;
+    this.cart$.value.forEach((it: ItemCart)=>{
+      if(item.size){
+        if(it.product === item.product && it.size === item.size){
+          it.quantity += item.quantity;
+          it.cost = it.quantity * it.product.price;
+          update = true
+        }
+      }else{
+        if(it.product === item.product){
+          it.quantity += item.quantity;
+          it.cost = it.quantity * it.product.price;
+          update = true
+        }
+      }
+    })
+    if(update){
+      this.cart$.next([...this.cart$.value]);
+    }else{
+      this.cart$.next([...this.cart$.value, item]);
+    }
     this.cartLength$.next(this.cart$.value.length)
   }
+  
   deleteItem(index: number): void {
     this.cart$.value.splice(index, 1);
     this.cart$.next(this.cart$.value)

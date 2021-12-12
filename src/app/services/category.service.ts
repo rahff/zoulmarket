@@ -104,6 +104,7 @@ export class CategoryService {
             vendeur: data[i].vendeur,
             FNSKU: data[i].FNSKU,
             avis: data[i].avis,
+            tailles: null
           };
           arrayProduct.push(product);
         }
@@ -131,7 +132,7 @@ export class CategoryService {
         for (let i = 0; i < data.length; i++) {
           const subCategory: any = {
             ...data[i],
-            img: data[i].img.formats.thubnail ? data[i].img.formats.thubnail.url : data[i].img.formats.small.url
+            img: data[i].img.formats.thumbnail ? data[i].img.formats.thumbnail.url : data[i].img.formats.small.url
           };
           delete subCategory.__v;
           delete subCategory._id;
@@ -158,6 +159,7 @@ export class CategoryService {
           description: '',
           FNSKU: dataProduct.FNSKU,
           avis: dataProduct.avis,
+          tailles: null
         };
         arrayProduct.push(product);
       });

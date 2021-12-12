@@ -62,7 +62,8 @@ export class StoreService {
             vendeur: data.products[i].vendeur,
             characteristics: data.products[i].characteristics,
             FNSKU: data.FNSKU,
-            avis: data.products[i].avis
+            avis: data.products[i].avis,
+            tailles: null
           };
           productOfStore.push(product);
         }

@@ -1,10 +1,4 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+
 import {
   Component,
   ElementRef,
@@ -14,15 +8,14 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { CategoryService } from 'src/app/services/category.service';
-import { PlatformDetector } from 'src/app/services/platform-detection.service';
 import { UserService } from 'src/app/services/user.service';
-import { MakeAlert } from 'src/app/shared/functions';
 import { Category } from 'src/app/shared/models/category.model';
 import { User } from 'src/app/shared/models/user.model';
-import { MenuAsideService } from '../home/menu-aside.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -43,8 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private auth: AuthService,
     private router: Router,
-    private platformService: PlatformDetector,
-    private menuService: MenuAsideService
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +64,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if(this.userConfirmed){
       this.router.navigate(['/profil', this.userId])
     }else{
-      MakeAlert("Vous devez confirmer votre compte", "error")
+      this.alertService.MakeAlert("Vous devez confirmer votre compte", "error")
     }
   }
   deconnection(): void {
@@ -88,7 +80,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
   connectionAlert(): void {
-    MakeAlert("Veuillez vous connecter pour acceder a votre panier", "info", 3000).then(()=>{
+    this.alertService.MakeAlert("Veuillez vous connecter pour acceder a votre panier", "info", 3000).then(()=>{
       this.router.navigate(['/connection'])
     })
   }

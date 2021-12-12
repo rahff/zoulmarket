@@ -29,22 +29,4 @@ fdescribe('CardProductComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should render data', ()=>{
-    component.product = product
-    let title;
-    fixture.detectChanges()
-    title = fixture.debugElement.query(By.css("#data-test1"))
-    expect(title.nativeElement.textContent).toContain(product.name)
-    component.product = null
-    component.suggestion = oneFakeCategoryById
-    fixture.detectChanges()
-    title = fixture.debugElement.query(By.css("#data-test2"))
-    expect(title.nativeElement.textContent).toContain(oneFakeCategoryById.name)
-    component.product = null;
-    component.suggestion = null;
-    component.store = fakeStore
-    fixture.detectChanges()
-    title = fixture.debugElement.query(By.css("#data-test3"))
-    expect(title.nativeElement.textContent).toContain(fakeStore.name)
-  })
 });

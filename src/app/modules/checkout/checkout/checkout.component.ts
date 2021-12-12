@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 import { Purchase } from 'src/app/shared/models/order.model';
-import { MakeAlert } from '../../../shared/functions';
 
 @Component({
   selector: 'app-checkout',
@@ -28,7 +28,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private orderService: OrderService,
     private userService: UserService,
-    private cartService: CartService
+    private cartService: CartService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -60,9 +61,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe((res: any) => {
               this.cartService.reinitCart();
               this.waiting = false;
-              MakeAlert('Votre achat est validé', 'success')
+              this.alertService.MakeAlert('Votre achat est validé', 'success')
               .then((res) => {
-                MakeAlert(`Vous allez reçevoir votre facture par email `, "info")
+                this.alertService.MakeAlert(`Vous allez reçevoir votre facture par email `, "info")
                 .then((res) => {
                   window.localStorage.removeItem('stripeIdSession');
                   this.waiting = true;

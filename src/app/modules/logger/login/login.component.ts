@@ -7,11 +7,12 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { PlatformDetector } from 'src/app/services/platform-detection.service';
 import { User } from 'src/app/shared/models/user.model';
 import { environment } from 'src/environments/environment';
-import { myValidators, MakeAlert, ShowInputAlert, CheckYourMails } from '../../../shared/functions';
+import { myValidators } from '../../../shared/functions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -37,7 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private mobileDetect: PlatformDetector
+    private mobileDetect: PlatformDetector,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -88,7 +90,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               response.user
             )};expires=${JSON.stringify(this.expirationCookieAuth)}`;
           
-          MakeAlert('Connection réussie','success')
+            this.alertService.MakeAlert('Connection réussie','success')
           .then(()=>{
             if (!this.redirectOnCart) {
               this.router.navigate(['/']);
@@ -100,12 +102,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.loaded = true;
           if(error.error.message[0].messages[0].message === "Identifier or password invalid."){
-            MakeAlert("Vos indentifiants sont incorrect", 'error', 2000)
+            this.alertService.MakeAlert("Vos indentifiants sont incorrect", 'error', 2000)
           }else{
             console.log("else");
             
-            MakeAlert('Votre compte n\'a pas encore été validé', 'error', 3000).then(()=>{
-              CheckYourMails(this.userAgent)
+            this.alertService.MakeAlert('Votre compte n\'a pas encore été validé', 'error', 3000).then(()=>{
+              this.alertService.CheckYourMails(this.userAgent)
             })
           }
         },()=>{
@@ -117,9 +119,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
   initResetPasswordProcess(): void {
-   ShowInputAlert( this.URL_API_FORGOT_PASSWORD).then((result) => {
+   this.alertService.ShowInputAlert( this.URL_API_FORGOT_PASSWORD).then((result) => {
     if (result.isConfirmed) {
-      MakeAlert('Vous allez reçevoir un email de résillation de mot de passe', "info")
+      this.alertService.MakeAlert('Vous allez reçevoir un email de résillation de mot de passe', "info")
     }
   });
 }

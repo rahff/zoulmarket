@@ -6,7 +6,6 @@ import { CircleContainerComponent } from './components/circle-container/circle-c
 import { RouterModule } from '@angular/router';
 import { ActiveDirective } from './directive/active.directive';
 import { CardProductComponent } from './components/card-product/card-product.component';
-import { SubNavComponent } from './components/sub-nav/sub-nav.component';
 import { LoaderComponent } from './components/loader/loader.component';
 
 
@@ -16,7 +15,6 @@ import { LoaderComponent } from './components/loader/loader.component';
     CardProductComponent,
     CircleContainerComponent,
     ActiveDirective,
-    SubNavComponent,
     LoaderComponent
   ],
   imports: [
@@ -34,7 +32,6 @@ import { LoaderComponent } from './components/loader/loader.component';
     MaterialModule,
     CircleContainerComponent,
     ActiveDirective,
-    SubNavComponent,
     LoaderComponent
   ],
   
