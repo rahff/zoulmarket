@@ -13,19 +13,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public user!: User | null ;
   public cardsMenu!: DataMenuProfilUser[] ;
-  public onScreen = false;
-  constructor(private route: ActivatedRoute,
-              private userService: UserService ) { }
+  constructor(private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
-    this.onScreen = true
     this.user = this.route.snapshot.data['userInfos']
-    this.userService.subjectUser$.next(this.user)
-    this.cardsMenu = this.route.snapshot.data['cardsMenu']
+    // this.userService.subjectUser$.next(this.user)
   }
 
   ngOnDestroy(): void{
-    this.onScreen = false
   }
 
 }

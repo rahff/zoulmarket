@@ -1,47 +1,77 @@
-<!-- 
-<main *ngIf="!loading">
-<div class="wrapper" *ngFor="let purchase of purchases; let i=index">
-    <div class="status">
-        <mat-icon>place</mat-icon>
-        <span *ngIf="purchase.livraison">livré chez {{purchase.dataUser.name}} à {{purchase.dataUser.city}} </span>
-     
-        <span *ngIf="!purchase.livraison">Bientôt livré chez {{purchase.dataUser.name}} à {{purchase.dataUser.city}}</span>
-    </div>
-    <div *ngFor="let item of purchase.subject">
-    <div class="img-description">
-        <div class="w-40">
-            <img class="thumbnail" [src]="URL_IMG + item.url_img" [alt]="item.name">
-        </div>
-        <div class="w-60 gray">
-            <span>Achat du {{purchase.createdAt | date:"dd/MM/yyyy"}}</span>
-            <span> {{item.name}} </span> 
-            <span> {{item.price}} € </span>
-        </div>
-    </div>
-    <mat-accordion>
-        <mat-expansion-panel (opened)="panelOpenState = true"
-                             (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Actions
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-         <ul class="action-list">
-             <li (click)="addToCartAndRedirect(item)" class="action-item">Acheter de nouveau </li>
-             <li (click)="routeToRating(item.productId)" class="action-item">Donner un avis sue le produit</li>
-             <li class="action-item">Retourner l'article</li>
-         </ul>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-</div>
-</main>
-<div *ngIf="loading" class="flex-center w-100 vh-80">
-    <mat-spinner
-      color="primary"
-      mode="indeterminate"
-      [diameter]="diameter"
-    ></mat-spinner>
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+  <div class="lh-1 w-100">
+  <h1 class="mb-0 text-dark lh-1 text-center">Vos commandes <i class="bi bi-upc-scan"></i></h1>
   </div>
+</div>
+<section *ngIf="!loading;else loader">
+<div class="container" *ngFor="let item of purchases; let i=index">
+<div class="my-3 pt-3 bg-body rounded shadow-sm" *ngFor="let subject of item.subject">
+  <h6 class="border-bottom pb-2 mb-0">{{subject.name}}</h6>
+  <div class="d-flex text-muted pt-3 colum-sm">
+    <img class="bd-placeholder-img flex-shrink-0 me-2 img rounded"[src]="URL_IMG + subject.url_img" role="img">
+    <strong class="d-block text-gray-dark">{{subject.idSeller}}</strong>
+    <div class="d-flex flex-fill">
+        <div class="col-4 d-flex flex-column p-2 justify-content-around align-items-center">
+          <span class="text-center p-2">Quantité</span>
+          <span class="text-center p-2">{{subject.quantity}}</span>
+        </div>
+        <div class="col-4 d-flex flex-column p-2 justify-content-around align-items-center">
+          <span class="text-center p-2">Taille</span>
+          <span class="text-center p-2">{{subject.size}}</span>
+        </div>
+        <div class="col-4 d-flex flex-column p-2 justify-content-around align-items-center">
+          <span class="text-center p-2">Total</span>
+          <span class="text-center p-2">{{subject.price}} €</span>
+        </div>
+    </div>
+    <div class="py-2 d-flex flex-column">
+    <span> Acheté le {{item.createdAt | date: "dd/MM/yyyy"}} </span> 
+    <span *ngIf="item.livraison; else onGoing"> Livraison confirmé </span>
+    </div>
+  </div>
+  <div class="container-fluid mt-3 p-0">
+    <mat-accordion class="w-100">
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="w-100 justify-content-center">
+           <h3 class="small-sm">Que voulez vous faire ?</h3>
+          </mat-panel-title>
+      
+        </mat-expansion-panel-header>
+       <ul class="list-group-flush">
+         <li (click)="addToCartAndRedirect(subject)" class="list-group-item w-50-md-100-sm mx-auto text-center cursor mb-3">Acheter à nouveau</li>
+         <li (click)="routeToRating(subject.productId)" class="list-group-item w-50-md-100-sm mx-auto text-center cursor mb-3">Ecrire un commentaire sur le produit</li>
+         <li class="list-group-item w-50-md-100-sm mx-auto text-center cursor mb-3">Retourner l'article en magasin</li>
+       </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+<ng-template #onGoing>
+  <span> Livraison en cours... </span>
+</ng-template>
+<!-- <mat-accordion>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Que voulez vous faire ?
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+   <ul class="list-group-flush">
+     <li (click)="addToCartAndRedirect(subject)" class="list-group-item w-50-md-100-sm mx-auto text-center cursor mb-3">Acheter à nouveau</li>
+     <li (click)="routeToRating(subject.productId)" class="list-group-item w-50-md-100-sm mx-auto text-center cursor mb-3">Ecrire un commentaire sur le produit</li>
+     <li class="list-group-item w-50-md-100-sm mx-auto text-center cursor mb-3">Retourner l'article en magasin</li>
+   </ul>
+  </mat-expansion-panel>
+</mat-accordion> -->
+
+</div>
+</section>
+<ng-template #loader>
+<section class="d-flex justify-content-center align-items-center">
+  <mat-spinner mode="indeterminate" [diameter]="diameter"></mat-spinner>
+</section>
+</ng-template>
   
-<pre>{{purchases | json}}</pre> -->

@@ -44,7 +44,7 @@
           </div>
           <div class="ms-xl-4">
               <div class="input-group mb-2">
-                  <button class="btn btn-outline-light fs-3" (click)="initCheckout()" type="button">Continuer et payer</button>
+                  <button class="btn btn-outline-light fs-3" (click)="initCheckout()" [disabled]="checkoutInit" type="button">Continuer et payer</button>
               </div>
               <div class="small text-white-50">We care about privacy, and will never share your data.</div>
           </div>

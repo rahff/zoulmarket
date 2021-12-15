@@ -12,6 +12,10 @@
     margin-left: 2px;
     font-weight: bold;
 }
+i{
+    font-size: 19px;
+    margin-left: 4px;
+}
 @media screen and (max-width: 1024px) {
     .mr{
         margin-right: 10px;

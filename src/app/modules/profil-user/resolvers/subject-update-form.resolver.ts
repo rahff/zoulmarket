@@ -3,8 +3,6 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/r
 import { Observable, of } from "rxjs";
 import { first } from "rxjs/operators";
 
-import { DataMenuProfilUser } from "src/app/shared/models/user.model";
-
 @Injectable()
 export class SubjectResolver implements Resolve<string | null> {
     constructor(){}

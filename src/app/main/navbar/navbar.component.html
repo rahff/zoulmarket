@@ -1,17 +1,17 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <span routerLink="/" class="navbar-brand" ><img width="65" height="65" src="../../../assets/navbar/ecommerce.logo_.png" alt="logo"></span>
+        <span routerLink="/" class="navbar-brand cursor" ><img width="65" height="65" src="../../../assets/navbar/ecommerce.logo_.png" alt="logo"></span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div #collapse class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav padding mb-2 mb-md-0 flex-nav flex-fill">
             <li (click)="closeMenu()" routerLink="/" class="nav-item cursor mr">
-              <span class="nav-link active" aria-current="page" >Accueil <i class="bi bi-house-fill"></i></span>
+              <span class="nav-link text-white" aria-current="page" >Accueil <i class="bi bi-house-fill"></i></span>
             </li>
             <li class="nav-item cursor position-relative mr">
-              <span  class="nav-link dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+              <span  class="nav-link dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                 Catégories
                 <i class="bi bi-card-list"></i>
               </span>
@@ -21,16 +21,16 @@
               </ul>
             </li>
             <li (click)="navigateOnProfil();closeMenu()" class="nav-item cursor mr" *ngIf="userId">
-              <span class="nav-link">Votre compte <i class="bi bi-person-circle"></i></span>
+              <span class="nav-link text-white">Votre compte <i class="bi bi-person-circle"></i></span>
             </li>
             <li (click)="closeMenu()" [routerLink]="['connexion']" class="nav-item cursor" *ngIf="!userId">
-              <span class="nav-link">Se connecter/S'inscrire <i class="bi bi-person-badge"></i></span>
+              <span class="nav-link text-white">Se connecter/S'inscrire <i class="bi bi-person-badge"></i></span>
             </li>
             <li (click)="deconnection();closeMenu()" class="nav-item cursor mr" *ngIf="userId">
-              <span class="nav-link">Deconnexion <i class="bi bi-box-arrow-left"></i></span>
+              <span class="nav-link text-white">Deconnexion <i class="bi bi-box-arrow-left"></i></span>
             </li>
             <li (click)="closeMenu()" routerLink="/panier" class="nav-item cursor mr" *ngIf="userId">
-              <span class="nav-link">Mon panier<i class="bi bi-cart2"></i> <span *ngIf="cartLength" class="p-px bg-light rounded-circle text-dark">{{cartLength}}</span></span>
+              <span class="nav-link text-white">Mon panier<i class="bi bi-cart2"></i> <span *ngIf="cartLength" class="p-px bg-light rounded-circle text-dark">{{cartLength}}</span></span>
             </li>
           </ul>
           <form class="d-flex">

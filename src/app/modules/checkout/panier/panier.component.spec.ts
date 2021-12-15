@@ -1,12 +1,15 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+import { CoreModule } from 'src/app/core/core.module';
 import { AlertService } from 'src/app/services/alert.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
 import { UserService } from 'src/app/services/user.service';
+import { ItemCart } from 'src/app/shared/models/item-cart.model';
+import { fakeItemsCart } from 'test-utils/cart.fake';
 
 import { PanierComponent } from './panier.component';
 
@@ -22,17 +25,17 @@ fdescribe('PanierComponent', () => {
   let httpTestingController: HttpTestingController;
   beforeEach(async () => {
     routerSpy = jasmine.createSpyObj('Router', ["navigate"]);
-    productSeviceSpy = jasmine.createSpyObj('ProductService',["PromoSubject"]);
+    productSeviceSpy = jasmine.createSpyObj('ProductService',['PromoSubject']);
     userServiceSpy = jasmine.createSpyObj('UserService', ['user$']);
-    alertServiceSpy = jasmine.createSpyObj('AlertService', ["MakeAlert"]);
+    alertServiceSpy = jasmine.createSpyObj('AlertService', ['MakeAlert']);
     orderSrviceSpy = jasmine.createSpyObj('OrderService', ['startCheckout']);
-    cartServiceSpy = jasmine.createSpyObj('CartService', {cart$: new BehaviorSubject([])})
+    cartServiceSpy = jasmine.createSpyObj('CartService', ['deleteItem'])
     await TestBed.configureTestingModule({
       declarations: [ PanierComponent ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, CoreModule],
       providers: [
         {
-          provide: CartService, useValue: cartServiceSpy
+          provide: CartService, useValue: {...cartServiceSpy, cart$: new BehaviorSubject<ItemCart[]>(fakeItemsCart)}
         },
         {
           provide: AlertService, useValue: alertServiceSpy
@@ -45,13 +48,6 @@ fdescribe('PanierComponent', () => {
         },
         {
           provide: UserService, useValue: userServiceSpy
-        },
-        {
-          provide: CartService, useValue: {
-            cart$:{
-              subscribe: ()=> of(null)
-            }
-          }
         },
         {
           provide: ProductService, useValue: {
@@ -67,11 +63,17 @@ fdescribe('PanierComponent', () => {
     fixture = TestBed.createComponent(PanierComponent);
     component = fixture.componentInstance;
     userServiceSpy.user$.and.returnValue(of(null))
-    cartServiceSpy.cart$.and.returnValue(of(null))
+    // cartServiceSpy.cart$.and.returnValue(of(fakeItemsCart))
+    
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should delete item cart', ()=>{
+   component.itemsCartForTemplate = fakeItemsCart;
+   component.deleteItem(1);
+   expect(cartServiceSpy.deleteItem).toHaveBeenCalledOnceWith(1)
+  })
 });

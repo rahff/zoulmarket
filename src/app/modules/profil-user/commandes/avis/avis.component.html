@@ -1,37 +1,28 @@
-<!-- <div class="wrapper" *ngIf=!loading>
-    <header>
-        <mat-icon>
-            face
-        </mat-icon>
-        <span>{{username}}</span>
-    </header>
-    <div class="rating col">
-        <div class="flex">
-        <div class="w-30">
+<div class="container" *ngIf="!loading;else loader">
+    <div class="col-10 offset-1">
+        <div class="d-flex flex-column justify-content-center align-items-center">
             <img class="img" [src]="URL_IMG + product.img[0].img_mini" alt="product.name">
-        </div>
-        <div class="col w-70">
-            <div class="title">
-                <h4>{{product.description}}</h4>
-            </div>
+        <div class="w-50">
+            <h4>{{product.description}}</h4>
         </div>
     </div>
-        <div class="stars">
-            <mat-icon *ngFor="let star of stars; let i=index" (click)="setRating(i)">{{ star }}</mat-icon>
+        <div class="d-flex justify-content-center align-items-center">
+            <i class="bi" [ngClass]="star" *ngFor="let star of stars; let i=index" (click)="setRating(i)"></i>
         </div>
     </div>
-    <form class="comment" [formGroup]="comment">
-        <div class="col">
-        <p class="info">Résumer votre commentaire en quelques mots</p>
-        <mat-form-field appearance="fill">
+    <div class="col-10 offset-1">
+    <form class="d-flex flex-column justify-content-center align-items-center" [formGroup]="comment">
+        <div class="form-group">
+        <p>Résumer votre commentaire en quelques mots</p>
+        <mat-form-field appearance="fill" style="width: 300px;">
             <mat-label>Ajouter un titre</mat-label>
            <input matInput formControlName="title">
            <p class="error" *ngIf="title?.hasError('notValid')">Par sécurité, nous n'acceptons pas les caractères spéciaux</p>
         </mat-form-field>
     </div>
-    <div class="col">
+    <div class="form-group">
         <p class="info">Dites ce que vous pensez de ce produit en moins de 300 caractères</p>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="w-100">
             <mat-label>Ajouter votre commentaire</mat-label>
            <textarea (input)="checkLonger()" [cols]="cols" [rows]="rows" matInput formControlName="mainComment"></textarea>
            <p class="error" *ngIf="mainComment?.hasError('notValid')">Par sécurité, nous n'acceptons pas les caractères spéciaux</p>
@@ -44,12 +35,14 @@
         <button (click)="onSubmit()" class="btn">Valider</button>
     </div>
 </div>
+</div>
 
-
-<div *ngIf="loading" class="flex-center w-100 vh-80">
-    <mat-spinner
-      color="primary"
-      mode="indeterminate"
-      [diameter]="diameter"
-    ></mat-spinner>
-  </div> -->
+<ng-template #loader>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <mat-spinner
+          color="primary"
+          mode="indeterminate"
+          [diameter]="diameter"
+        ></mat-spinner>
+      </div>
+</ng-template>

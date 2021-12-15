@@ -15,7 +15,6 @@ import { Purchase } from 'src/app/shared/models/order.model';
 export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   message: string = 'Veuillez patienter ...';
   waiting: boolean = true;
-  onScreen: boolean = false;
   diameter: number = 400;
   orderId: string | null = null;
   userId!: string;
@@ -36,7 +35,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     if (window.innerWidth < 600) {
       this.diameter = 200;
     }
-    this.onScreen = true;
     this.Subscription.add(this.userService.user$().subscribe((user) => {
       if (user) {
         this.userId = user.id;
@@ -87,7 +85,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     return arrayIds
   }
   ngOnDestroy(): void {
-    this.onScreen = false;
     this.Subscription.unsubscribe()
   }
 }

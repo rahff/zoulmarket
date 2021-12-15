@@ -1,29 +1,11 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    padding: 20px;
+.h-1000{
+    height: calc(100vh - 238px);
 }
-.wrapper-flex{
-    display: flex;
-    width: 80%;
-    max-width: 900px;
-    justify-content: space-around;
-    margin: 35px auto;
-}
-@media screen and (max-width: 575px) {
-    .container{
-        padding: 5px;
-        flex-direction: column;
+@media screen and (max-width: 767px) {
+    .h-1000{
+        height: auto;
     }
-    .wrapper-flex{
-        width: 100%;
-        flex-direction: column;
-        margin: 20px auto;
-        align-items: center;
-    }
-    .container-card{
-        margin: 15px 0;
+    h1{
+        margin-bottom: 35px;
     }
 }

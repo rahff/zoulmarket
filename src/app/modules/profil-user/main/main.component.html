@@ -1,9 +1,32 @@
-
-<!-- <div class="container">
-    <h1>Votre compte</h1>
-    <div class="wrapper-flex" *ngIf="user">
-        <div class="container-card" *ngFor="let cardMenu of cardsMenu">
-            <app-circle-container [routerLink]="['/profil',cardMenu.link, user?.id]" [cardMenu]="cardMenu"></app-circle-container>
-        </div>
+<h1 class="text-center display-6">Votre compte</h1>
+<div class="container h-1000 d-flex flex-column justify-content-center align-items-center" *ngIf="user">
+  <div class="row justify-content-center align-items-center mb-5 w-100">
+    <div [routerLink]="['/profil','commandes',user.id]" class="col-12 col-md-4 justify-content-center align-items-center d-flex flex-column">
+      <img
+        src="../../../../assets/profil-user/commandes.png"
+        class="bd-placeholder-img rounded-circle cursor"
+        width="140"
+        height="140"
+      />
+      <h2 class="cursor text-center">Vos commandes</h2>
     </div>
-</div> -->
+    <div [routerLink]="['/profil','contact',user.id]" class="col-12 col-md-4 justify-content-center align-items-center d-flex flex-column">
+      <img
+        src="../../../../assets/profil-user/YA_icon_Message_3._CB657833298_.png"
+        class="bd-placeholder-img rounded-circle cursor"
+        width="140"
+        height="140"
+      />
+      <h2 class="cursor text-center">Nous contacter</h2>
+    </div>
+    <div [routerLink]="['/profil','security',user.id]" class="col-12 col-md-4 justify-content-center align-items-center d-flex flex-column">
+      <img
+        src="../../../../assets/profil-user/security._CB657833298_.png"
+        class="bd-placeholder-img rounded-circle cursor"
+        width="140"
+        height="140"
+      />
+      <h2 class="cursor text-center">Sécurité</h2>
+    </div>
+  </div>
+</div>

@@ -8,3 +8,18 @@
 .cursor{
     cursor: pointer;
 }
+.img{
+    width: 155px;
+    height: 155px;
+}
+@media screen and (max-width: 767px) {
+    .colum-sm{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .mat-expansion-panel-body{
+        padding: 0 5px 3px!important;
+    }
+}

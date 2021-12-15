@@ -5,7 +5,6 @@ import { CommandesComponent } from './commandes/commandes.component';
 import { ListComponent } from './commandes/list/list.component';
 import { ContactComponent } from './contact/contact.component';
 import { MainComponent } from './main/main.component';
-import { CardMenuResolver } from './resolvers/cardMenu.resolver';
 import { SubjectResolver } from './resolvers/subject-update-form.resolver';
 import { UserResolver } from './resolvers/user.resolver';
 import { FormUpdateInfosUserComponent } from './security/form-update-infos-user/form-update-infos-user.component';
@@ -15,8 +14,7 @@ import { UserInfosComponent } from './security/user-infos/user-infos.component';
 const routes: Routes = [
     {
         path: ":userId", component: MainComponent, resolve: {
-            userInfos: UserResolver,
-            cardsMenu: CardMenuResolver
+            userInfos: UserResolver
         }
     },
     {
@@ -56,5 +54,5 @@ const routes: Routes = [
 })
 export class ProfilUserRoutingModule { 
     static components = [FormUpdateInfosUserComponent, UserInfosComponent, SecurityComponent, ContactComponent, AvisComponent, CommandesComponent, MainComponent, ListComponent];
-    static resolvers = [SubjectResolver, UserResolver, CardMenuResolver, UserResolver]
+    static resolvers = [SubjectResolver, UserResolver, UserResolver]
 }

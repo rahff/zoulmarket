@@ -32,7 +32,7 @@ export class AvisComponent implements OnInit {
   get title(){
     return this.comment.get('title')
   }
-  public stars: string[] = ["star_border","star_border","star_border","star_border","star_border"]
+  public stars: string[] = ["bi-star","bi-star","bi-star","bi-star","bi-star"]
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
               private fb: FormBuilder,
@@ -65,9 +65,9 @@ export class AvisComponent implements OnInit {
     const stars: string[] = []
    this.stars.forEach((star: string, index: number)=>{
       if(index <= note){
-        stars.push("star")
+        stars.push("bi-star-fill")
       }else{
-        stars.push("star_border")
+        stars.push("bi-star")
       }
     })
    this.stars = [...stars]

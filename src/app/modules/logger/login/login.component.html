@@ -1,19 +1,41 @@
-
-<form *ngIf="loaded" class="form-group" [formGroup]="form">
-    <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email">
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" formControlName="password">
-    </mat-form-field>
-    <button (click)="onSubmit()" mat-raised-button color="primary"  type="button">Envoyer</button>
-    <p (click)="initResetPasswordProcess()">Vous avez oubliez votre mot de passe?</p>
-    <a [routerLink]="['/connection', 'inscription']" class="btn" mat-button type="button">Créer un compte</a>
-    <div>
+<ng-template #loader>
+    <div class="d-flex w-100 vh-80 justify-content-center align-items-center">
+        <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>
     </div>
-</form>
-<div *ngIf="loading" class="flex-center w-100 vh-80">
-    <mat-spinner color="primary" mode="indeterminate" [diameter]="diameter"></mat-spinner>
-</div>
+</ng-template>
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                    <div class="card-body" *ngIf="!loading; else loader">
+                        <form [formGroup]="form">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="email" formControlName="email">
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Mot de passe</mat-label>
+                                <input matInput type="password" formControlName="password">
+                            </mat-form-field>
+                            <!-- <div class="form-check mb-3">
+                                <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
+                                <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+                            </div> -->
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <span class="small cursor" (click)="initResetPasswordProcess()">Mot de passe oublié ?</span>
+                                <button class="btn btn-primary" (click)="onSubmit()">Envoyer</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <div class="small cursor"><a [routerLink]="['/connexion', 'inscription']">Créer un compte</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

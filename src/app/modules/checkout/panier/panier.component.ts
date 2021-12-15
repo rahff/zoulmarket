@@ -110,11 +110,6 @@ export class PanierComponent implements OnInit, OnDestroy {
     this.cartService.deleteItem(index);
   }
 
-  reinitCart(): void {
-    this.total = 0;
-    localStorage.removeItem('cart');
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }

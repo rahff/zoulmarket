@@ -38,6 +38,7 @@ export class ListComponent implements OnInit {
       if(user){
         this.user = user;
         this.purchases = user.orders
+        console.log(this.purchases);
       }
     });
     
